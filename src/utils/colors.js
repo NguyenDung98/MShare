@@ -1,5 +1,6 @@
 export default {
     brightRed: '#ff5a58',
-    grey: '#ededed',
-    darkGrey: '#aaaaaa'
+    lightGrey: '#ededed',
+    grey: '#aaaaaa',
+    white: '#F5FCFF',
 };

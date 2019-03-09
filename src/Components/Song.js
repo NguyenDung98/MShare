@@ -1,33 +1,26 @@
 import React from 'react';
-import {TouchableNativeFeedback, TouchableOpacity, Text, StyleSheet, View} from 'react-native';
+import {TouchableNativeFeedback, TouchableOpacity, StyleSheet, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from "./Avatar";
+import SongAuthor from "./SongAuthor";
 import PropTypes from 'prop-types';
 import colors from "../utils/colors";
-
-const SongAuthor = ({authorName, song}) => (
-    <View style={styles.songAuthor}>
-        <Text style={styles.song}>{song}</Text>
-        <Text style={styles.author}>{authorName}</Text>
-    </View>
-);
-
-SongAuthor.propTypes = {
-    authorName: PropTypes.string.isRequired,
-    song: PropTypes.string.isRequired,
-};
 
 export default function Song({uri, song, authorName}) {
     return (
         <TouchableNativeFeedback onPress={() => alert('hi')}>
             <View style={styles.container}>
                 <Avatar uri={uri} width={65}/>
-                <SongAuthor song={song} authorName={authorName}/>
+                <SongAuthor
+                    song={song}
+                    authorName={authorName}
+                    wrapperStyle={styles.songAuthor}
+                />
                 <TouchableOpacity onPress={() => alert('hello')} style={styles.moreBtnStyle}>
                     <Ionicons
                         name={'md-more'}
                         size={30}
-                        color={colors.darkGrey}
+                        color={colors.grey}
                     />
                 </TouchableOpacity>
             </View>
@@ -56,13 +49,6 @@ const styles = StyleSheet.create({
     songAuthor: {
         flexGrow: 1,
         marginLeft: 10,
-    },
-    author: {
-        fontSize: 14,
-    },
-    song: {
-        fontSize: 18,
-        color: 'black'
     },
     moreBtnStyle: {
         width: 20,

@@ -1,33 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import Song from "./src/Components/Song";
+import Playing from "./src/screens/Playing";
 
 export default class App extends Component {
     render() {
-        return (
-            <View style={styles.container}>
-                <Song
-                    uri={'https://picsum.photos/600/600'}
-                    song={'Breathin'}
-                    authorName={'Ariana Grande'}
-                />
-                <Song
-                    uri={'https://picsum.photos/600/600'}
-                    song={'Breathin'}
-                    authorName={'Ariana Grande'}
-                />
-                <Song
-                    song={'Breathin'}
-                    authorName={'Ariana Grande'}
-                />
-            </View>
-        );
+        return <Playing/>
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-    },
-});
