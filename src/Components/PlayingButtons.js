@@ -1,24 +1,12 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, StyleSheet, View} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import colors from "../utils/colors";
-
-const Button = ({style, name, size, color}) => (
-    <TouchableOpacity
-        style={style}
-        onPress={() => alert('hi')}
-    >
-        <Ionicons
-            name={name}
-            size={size}
-            color={color}
-        />
-    </TouchableOpacity>
-);
+import Button from "./Button";
+import {colors} from "../utils";
 
 const BUTTON_SIZE = 70;
 
-export default function PlayingButtons() {
+export default function PlayingButtons({playing, onPlayTogglePress}) {
     const {
         buttonsContainer,
         playButtonsContainer,
@@ -32,6 +20,8 @@ export default function PlayingButtons() {
                 name={'ios-repeat'}
                 size={BUTTON_SIZE / 2}
                 color={colors.brightRed}
+                IconType={Ionicons}
+                ButtonType={TouchableOpacity}
             />
             <View style={playButtonsContainer}>
                 <Button
@@ -39,24 +29,33 @@ export default function PlayingButtons() {
                     name={'ios-skip-backward'}
                     size={BUTTON_SIZE / 3.5}
                     color={colors.brightRed}
+                    IconType={Ionicons}
+                    ButtonType={TouchableOpacity}
                 />
                 <Button
                     style={playBtn}
-                    name={'ios-play'}
+                    name={playing ? 'ios-pause' : 'ios-play'}
                     size={BUTTON_SIZE / 2}
                     color={colors.white}
+                    onPress={onPlayTogglePress}
+                    IconType={Ionicons}
+                    ButtonType={TouchableOpacity}
                 />
                 <Button
                     style={skipBtn}
                     name={'ios-skip-forward'}
                     size={BUTTON_SIZE / 3.5}
                     color={colors.brightRed}
+                    IconType={Ionicons}
+                    ButtonType={TouchableOpacity}
                 />
             </View>
             <Button
                 name={'ios-shuffle'}
                 size={35}
                 color={colors.brightRed}
+                IconType={Ionicons}
+                ButtonType={TouchableOpacity}
             />
         </View>
     )

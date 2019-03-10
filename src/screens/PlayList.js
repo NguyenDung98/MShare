@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from "react-native";
 import Song from "../Components/Song";
-import colors from "../utils/colors";
+import {colors} from "../utils";
 
 export default class PlayList extends Component {
     render() {

@@ -3,8 +3,9 @@ import {TouchableNativeFeedback, TouchableOpacity, StyleSheet, View} from 'react
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from "./Avatar";
 import SongAuthor from "./SongAuthor";
+import Button from "./Button";
 import PropTypes from 'prop-types';
-import colors from "../utils/colors";
+import {colors}from "../utils/";
 
 export default function Song({uri, song, authorName}) {
     return (
@@ -16,13 +17,14 @@ export default function Song({uri, song, authorName}) {
                     authorName={authorName}
                     wrapperStyle={styles.songAuthor}
                 />
-                <TouchableOpacity onPress={() => alert('hello')} style={styles.moreBtnStyle}>
-                    <Ionicons
-                        name={'md-more'}
-                        size={30}
-                        color={colors.grey}
-                    />
-                </TouchableOpacity>
+                <Button
+                    style={styles.moreBtnStyle}
+                    ButtonType={TouchableOpacity}
+                    IconType={Ionicons}
+                    name={'md-more'}
+                    size={30}
+                    color={colors.grey}
+                />
             </View>
         </TouchableNativeFeedback>
     )
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     moreBtnStyle: {
-        width: 20,
+        width: 30,
         alignItems: 'center'
     }
 });

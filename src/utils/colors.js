@@ -1,4 +1,4 @@
-export default {
+export const colors = {
     brightRed: '#ff5a58',
     lightGrey: '#ededed',
     grey: '#aaaaaa',

@@ -3,7 +3,7 @@ import {StyleSheet, Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import colors from '../utils/colors';
+import {colors} from '../utils';
 
 export default function Avatar({uri, width, showPlayButton, elevation}) {
     return (

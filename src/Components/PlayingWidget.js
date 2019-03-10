@@ -1,28 +1,46 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Slider from "react-native-slider";
-import colors from "../utils/colors";
+import {StyleSheet, View} from 'react-native';
+import Progress from "./Progress";
 import PlayingButtons from "./PlayingButtons";
+import TrackPlayer from 'react-native-track-player';
 
 export default class PlayingWidget extends React.Component {
     state = {
-        value: 0.2
+        currentPlayState: null
+    };
+
+    componentDidMount() {
+        this.subcriptions = [
+            TrackPlayer.addEventListener('playback-state', ({state}) => {
+                this.setState({currentPlayState: state})
+            }),
+        ]
+    }
+
+    componentWillUnmount() {
+        this.subcriptions.forEach(subscription => subscription.remove())
+    }
+
+    _onTogglePlay = async () => {
+        const {currentPlayState} = this.state;
+
+        if (currentPlayState === TrackPlayer.STATE_PLAYING) {
+            await TrackPlayer.pause();
+        } else if (currentPlayState === TrackPlayer.STATE_PAUSED) {
+            await TrackPlayer.play();
+        }
     };
 
     render() {
-        const {container, timingContainer, thumb} = styles;
+        const {currentPlayState} = this.state;
 
         return (
-            <View style={container}>
-                <View style={timingContainer}>
-                    <Text>00:00</Text>
-                    <Text>03:33</Text>
-                </View>
-                <Slider
-                    thumbStyle={thumb}
-                    minimumTrackTintColor={colors.brightRed}
+            <View style={styles.container}>
+                <Progress/>
+                <PlayingButtons
+                    playing={currentPlayState === TrackPlayer.STATE_PLAYING}
+                    onPlayTogglePress={this._onTogglePlay}
                 />
-                <PlayingButtons/>
             </View>
         );
     }
@@ -30,17 +48,7 @@ export default class PlayingWidget extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 25,
         alignSelf: 'stretch',
-    },
-    timingContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    thumb: {
-        width: 10,
-        height: 10,
-        backgroundColor: colors.brightRed,
-        borderRadius: 10 / 2,
+        padding: 25,
     }
 });
