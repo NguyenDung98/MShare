@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import Avatar from "../Components/Avatar";
-import SongAuthor from "../Components/SongAuthor";
+import SongArtist from "../Components/SongArtist";
 import PlayingWidget from "../Components/PlayingWidget";
 
 import TrackPlayer from 'react-native-track-player';
@@ -28,7 +28,7 @@ export default class Playing extends Component {
 
         let track = {
             id: 'unique track id',
-            url: 'https://vnno-vn-6-tf-mp3-s1-zmp3.zadn.vn/14033a2d036aea34b37b/3492656630613786320?authen=exp=1552276310~acl=/14033a2d036aea34b37b/*~hmac=449801633d9cfa21833819c0665aa2ae&filename=Dung-Nguoi-Dung-Thoi-Diem-Thanh-Hung.mp3',
+            url: this.props.uri,
             title: 'Avaritia',
             artist: 'deadmau5',
             album: 'while(1<2)',
@@ -52,12 +52,12 @@ export default class Playing extends Component {
                     width={ARTWORK_SIZE}
                     elevation={30}
                 />
-                <SongAuthor
-                    song={'Breathin Breathin'}
-                    authorName={'Ariana Grande'}
-                    songSize={25}
-                    authorSize={18}
-                    wrapperStyle={styles.songAuthor}
+                <SongArtist
+	                song={'Breathin Breathin'}
+	                artist={'Ariana Grande'}
+	                songSize={25}
+	                artistSize={18}
+	                wrapperStyle={styles.songAuthor}
                 />
                 <PlayingWidget/>
             </View>
