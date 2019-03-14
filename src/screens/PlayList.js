@@ -80,7 +80,7 @@ export default class PlayList extends Component {
                     renderItem={this._renderItem}
                     onEndReached={() => this._getAudios(this.cursor)}
 	                getItemLayout={this._getItemLayout}
-	                removeClippedSubviews
+	                // showsVerticalScrollIndicator={false}
 	                // initialNumToRender={SCREEN_HEIGHT / this.itemHeight}
                 />
             </View>

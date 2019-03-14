@@ -5,6 +5,6 @@ import PlayList from "./src/screens/PlayList";
 export default class App extends Component {
 
     render() {
-        return <PlayList/>
+        return <Playing/>
     }
 }

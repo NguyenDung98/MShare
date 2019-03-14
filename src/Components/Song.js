@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     songAuthor: {
         flexGrow: 1,
         marginLeft: 10,
-	    maxWidth: '60%'
+	    maxWidth: '65%'
     },
     moreBtnStyle: {
         width: 30,

@@ -28,7 +28,7 @@ export default class Playing extends Component {
 
         let track = {
             id: 'unique track id',
-            url: this.props.uri,
+            url: "C:/Users/Dung/Music/Mất Trí Nhớ_Chi Dân_-1074309392.mp3",
             title: 'Avaritia',
             artist: 'deadmau5',
             album: 'while(1<2)',
