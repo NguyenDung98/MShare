@@ -6,10 +6,20 @@ import PlayingWidget from "../components/PlayingWidget";
 
 import TrackPlayer from 'react-native-track-player';
 import {colors} from "../utils";
+// import console = require('console');
 
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
 export default class Playing extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            title : "",
+            artist : "",
+        }
+    }
+
     async componentDidMount() {
         await TrackPlayer.setupPlayer();
         TrackPlayer.updateOptions({
@@ -25,19 +35,41 @@ export default class Playing extends Component {
             ],
             color: '#FF9ACD32'
         });
-
+        this.setState({
+            title: this.props.navigation.getParam("title"),
+            artist: this.props.navigation.getParam("artist"),
+        });
         let track = {
-            id: 'unique track id',
-            url: 'https://vnno-vn-6-tf-mp3-s1-zmp3.zadn.vn/3a3c5d8754c3bd9de4d2/840910784590440667?authen=exp=1552728869~acl=/3a3c5d8754c3bd9de4d2/*~hmac=d348a730aa9c4516e9905929a1a91ff5&filename=Mat-Tri-Nho-Chi-Dan.mp3',
-            title: 'Avaritia',
-            artist: 'deadmau5',
-            album: 'while(1<2)',
-            genre: 'Progressive House, Electro House',
+            id:  this.props.navigation.getParam("id"),
+            url: this.props.navigation.getParam("uri"),
+            title:this.props.navigation.getParam("title"),
+            artist: this.props.navigation.getParam("artist"),
+            album: this.props.navigation.getParam("albumArtist"),
+            genre: '',
             date: '2014-05-20T07:00:00+00:00',
             artwork: 'https://picsum.photos/600/600',
-            duration: 100,
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque debitis nam odio.",
+            duration: this.props.navigation.getParam("duration"),
+            description: this.props.navigation.getParam("title") ,
         };
+
+        // let track = {
+        //     id: 'unique track id',
+        //     url: "C:/Users/Dung/Music/Mất Trí Nhớ_Chi Dân_-1074309392.mp3",
+        //     title: 'Avaritia',
+        //     artist: 'deadmau5',
+        //     album: 'while(1<2)',
+        //     genre: 'Progressive House, Electro House',
+        //     date: '2014-05-20T07:00:00+00:00',
+        //     artwork: 'https://picsum.photos/600/600',
+        //     duration: 100,
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque debitis nam odio.",
+        // };
+
+        console.log("=================== STATE =============")
+        console.log(this.state);
+        console.log("============ TRACK =============");
+        console.log(track);
+        
 
         await TrackPlayer.add(track);
         await TrackPlayer.play();
@@ -48,13 +80,13 @@ export default class Playing extends Component {
             <View style={styles.container}>
                 <Text style={styles.nowPlaying}>NOW PLAYING</Text>
                 <Avatar
-                    uri={'https://picsum.photos/600/600'}
+                    uri={""}
                     width={ARTWORK_SIZE}
                     elevation={30}
                 />
                 <SongArtist
-	                song={'Breathin Breathin'}
-	                artist={'Ariana Grande'}
+	                song={this.state.title}
+	                artist={this.state.artist}
 	                songSize={25}
 	                artistSize={18}
 	                wrapperStyle={styles.songAuthor}

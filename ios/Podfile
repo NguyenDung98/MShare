@@ -35,6 +35,8 @@ target 'MShare' do
 
   pod 'RNMusicMetadata', :path => '../node_modules/react-native-music-metadata'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'MShareTests' do
     inherit! :search_paths
   end

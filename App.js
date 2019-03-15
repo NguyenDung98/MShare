@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import Playing from "./src/screens/Playing";
-import SongList from "./src/screens/SongList";
+// <<<<<<< HEAD
+// import Playing from "./src/screens/Playing";
+// import SongList from "./src/screens/SongList";
+// =======
+import AppNavigator from "./src/navigation/AppNavigator"
+// >>>>>>> huyen
 
 export default class App extends Component {
     render() {
-        return <Playing/>
+        return <AppNavigator/>
     }
 }

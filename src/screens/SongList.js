@@ -67,7 +67,18 @@ export default class SongList extends Component {
     		<Song
 			    artist={item.artist ? item.artist : 'Unknown artist'}
 			    song={item.title ? item.title : removeEndFile(item.filename)}
-			    onPress={() => {}}
+			    onPress={() => {
+					console.log("=================>")
+					console.log(item);
+					this.props.navigation.navigate("Playing", {
+						id: item.id,
+						uri : item.uri,
+						duration : item.duration,
+						albumArtist: item.albumArtist,
+						artist: item.artist,
+						title: item.title,
+						filename : item.filenam,
+					})}}
 		    />
 	    )
     };

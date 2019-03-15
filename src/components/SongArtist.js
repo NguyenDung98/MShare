@@ -26,6 +26,7 @@ SongArtist.propTypes = {
     wrapperStyle: ViewPropTypes.style,
 };
 
+
 SongArtist.defaultProps = {
 	artistSize: 14,
     songSize: 18,
