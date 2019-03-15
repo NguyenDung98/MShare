@@ -15,6 +15,7 @@ export default function SongArtist({artist, song, artistSize, songSize, wrapperS
             <Text style={styles.artist(artistSize)}>{artist}</Text>
         </View>
     );
+
 }
 
 SongArtist.propTypes = {
