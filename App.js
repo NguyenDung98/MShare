@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import Playing from "./src/screens/Playing";
-import PlayList from "./src/screens/PlayList";
+import AppNavigator from "./src/navigation/AppNavigator"
 
 export default class App extends Component {
 
     render() {
-        return <Playing/>
+        return <AppNavigator/>
     }
 }
