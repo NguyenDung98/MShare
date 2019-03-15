@@ -1,24 +1,25 @@
 import React, {Component} from 'react';
 import {StyleSheet, Dimensions, View, FlatList} from "react-native";
-import Song from "../Components/Song";
+import Song from "../components/Song";
 
 import * as MediaLibrary from "expo-media-library";
 import * as Permissions from "expo-permissions";
 
-import {colors} from "../utils";
+import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
 import {takeAudioMetaData} from "../utils/";
 import {removeEndFile} from "../utils/TextUtils";
 
 const keyExtractor = item => item.id;
-const SCREEN_HEIGHT = Dimensions.get('screen');
 
-export default class PlayList extends Component {
+const SCREEN_HEIGHT = Dimensions.get('screen').height;
+
+export default class SongList extends Component {
     loading = false;
     cursor = null;
-    itemHeight = 85;
+    itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
 
     state = {
-        audios: []
+        songs: []
     };
 
     async componentDidMount() {
@@ -43,10 +44,10 @@ export default class PlayList extends Component {
 	    });
 
 	    const {assets, endCursor, hasNextPage} = results;
-	    const audios = await takeAudioMetaData(assets);
+	    const songs = await takeAudioMetaData(assets);
 
 	    this.setState(prevState => ({
-		    audios: [...prevState.audios, ...audios]
+		    songs: [...prevState.songs, ...songs]
 	    }), () => {
 		    this.loading = false;
 		    this.cursor = hasNextPage ? endCursor : null;
@@ -62,7 +63,7 @@ export default class PlayList extends Component {
     };
 
     _renderItem = ({item}) => {
-    	return (
+	    return (
     		<Song
 			    artist={item.artist ? item.artist : 'Unknown artist'}
 			    song={item.title ? item.title : removeEndFile(item.filename)}
@@ -72,16 +73,20 @@ export default class PlayList extends Component {
     };
 
     render() {
-        return (
+    	const initialNumToRender = Math.round(SCREEN_HEIGHT / this.itemHeight);
+
+	    return (
             <View style={styles.container}>
                 <FlatList
 	                keyExtractor={keyExtractor}
-                    data={this.state.audios}
+                    data={this.state.songs}
                     renderItem={this._renderItem}
                     onEndReached={() => this._getAudios(this.cursor)}
 	                getItemLayout={this._getItemLayout}
+	                removeClippedSubviews
 	                // showsVerticalScrollIndicator={false}
-	                // initialNumToRender={SCREEN_HEIGHT / this.itemHeight}
+	                initialNumToRender={initialNumToRender}
+	                // windowSize={11}
                 />
             </View>
         );

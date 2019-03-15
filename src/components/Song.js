@@ -5,15 +5,27 @@ import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
 import Button from "./Button";
 import PropTypes from 'prop-types';
-import {colors}from "../utils/";
+import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils/";
 
 export default class Song extends React.PureComponent {
+	static propTypes = {
+		uri: PropTypes.string,
+		song: PropTypes.string.isRequired,
+		artist: PropTypes.string.isRequired,
+		onPress: PropTypes.func,
+	};
+
+	static defaultProps = {
+		uri: '',
+		onPress: () => {}
+	};
+
 	render() {
 		const {uri, song, artist, onPress} = this.props;
 		return (
 			<TouchableNativeFeedback onPress={onPress}>
 				<View style={styles.container}>
-					<Avatar uri={uri} width={65}/>
+					<Avatar uri={uri} width={SONG_ITEM_WIDTH}/>
 					<SongArtist
 						song={song}
 						artist={artist}
@@ -33,31 +45,19 @@ export default class Song extends React.PureComponent {
 	}
 }
 
-Song.propTypes = {
-    uri: PropTypes.string,
-    song: PropTypes.string.isRequired,
-    artist: PropTypes.string.isRequired,
-	onPress: PropTypes.func,
-};
-
-Song.defaultProps = {
-    uri: '',
-	onPress: () => {}
-};
-
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         margin: 15,
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: SONG_MARGIN,
+        marginBottom: SONG_MARGIN,
         alignItems: 'center',
 	    flex: 1,
     },
     songAuthor: {
         flexGrow: 1,
         marginLeft: 10,
-	    maxWidth: '65%'
+	    flexBasis: '70%',
     },
     moreBtnStyle: {
         width: 30,

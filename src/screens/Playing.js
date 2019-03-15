@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import Avatar from "../Components/Avatar";
-import SongArtist from "../Components/SongArtist";
-import PlayingWidget from "../Components/PlayingWidget";
+import Avatar from "../components/Avatar";
+import SongArtist from "../components/SongArtist";
+import PlayingWidget from "../components/PlayingWidget";
 
 import TrackPlayer from 'react-native-track-player';
 import {colors} from "../utils";
@@ -28,7 +28,7 @@ export default class Playing extends Component {
 
         let track = {
             id: 'unique track id',
-            url: "C:/Users/Dung/Music/Mất Trí Nhớ_Chi Dân_-1074309392.mp3",
+            url: 'https://vnno-vn-6-tf-mp3-s1-zmp3.zadn.vn/3a3c5d8754c3bd9de4d2/840910784590440667?authen=exp=1552728869~acl=/3a3c5d8754c3bd9de4d2/*~hmac=d348a730aa9c4516e9905929a1a91ff5&filename=Mat-Tri-Nho-Chi-Dan.mp3',
             title: 'Avaritia',
             artist: 'deadmau5',
             album: 'while(1<2)',
