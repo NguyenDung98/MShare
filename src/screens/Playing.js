@@ -6,21 +6,14 @@ import PlayingWidget from "../components/PlayingWidget";
 
 import TrackPlayer from 'react-native-track-player';
 import {colors} from "../utils";
-// import console = require('console');
+import store from "../store";
 
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
 export default class Playing extends Component {
+	currentPlaySong = store.getState().songs[store.getState().currentPlayIndex];
 
-    constructor(props){
-        super(props);
-        this.state = {
-            title : "",
-            artist : "",
-        }
-    }
-
-    async componentDidMount() {
+	async componentDidMount() {
         await TrackPlayer.setupPlayer();
         TrackPlayer.updateOptions({
             stopWithApp: true,
@@ -35,58 +28,31 @@ export default class Playing extends Component {
             ],
             color: '#FF9ACD32'
         });
-        this.setState({
-            title: this.props.navigation.getParam("title"),
-            artist: this.props.navigation.getParam("artist"),
-        });
+
+        const song = this.currentPlaySong;
         let track = {
-            id:  this.props.navigation.getParam("id"),
-            url: this.props.navigation.getParam("uri"),
-            title:this.props.navigation.getParam("title"),
-            artist: this.props.navigation.getParam("artist"),
-            album: this.props.navigation.getParam("albumArtist"),
-            genre: '',
-            date: '2014-05-20T07:00:00+00:00',
-            artwork: 'https://picsum.photos/600/600',
-            duration: this.props.navigation.getParam("duration"),
-            description: this.props.navigation.getParam("title") ,
+            ...song,
+            url: song.uri,
         };
 
-        // let track = {
-        //     id: 'unique track id',
-        //     url: "C:/Users/Dung/Music/Mất Trí Nhớ_Chi Dân_-1074309392.mp3",
-        //     title: 'Avaritia',
-        //     artist: 'deadmau5',
-        //     album: 'while(1<2)',
-        //     genre: 'Progressive House, Electro House',
-        //     date: '2014-05-20T07:00:00+00:00',
-        //     artwork: 'https://picsum.photos/600/600',
-        //     duration: 100,
-        //     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque debitis nam odio.",
-        // };
-
-        console.log("=================== STATE =============")
-        console.log(this.state);
-        console.log("============ TRACK =============");
-        console.log(track);
-        
-
-        await TrackPlayer.add(track);
+	    await TrackPlayer.add(track);
         await TrackPlayer.play();
     }
 
-    render() {
-        return (
+	render() {
+        const {title, artist, artwork} = this.currentPlaySong;
+
+	    return (
             <View style={styles.container}>
                 <Text style={styles.nowPlaying}>NOW PLAYING</Text>
                 <Avatar
-                    uri={""}
+                    uri={artwork}
                     width={ARTWORK_SIZE}
                     elevation={30}
                 />
                 <SongArtist
-	                song={this.state.title}
-	                artist={this.state.artist}
+	                songTitle={title}
+	                artist={artist}
 	                songSize={25}
 	                artistSize={18}
 	                wrapperStyle={styles.songAuthor}

@@ -5,12 +5,13 @@ import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
 import Button from "./Button";
 import PropTypes from 'prop-types';
+
 import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils/";
 
 export default class Song extends React.PureComponent {
 	static propTypes = {
 		uri: PropTypes.string,
-		song: PropTypes.string.isRequired,
+		songTitle: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
 		onPress: PropTypes.func,
 	};
@@ -21,13 +22,13 @@ export default class Song extends React.PureComponent {
 	};
 
 	render() {
-		const {uri, song, artist, onPress} = this.props;
+		const {uri, songTitle, artist, onPress} = this.props;
 		return (
 			<TouchableNativeFeedback onPress={onPress}>
 				<View style={styles.container}>
 					<Avatar uri={uri} width={SONG_ITEM_WIDTH}/>
 					<SongArtist
-						song={song}
+						songTitle={songTitle}
 						artist={artist}
 						wrapperStyle={styles.songAuthor}
 					/>

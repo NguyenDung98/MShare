@@ -6,8 +6,8 @@ import * as MediaLibrary from "expo-media-library";
 import * as Permissions from "expo-permissions";
 
 import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
-import {takeAudioMetaData} from "../utils/";
-import {removeEndFile} from "../utils/TextUtils";
+import store from "../store";
+import {getAudioMetaData} from "../utils/";
 
 const keyExtractor = item => item.id;
 
@@ -16,18 +16,30 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export default class SongList extends Component {
     loading = false;
     cursor = null;
+    end = false;
     itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
 
     state = {
         songs: []
     };
 
-    async componentDidMount() {
+    componentDidMount() {
+    	this.unsubcribe = store.onChange(() => {
+    		this.setState({
+    		    songs: store.getState().songs
+    		}, () => {
+			    this.loading = false;
+		    })
+	    });
         this._getAudios();
     }
 
-    _getAudios = async (after) => {
-	    if (this.loading) return;
+    componentWillUnmount() {
+    	this.unsubcribe();
+    }
+
+	_getAudios = async (after) => {
+	    if (this.loading || this.end) return;
 
 	    const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
@@ -35,6 +47,8 @@ export default class SongList extends Component {
 		    console.log("Camera roll permissions denied");
 		    return;
 	    }
+
+	    this.loading = true;
 
 	    const results = await MediaLibrary.getAssetsAsync({
 		    first: 20,
@@ -44,14 +58,14 @@ export default class SongList extends Component {
 	    });
 
 	    const {assets, endCursor, hasNextPage} = results;
-	    const songs = await takeAudioMetaData(assets);
+	    const songs = await getAudioMetaData(assets);
 
-	    this.setState(prevState => ({
-		    songs: [...prevState.songs, ...songs]
-	    }), () => {
-		    this.loading = false;
-		    this.cursor = hasNextPage ? endCursor : null;
-	    })
+	    store.setState({
+		    songs: [...store.getState().songs, ...songs]
+	    });
+
+		this.cursor = hasNextPage ? endCursor : null;
+		this.end = !hasNextPage;
     };
 
     _getItemLayout = (data, index) => {
@@ -62,23 +76,19 @@ export default class SongList extends Component {
         }
     };
 
-    _renderItem = ({item}) => {
+    _renderItem = ({item, index}) => {
+    	const {artwork, artist, title} = item;
+    	const {navigation: {navigate}} = this.props;
+
 	    return (
     		<Song
-			    artist={item.artist ? item.artist : 'Unknown artist'}
-			    song={item.title ? item.title : removeEndFile(item.filename)}
+			    uri={artwork}
+			    artist={artist}
+			    songTitle={title}
 			    onPress={() => {
-					console.log("=================>")
-					console.log(item);
-					this.props.navigation.navigate("Playing", {
-						id: item.id,
-						uri : item.uri,
-						duration : item.duration,
-						albumArtist: item.albumArtist,
-						artist: item.artist,
-						title: item.title,
-						filename : item.filenam,
-					})}}
+			    	store.setState({currentPlayIndex: index});
+				    navigate('Playing');
+			    }}
 		    />
 	    )
     };

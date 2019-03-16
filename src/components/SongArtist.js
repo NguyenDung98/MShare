@@ -2,15 +2,15 @@ import React from "react";
 import {ViewPropTypes, StyleSheet, Text, View} from "react-native";
 import PropTypes from "prop-types";
 
-export default function SongArtist({artist, song, artistSize, songSize, wrapperStyle}) {
+export default function SongArtist({artist, songTitle, artistSize, songSize, wrapperStyle}) {
     return (
         <View style={wrapperStyle}>
             <Text
-                style={styles.song(songSize)}
+                style={styles.songTitle(songSize)}
                 numberOfLines={1}
                 ellipsizeMode={'tail'}
             >
-                {song}
+                {songTitle}
             </Text>
             <Text style={styles.artist(artistSize)}>{artist}</Text>
         </View>
@@ -20,9 +20,9 @@ export default function SongArtist({artist, song, artistSize, songSize, wrapperS
 
 SongArtist.propTypes = {
     artist: PropTypes.string.isRequired,
-    song: PropTypes.string.isRequired,
+    songTitle: PropTypes.string.isRequired,
     artistSize: PropTypes.number,
-    songSize: PropTypes.number,
+    songTitleSize: PropTypes.number,
     wrapperStyle: ViewPropTypes.style,
 };
 
@@ -34,8 +34,8 @@ SongArtist.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-    song: songSize => ({
-        fontSize: songSize,
+    songTitle: songTitleSize => ({
+        fontSize: songTitleSize,
         color: 'black',
     }),
     artist: artistSize =>  ({
