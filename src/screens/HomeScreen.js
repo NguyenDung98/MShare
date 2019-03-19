@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import ActionBarImage from '../view/header/ActionBarImage';
+import { View, Text, StyleSheet } from 'react-native';
+import { SCALE_RATIO } from '../constants/constants';
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -8,22 +8,23 @@ export default class HomeScreen extends Component {
     };
   }
 
-  static navigationOptions = {
-		title: 'Home',
-    headerRight: <ActionBarImage />,
-   headerStyle: {
-    backgroundColor: '#e3e3e3',
-  },
-  headerTintColor: '#606070',
-	  };
-	
-
   render() {
 
     return (
-      <View>
-      <Text onPress={()=> {this.props.navigation.navigate("SongList")}}>SongList</Text>
+      <View style={styles.container}>
+      <Text>Thư viện</Text>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container : {
+    flex: 1,
+    height: 100 * SCALE_RATIO,
+    // weight : 100 * SCALE_RATIO,
+    paddingTop: 0,
+    backgroundColor: '#000000',
+
+  }
+});

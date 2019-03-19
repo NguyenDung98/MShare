@@ -1,21 +1,48 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Platform, View, Text } from 'react-native';
+import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator } from 'react-navigation';
 
-import HomeScreen from '../screens/HomeScreen';
 import Playing from './../screens/Playing';
 import SongList from '../screens/SongList';
+import PlayingOnline from '../screens/PlayingOnline';
+import HeaderWithHomeAndSearch, { renderHeaderWithSearch } from '../view/header/HeaderWithHomeAndSearch';
+import { SCALE_RATIO } from '../constants/constants';
+import {HEADER_COLOR} from './../constants/constants'
+const TabScreen = createMaterialTopTabNavigator({
+    SongList: SongList,
+    Online: PlayingOnline,
+},
+{
+    tabBarPosition: 'top',
+    swipeEnabled: true,
+    animationEnabled: true,
+    tabBarOptions: {
+        style: {
+            borderBottomLeftRadius: 10,
+            borderBottomRightRadius: 10,
+            backgroundColor: HEADER_COLOR,
+        },
+        indicatorStyle: {
+            borderBottomColor: '#EEE6FF',
+            borderBottomWidth: 5 * SCALE_RATIO,
+        },
+    }
+}) 
+
 
 const HomeStack = createStackNavigator({
-    Home: HomeScreen, 
-    SongList: SongList,
+    TabScreen: {
+        screen: TabScreen,
+        navigationOptions: {
+            header : renderHeaderWithSearch(),
+        },
+    },
     Playing: Playing,
-}
-// ,
-// {
-//     headerMode : "none"
-// }
-);
+
+});
+
+
+export default createAppContainer(HomeStack);
 
 // HomeStack.navigationOptions = {
 //     tabBarLabel: 'Home',
@@ -59,4 +86,4 @@ const HomeStack = createStackNavigator({
 //   ),
 // };
 
-export default HomeStack;
+

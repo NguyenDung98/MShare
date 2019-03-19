@@ -89,16 +89,16 @@ export default class SongList extends Component {
 			    artist={artist}
 			    songTitle={title}
 			    onPress={() => {
-			    	store.setState({currentPlayIndex: index});
-				    navigate('Playing', {
-						id: item.id,
-						uri : item.uri,
-						duration : item.duration,
-						albumArtist: item.albumArtist,
-						artist: item.artist,
-						title: item.title,
-						filename : item.filenam,
-					});
+				store.setState({currentPlayIndex: index});
+				this.props.navigation.navigate('Playing', {
+					id: item.id,
+					uri : item.uri,
+					duration : item.duration,
+					albumArtist: item.albumArtist,
+					artist: item.artist,
+					title: item.title,
+					filename : item.filenam,
+				});
 			    }}
 		    />
 	    )
