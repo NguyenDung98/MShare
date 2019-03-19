@@ -2,19 +2,20 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-// import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-// import SongList from './../screens/SongList';
 import Playing from './../screens/Playing';
-// import LinksScreen from '../screens/LinksScreen';
-// import SettingsScreen from '../screens/SettingsScreen';
 import SongList from '../screens/SongList';
 
 const HomeStack = createStackNavigator({
-    // Home: HomeScreen, 
+    Home: HomeScreen, 
     SongList: SongList,
     Playing: Playing,
-});
+}
+// ,
+// {
+//     headerMode : "none"
+// }
+);
 
 // HomeStack.navigationOptions = {
 //     tabBarLabel: 'Home',

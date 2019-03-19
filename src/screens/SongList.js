@@ -17,11 +17,14 @@ export default class SongList extends Component {
     loading = false;
     cursor = null;
     end = false;
-    itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
-
+	itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
     state = {
         songs: []
     };
+
+	static navigationOptions = {
+		title: 'Thư viện',
+	  };
 
     componentDidMount() {
     	this.unsubcribe = store.onChange(() => {
@@ -87,7 +90,15 @@ export default class SongList extends Component {
 			    songTitle={title}
 			    onPress={() => {
 			    	store.setState({currentPlayIndex: index});
-				    navigate('Playing');
+				    navigate('Playing', {
+						id: item.id,
+						uri : item.uri,
+						duration : item.duration,
+						albumArtist: item.albumArtist,
+						artist: item.artist,
+						title: item.title,
+						filename : item.filenam,
+					});
 			    }}
 		    />
 	    )
