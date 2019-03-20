@@ -7,31 +7,42 @@ import * as Permissions from "expo-permissions";
 
 import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
 import store from "../store";
+import * as Action from "../actions";
 import {getAudioMetaData} from "../utils/";
+import TrackPlayer from "react-native-track-player";
 
 const keyExtractor = item => item.id;
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
+const ITEM_HEIGHT = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
+const numOfFirstItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
 export default class SongList extends Component {
 	loading = false;
 	cursor = null;
 	end = false;
-	itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
 
-	state = {
-		songs: []
-	};
-
-	componentDidMount() {
-		this.unsubcribe = store.onChange(() => {
-			this.setState({
-				songs: store.getState().songs
-			}, () => {
-				this.loading = false;
-			})
+	async componentDidMount() {
+		await TrackPlayer.setupPlayer();
+		TrackPlayer.updateOptions({
+			stopWithApp: true,
+			capabilities: [
+				TrackPlayer.CAPABILITY_PLAY,
+				TrackPlayer.CAPABILITY_PAUSE,
+				TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+			],
+			compactCapabilities: [
+				TrackPlayer.CAPABILITY_PLAY,
+				TrackPlayer.CAPABILITY_PAUSE
+			],
+			color: '#FF9ACD32'
 		});
+
 		this._getAudios();
+		this.unsubcribe = store.onChange(() => {
+			this.forceUpdate();
+			this.loading = false;
+		})
 	}
 
 	componentWillUnmount() {
@@ -51,7 +62,7 @@ export default class SongList extends Component {
 		this.loading = true;
 
 		const results = await MediaLibrary.getAssetsAsync({
-			first: 20,
+			first: numOfFirstItems,
 			mediaType: "audio",
 			sortBy: "id",
 			after,
@@ -60,23 +71,20 @@ export default class SongList extends Component {
 		const {assets, endCursor, hasNextPage} = results;
 		const songs = await getAudioMetaData(assets);
 
-		store.setState({
-			songs: [...store.getState().songs, ...songs]
-		});
-
 		this.cursor = hasNextPage ? endCursor : null;
 		this.end = !hasNextPage;
+		Action.addToSongList(songs);
 	};
 
 	_getItemLayout = (data, index) => {
 		return {
-			length: this.itemHeight,
-			offset: this.itemHeight * index,
+			length: ITEM_HEIGHT,
+			offset: ITEM_HEIGHT * index,
 			index,
 		}
 	};
 
-	_renderItem = ({item, index}) => {
+	_renderItem = ({item}) => {
 		const {artwork, artist, title} = item;
 		const {navigation: {navigate}} = this.props;
 
@@ -86,28 +94,26 @@ export default class SongList extends Component {
 				artist={artist}
 				songTitle={title}
 				onPress={() => {
-					store.setState({currentPlayIndex: index});
-					navigate('Playing');
+					Action.updateCurrentPlaySong(item);
+					navigate('PlayingWrapper');
 				}}
 			/>
 		)
 	};
 
 	render() {
-		const initialNumToRender = Math.round(SCREEN_HEIGHT / this.itemHeight);
-
 		return (
 			<View style={styles.container}>
 				<FlatList
 					keyExtractor={keyExtractor}
-					data={this.state.songs}
+					data={store.getState().songs}
 					renderItem={this._renderItem}
 					onEndReached={() => this._getAudios(this.cursor)}
 					getItemLayout={this._getItemLayout}
 					removeClippedSubviews
-					// showsVerticalScrollIndicator={false}
-					initialNumToRender={initialNumToRender}
-					// windowSize={11}
+					showsVerticalScrollIndicator={false}
+					initialNumToRender={numOfFirstItems}
+					windowSize={11}
 				/>
 			</View>
 		);

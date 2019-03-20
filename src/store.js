@@ -1,6 +1,7 @@
 let state = {
 	songs: [],
-	currentPlayIndex: -1,
+	currentPlaySong: -1,
+	playList: [],
 };
 
 let listeners = [];

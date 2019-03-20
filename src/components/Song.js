@@ -14,19 +14,23 @@ export default class Song extends React.PureComponent {
 		songTitle: PropTypes.string.isRequired,
 		artist: PropTypes.string.isRequired,
 		onPress: PropTypes.func,
+		showAvatar: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		uri: '',
-		onPress: () => {}
+		onPress: () => {},
+		showAvatar: true,
 	};
 
 	render() {
-		const {uri, songTitle, artist, onPress} = this.props;
+		const {uri, showAvatar, songTitle, artist, onPress} = this.props;
 		return (
 			<TouchableNativeFeedback onPress={onPress}>
 				<View style={styles.container}>
-					<Avatar uri={uri} width={SONG_ITEM_WIDTH}/>
+					{showAvatar && (
+						<Avatar uri={uri} width={SONG_ITEM_WIDTH}/>
+					)}
 					<SongArtist
 						songTitle={songTitle}
 						artist={artist}

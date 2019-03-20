@@ -1,44 +1,44 @@
 import React from 'react';
-import { Platform, View, Text } from 'react-native';
-import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator } from 'react-navigation';
+import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
 
 import Playing from './../screens/Playing';
 import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
-import HeaderWithHomeAndSearch, { renderHeaderWithSearch } from '../view/header/HeaderWithHomeAndSearch';
-import { SCALE_RATIO } from '../constants/constants';
+import PlayingWrapper from "../screens/PlayingWrapper";
+import HeaderWithHomeAndSearch, {renderHeaderWithSearch} from '../view/header/HeaderWithHomeAndSearch';
+import {SCALE_RATIO} from '../constants/constants';
 import {HEADER_COLOR} from './../constants/constants'
+
 const TabScreen = createMaterialTopTabNavigator({
-    SongList: SongList,
-    Online: PlayingOnline,
-},
-{
-    tabBarPosition: 'top',
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarOptions: {
-        style: {
-            borderBottomLeftRadius: 10,
-            borderBottomRightRadius: 10,
-            backgroundColor: HEADER_COLOR,
-        },
-        indicatorStyle: {
-            borderBottomColor: '#EEE6FF',
-            borderBottomWidth: 5 * SCALE_RATIO,
-        },
-    }
-}) 
+		SongList: SongList,
+		Online: PlayingOnline,
+	},
+	{
+		tabBarPosition: 'top',
+		swipeEnabled: true,
+		animationEnabled: true,
+		tabBarOptions: {
+			style: {
+				borderBottomLeftRadius: 10,
+				borderBottomRightRadius: 10,
+				backgroundColor: HEADER_COLOR,
+			},
+			indicatorStyle: {
+				borderBottomColor: '#EEE6FF',
+				borderBottomWidth: 5 * SCALE_RATIO,
+			},
+		}
+	})
 
 
 const HomeStack = createStackNavigator({
-    TabScreen: {
-        screen: TabScreen,
-        navigationOptions: {
-            header : renderHeaderWithSearch(),
-        },
-    },
-    Playing: Playing,
-
+	TabScreen: {
+		screen: TabScreen,
+		navigationOptions: {
+			header: renderHeaderWithSearch(),
+		},
+	},
+	PlayingWrapper,
 });
 
 

@@ -7,7 +7,7 @@ export function renderHeaderWithSearch() {
   return (
   <View style={styles.container}>
   <StatusBar backgroundColor= {STATUSBAR_COLOR}/>
-  
+
   <MaterialCommunityIcons name ={'account-circle'} size={60 * SCALE_RATIO} style= {styles.icon} color={ICON_COLOR}/>
 
   <Text style={{flex: 3, backgroundColor: 'green'}}></Text>
@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
     paddingRight: 34 * SCALE_RATIO,
     paddingLeft: 34 * SCALE_RATIO,
     paddingTop: 30 * SCALE_RATIO,
-    
+
 }
 
 });
+export default class HeaderWithHomeAndSearch {
+}

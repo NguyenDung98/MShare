@@ -7,40 +7,32 @@ import PlayingWidget from "../components/PlayingWidget";
 import TrackPlayer from 'react-native-track-player';
 import {colors} from "../utils";
 import store from "../store";
+import * as Action from "../actions";
 
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
 export default class Playing extends Component {
-	currentPlaySong = store.getState().songs[store.getState().currentPlayIndex];
-
 	async componentDidMount() {
-		await TrackPlayer.setupPlayer();
-		TrackPlayer.updateOptions({
-			stopWithApp: true,
-			capabilities: [
-				TrackPlayer.CAPABILITY_PLAY,
-				TrackPlayer.CAPABILITY_PAUSE,
-				TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-			],
-			compactCapabilities: [
-				TrackPlayer.CAPABILITY_PLAY,
-				TrackPlayer.CAPABILITY_PAUSE
-			],
-			color: '#FF9ACD32'
+		this.unsubcribe = store.onChange(async () => {
+			this.forceUpdate();
 		});
-
-		const song = this.currentPlaySong;
+		const song = store.getState().currentPlaySong;
 		let track = {
 			...song,
 			url: song.uri,
 		};
 
-		await TrackPlayer.add(track);
+		await Action.addToPlayList(track);
+		await TrackPlayer.skip(track.id);
 		await TrackPlayer.play();
 	}
 
+	componentWillUnmount() {
+		this.unsubcribe();
+	}
+
 	render() {
-		const {title, artist, artwork} = this.currentPlaySong;
+		const {title, artist, artwork} = store.getState().currentPlaySong;
 
 		return (
 			<View style={styles.container}>
@@ -79,6 +71,7 @@ const styles = StyleSheet.create({
 	},
 	songAuthor: {
 		alignItems: 'center',
+		justifyContent: 'center',
 		marginTop: 20
 	},
 });
