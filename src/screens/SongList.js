@@ -14,120 +14,109 @@ const keyExtractor = item => item.id;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
 export default class SongList extends Component {
-    loading = false;
-    cursor = null;
-    end = false;
+	loading = false;
+	cursor = null;
+	end = false;
 	itemHeight = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
-    state = {
-        songs: []
-    };
 
-	static navigationOptions = {
-		title: 'Thư viện',
-	  };
+	state = {
+		songs: []
+	};
 
-    componentDidMount() {
-    	this.unsubcribe = store.onChange(() => {
-    		this.setState({
-    		    songs: store.getState().songs
-    		}, () => {
-			    this.loading = false;
-		    })
-	    });
-        this._getAudios();
-    }
+	componentDidMount() {
+		this.unsubcribe = store.onChange(() => {
+			this.setState({
+				songs: store.getState().songs
+			}, () => {
+				this.loading = false;
+			})
+		});
+		this._getAudios();
+	}
 
-    componentWillUnmount() {
-    	this.unsubcribe();
-    }
+	componentWillUnmount() {
+		this.unsubcribe();
+	}
 
 	_getAudios = async (after) => {
-	    if (this.loading || this.end) return;
+		if (this.loading || this.end) return;
 
-	    const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+		const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-	    if (status !== 'granted') {
-		    console.log("Camera roll permissions denied");
-		    return;
-	    }
+		if (status !== 'granted') {
+			console.log("Camera roll permissions denied");
+			return;
+		}
 
-	    this.loading = true;
+		this.loading = true;
 
-	    const results = await MediaLibrary.getAssetsAsync({
-		    first: 20,
-		    mediaType: "audio",
-		    sortBy: "id",
-		    after,
-	    });
+		const results = await MediaLibrary.getAssetsAsync({
+			first: 20,
+			mediaType: "audio",
+			sortBy: "id",
+			after,
+		});
 
-	    const {assets, endCursor, hasNextPage} = results;
-	    const songs = await getAudioMetaData(assets);
+		const {assets, endCursor, hasNextPage} = results;
+		const songs = await getAudioMetaData(assets);
 
-	    store.setState({
-		    songs: [...store.getState().songs, ...songs]
-	    });
+		store.setState({
+			songs: [...store.getState().songs, ...songs]
+		});
 
 		this.cursor = hasNextPage ? endCursor : null;
 		this.end = !hasNextPage;
-    };
+	};
 
-    _getItemLayout = (data, index) => {
-        return {
-        	length: this.itemHeight,
-	        offset: this.itemHeight * index,
-	        index,
-        }
-    };
+	_getItemLayout = (data, index) => {
+		return {
+			length: this.itemHeight,
+			offset: this.itemHeight * index,
+			index,
+		}
+	};
 
-    _renderItem = ({item, index}) => {
-    	const {artwork, artist, title} = item;
-    	const {navigation: {navigate}} = this.props;
+	_renderItem = ({item, index}) => {
+		const {artwork, artist, title} = item;
+		const {navigation: {navigate}} = this.props;
 
-	    return (
-    		<Song
-			    uri={artwork}
-			    artist={artist}
-			    songTitle={title}
-			    onPress={() => {
-				store.setState({currentPlayIndex: index});
-				this.props.navigation.navigate('Playing', {
-					id: item.id,
-					uri : item.uri,
-					duration : item.duration,
-					albumArtist: item.albumArtist,
-					artist: item.artist,
-					title: item.title,
-					filename : item.filenam,
-				});
-			    }}
-		    />
-	    )
-    };
+		return (
+			<Song
+				uri={artwork}
+				artist={artist}
+				songTitle={title}
+				onPress={() => {
+					store.setState({currentPlayIndex: index});
+					navigate('Playing');
+				}}
+			/>
+		)
+	};
 
-    render() {
-    	const initialNumToRender = Math.round(SCREEN_HEIGHT / this.itemHeight);
+	render() {
+		const initialNumToRender = Math.round(SCREEN_HEIGHT / this.itemHeight);
 
-	    return (
-            <View style={styles.container}>
-                <FlatList
-	                keyExtractor={keyExtractor}
-                    data={this.state.songs}
-                    renderItem={this._renderItem}
-                    onEndReached={() => this._getAudios(this.cursor)}
-	                getItemLayout={this._getItemLayout}
-	                removeClippedSubviews
-	                // showsVerticalScrollIndicator={false}
-	                initialNumToRender={initialNumToRender}
-	                // windowSize={11}
-                />
-            </View>
-        );
-    }
+		return (
+			<View style={styles.container}>
+				<FlatList
+					keyExtractor={keyExtractor}
+					data={this.state.songs}
+					renderItem={this._renderItem}
+					onEndReached={() => this._getAudios(this.cursor)}
+					getItemLayout={this._getItemLayout}
+					removeClippedSubviews
+					// showsVerticalScrollIndicator={false}
+					initialNumToRender={initialNumToRender}
+					// windowSize={11}
+				/>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.white,
-    },
+	container: {
+		flex: 1,
+		backgroundColor: colors.white,
+	},
 });
