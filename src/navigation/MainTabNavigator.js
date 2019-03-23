@@ -8,6 +8,8 @@ import PlayingOnline from '../screens/PlayingOnline';
 import HeaderWithHomeAndSearch, { renderHeaderWithSearch } from '../view/header/HeaderWithHomeAndSearch';
 import { SCALE_RATIO } from '../constants/constants';
 import {HEADER_COLOR} from './../constants/constants'
+import Login from '../screens/LoginScreen';
+
 const TabScreen = createMaterialTopTabNavigator({
     SongList: SongList,
     Online: PlayingOnline,
@@ -31,6 +33,7 @@ const TabScreen = createMaterialTopTabNavigator({
 
 
 const HomeStack = createStackNavigator({
+    Login: Login,
     TabScreen: {
         screen: TabScreen,
         navigationOptions: {
