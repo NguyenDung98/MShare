@@ -26,7 +26,17 @@ import expo.modules.medialibrary.MediaLibraryPackage;
 import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import java.io.Console;
+import 	java.security.MessageDigest;
 
+import android.content.pm.Signature;
+import android.util.Log;
+import 	android.util.Base64;
+import 	android.content.pm.PackageManager.NameNotFoundException;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,9 +93,9 @@ public class MainApplication extends Application implements ReactApplication {
     FacebookSdk.sdkInitialize(getApplicationContext());
     // try {
     //   PackageInfo info = getPackageManager().getPackageInfo(
-    //                     "com.facebook.samples.loginhowto", 
+    //                     "com.facebook.android", 
     //                     PackageManager.GET_SIGNATURES);
-    //   for (Signature signature : inf12o.signatures) {
+    //   for (Signature signature : info.signatures) {
     //       MessageDigest md = MessageDigest.getInstance("SHA");
     //       md.update(signature.toByteArray());
     //       Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
@@ -93,5 +103,21 @@ public class MainApplication extends Application implements ReactApplication {
     //   } catch (NameNotFoundException e) {
               
     //   } ;
+    try {
+      PackageInfo info = getPackageManager().getPackageInfo(
+              getPackageName(), PackageManager.GET_SIGNATURES);
+              Log.d("RAJAT",info.toString());
+       for (Signature signature : info.signatures) {
+           MessageDigest md = MessageDigest.getInstance("SHA");
+           md.update(signature.toByteArray());
+           Log.d("RAJAT",
+                   "KeyHash: "
+                          + Base64.encodeToString(md.digest(),
+                                  Base64.DEFAULT));
+       }
+  } catch (NameNotFoundException e) {
+  } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
   }
 }
