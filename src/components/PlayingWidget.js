@@ -10,6 +10,13 @@ export default class PlayingWidget extends React.Component {
     };
 
     componentDidMount() {
+        TrackPlayer.getState()
+            .then(({state}) => {
+                this.setState({
+                    currentPlayState: state
+                })
+            });
+
         this.subcriptions = [
             TrackPlayer.addEventListener('playback-state', ({state}) => {
                 this.setState({currentPlayState: state})

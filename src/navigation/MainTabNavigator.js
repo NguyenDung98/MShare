@@ -1,7 +1,6 @@
 import React from 'react';
 import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
 
-import Playing from './../screens/Playing';
 import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
 import PlayingWrapper from "../screens/PlayingWrapper";
@@ -28,8 +27,7 @@ const TabScreen = createMaterialTopTabNavigator({
 				borderBottomWidth: 5 * SCALE_RATIO,
 			},
 		}
-	})
-
+	});
 
 const HomeStack = createStackNavigator({
 	TabScreen: {
@@ -40,7 +38,6 @@ const HomeStack = createStackNavigator({
 	},
 	PlayingWrapper,
 });
-
 
 export default createAppContainer(HomeStack);
 

@@ -1,7 +1,8 @@
 let state = {
 	songs: [],
-	currentPlaySong: -1,
+	currentPlaySong: null,
 	playList: [],
+	showStaticWidget: false,
 };
 
 let listeners = [];

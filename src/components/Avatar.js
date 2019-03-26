@@ -1,17 +1,17 @@
 import React from 'react';
-import {StyleSheet, Image, View} from 'react-native';
+import {ViewPropTypes, StyleSheet, Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {colors} from '../utils';
 
-export default function Avatar({uri, width, showPlayButton, elevation}) {
+export default function Avatar({imageStyle, uri, width, showPlayButton, elevation}) {
     return (
         <View style={styles.container(elevation)}>
             {uri ? (
                 <Image
                     source={{uri}}
-                    style={styles.imageStyle(width)}
+                    style={styles.imageStyle(width, imageStyle)}
                 />
             ) : (
                 <View style={styles.imageStyle(width)}>
@@ -37,6 +37,7 @@ Avatar.propTypes = {
     width: PropTypes.number,
     showPlayButton: PropTypes.bool,
     elevation: PropTypes.number,
+    imageStyle: ViewPropTypes.style,
 };
 
 Avatar.defaultProps = {
@@ -44,6 +45,7 @@ Avatar.defaultProps = {
     width: 60,
     showPlayButton: false,
     elevation: 1,
+    imageStyle: {},
 };
 
 const styles = StyleSheet.create({
@@ -52,13 +54,14 @@ const styles = StyleSheet.create({
         borderColor: colors.lightGrey,
         borderRadius: 5,
     }),
-    imageStyle: width => ({
+    imageStyle: (width, imageStyle) => ({
         width,
         aspectRatio: 1,
         backgroundColor: colors.lightGrey,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
+        ...imageStyle
     }),
     iconStyle: width => ({
         color: colors.brightRed,

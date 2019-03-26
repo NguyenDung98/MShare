@@ -15,33 +15,38 @@ export default class Song extends React.PureComponent {
 		artist: PropTypes.string.isRequired,
 		onPress: PropTypes.func,
 		showAvatar: PropTypes.bool,
+		showPlayButton: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		uri: '',
 		onPress: () => {},
 		showAvatar: true,
+		showPlayButton: false,
 	};
 
 	render() {
-		const {uri, showAvatar, songTitle, artist, onPress} = this.props;
+		const {uri, showPlayButton, showAvatar, songTitle, artist, onPress} = this.props;
 		return (
 			<TouchableNativeFeedback onPress={onPress}>
 				<View style={styles.container}>
 					{showAvatar && (
-						<Avatar uri={uri} width={SONG_ITEM_WIDTH}/>
+						<Avatar
+							uri={uri}
+							width={SONG_ITEM_WIDTH}
+							showPlayButton={showPlayButton}
+						/>
 					)}
 					<SongArtist
 						songTitle={songTitle}
 						artist={artist}
-						wrapperStyle={styles.songAuthor}
+						wrapperStyle={styles.songArtist}
 					/>
 					<Button
 						style={styles.moreBtnStyle}
-						ButtonType={TouchableOpacity}
 						IconType={Ionicons}
 						name={'md-more'}
-						size={30}
+						iconSize={30}
 						color={colors.grey}
 					/>
 				</View>
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 	    flex: 1,
     },
-    songAuthor: {
+    songArtist: {
         flexGrow: 1,
         marginLeft: 10,
 	    flexBasis: '70%',

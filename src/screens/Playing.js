@@ -4,10 +4,8 @@ import Avatar from "../components/Avatar";
 import SongArtist from "../components/SongArtist";
 import PlayingWidget from "../components/PlayingWidget";
 
-import TrackPlayer from 'react-native-track-player';
 import {colors} from "../utils";
 import store from "../store";
-import * as Action from "../actions";
 
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
@@ -16,15 +14,6 @@ export default class Playing extends Component {
 		this.unsubcribe = store.onChange(async () => {
 			this.forceUpdate();
 		});
-		const song = store.getState().currentPlaySong;
-		let track = {
-			...song,
-			url: song.uri,
-		};
-
-		await Action.addToPlayList(track);
-		await TrackPlayer.skip(track.id);
-		await TrackPlayer.play();
 	}
 
 	componentWillUnmount() {
@@ -47,7 +36,7 @@ export default class Playing extends Component {
 					artist={artist}
 					songSize={25}
 					artistSize={18}
-					wrapperStyle={styles.songAuthor}
+					wrapperStyle={styles.songArtist}
 				/>
 				<PlayingWidget/>
 			</View>
@@ -69,7 +58,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		letterSpacing: 3,
 	},
-	songAuthor: {
+	songArtist: {
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop: 20

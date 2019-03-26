@@ -54,3 +54,7 @@ export const addToPlayList = async (song) => {
 		updateState(song, 'playList', MODE.ADD);
 	}
 };
+
+export const updateStaticWidget = state => {
+	updateState(state, 'showStaticWidget', MODE.UPDATE);
+};

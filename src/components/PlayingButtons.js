@@ -18,44 +18,39 @@ export default function PlayingButtons({playing, onPlayTogglePress}) {
         <View style={buttonsContainer}>
             <Button
                 name={'ios-repeat'}
-                size={BUTTON_SIZE / 2}
+                iconSize={BUTTON_SIZE / 2}
                 color={colors.brightRed}
                 IconType={Ionicons}
-                ButtonType={TouchableOpacity}
             />
             <View style={playButtonsContainer}>
                 <Button
                     style={skipBtn}
                     name={'ios-skip-backward'}
-                    size={BUTTON_SIZE / 3.5}
+                    iconSize={BUTTON_SIZE / 3.5}
                     color={colors.brightRed}
                     IconType={Ionicons}
-                    ButtonType={TouchableOpacity}
                 />
                 <Button
                     style={playBtn}
                     name={playing ? 'ios-pause' : 'ios-play'}
-                    size={BUTTON_SIZE / 2}
+                    iconSize={BUTTON_SIZE / 2}
                     color={colors.white}
                     onPress={onPlayTogglePress}
                     IconType={Ionicons}
-                    ButtonType={TouchableOpacity}
                 />
                 <Button
                     style={skipBtn}
                     name={'ios-skip-forward'}
-                    size={BUTTON_SIZE / 3.5}
+                    iconSize={BUTTON_SIZE / 3.5}
                     color={colors.brightRed}
                     IconType={Ionicons}
-                    ButtonType={TouchableOpacity}
-                />
+               />
             </View>
             <Button
                 name={'ios-shuffle'}
-                size={35}
+                iconSize={35}
                 color={colors.brightRed}
                 IconType={Ionicons}
-                ButtonType={TouchableOpacity}
             />
         </View>
     )

@@ -12,7 +12,13 @@ export default function SongArtist({artist, songTitle, artistSize, songSize, wra
             >
                 {songTitle}
             </Text>
-            <Text style={styles.artist(artistSize)}>{artist}</Text>
+            <Text
+                style={styles.artist(artistSize)}
+                numberOfLines={1}
+                ellipsizeMode={'tail'}
+            >
+                {artist}
+            </Text>
         </View>
     );
 
@@ -22,7 +28,6 @@ SongArtist.propTypes = {
     artist: PropTypes.string.isRequired,
     songTitle: PropTypes.string.isRequired,
     artistSize: PropTypes.number,
-    songTitleSize: PropTypes.number,
     wrapperStyle: ViewPropTypes.style,
 };
 

@@ -84,19 +84,27 @@ export default class SongList extends Component {
 		}
 	};
 
+	_pressItem = async (item)=> {
+		let track = {
+			...item,
+			url: item.uri,
+		};
+		Action.updateCurrentPlaySong(item);
+		Action.updateStaticWidget(true);
+		await Action.addToPlayList(track);
+		await TrackPlayer.skip(track.id);
+		await TrackPlayer.play();
+	};
+
 	_renderItem = ({item}) => {
 		const {artwork, artist, title} = item;
-		const {navigation: {navigate}} = this.props;
 
 		return (
 			<Song
 				uri={artwork}
 				artist={artist}
 				songTitle={title}
-				onPress={() => {
-					Action.updateCurrentPlaySong(item);
-					navigate('PlayingWrapper');
-				}}
+				onPress={() => this._pressItem(item)}
 			/>
 		)
 	};

@@ -1,13 +1,39 @@
 import React, {Component} from 'react';
-// <<<<<<< HEAD
-// import Playing from "./src/screens/Playing";
-// import SongList from "./src/screens/SongList";
-// =======
+import {View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
-// >>>>>>> huyen
+import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
+
+import store from "./src/store";
+import {SONG_ITEM_WIDTH} from "./src/utils";
+import NavigationService from "./src/service/NavigationService";
 
 export default class App extends Component {
-    render() {
-        return <AppNavigator/>
-    }
+	componentDidMount() {
+		this.subscription = store.onChange(() => {
+			this.forceUpdate()
+		})
+	}
+
+	componentWillUnmount() {
+		this.subscription.remove();
+	}
+
+	render() {
+		const showStaticWidget = store.getState().showStaticWidget;
+
+		return (
+			<View style={{flex: 1}}>
+				<AppNavigator
+                    ref={navigatorRef => {
+                        NavigationService.setTopLevelNavigator(navigatorRef)
+                    }}
+                />
+				{showStaticWidget && (
+					<View style={{height: SONG_ITEM_WIDTH}}>
+						<StaticPlayingWidget/>
+					</View>
+				)}
+			</View>
+		)
+	}
 }
