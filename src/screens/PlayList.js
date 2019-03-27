@@ -19,7 +19,7 @@ export default class PlayList extends Component {
 		this.unsubcribe();
 	}
 
-	_renderItem = ({item}) => {
+	_renderItem = ({item, index}) => {
 		const {artist, title} = item;
 
 		return (
@@ -28,7 +28,7 @@ export default class PlayList extends Component {
 				songTitle={title}
 				showAvatar={false}
 				onPress={async () => {
-					Action.updateCurrentPlaySong(item);
+					Action.updateCurrentPlaySong(item, index);
 					await TrackPlayer.skip(item.id);
 					await TrackPlayer.play();
 				}}

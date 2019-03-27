@@ -3,7 +3,6 @@ import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator}
 
 import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
-import PlayingWrapper from "../screens/PlayingWrapper";
 import HeaderWithHomeAndSearch, {renderHeaderWithSearch} from '../view/header/HeaderWithHomeAndSearch';
 import {SCALE_RATIO} from '../constants/constants';
 import {HEADER_COLOR} from './../constants/constants'
@@ -36,7 +35,6 @@ const HomeStack = createStackNavigator({
 			header: renderHeaderWithSearch(),
 		},
 	},
-	PlayingWrapper,
 });
 
 export default createAppContainer(HomeStack);

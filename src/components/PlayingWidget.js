@@ -5,31 +5,8 @@ import PlayingButtons from "./PlayingButtons";
 import TrackPlayer from 'react-native-track-player';
 
 export default class PlayingWidget extends React.Component {
-    state = {
-        currentPlayState: null
-    };
-
-    componentDidMount() {
-        TrackPlayer.getState()
-            .then(({state}) => {
-                this.setState({
-                    currentPlayState: state
-                })
-            });
-
-        this.subcriptions = [
-            TrackPlayer.addEventListener('playback-state', ({state}) => {
-                this.setState({currentPlayState: state})
-            }),
-        ]
-    }
-
-    componentWillUnmount() {
-        this.subcriptions.forEach(subscription => subscription.remove())
-    }
-
     _onTogglePlay = async () => {
-        const {currentPlayState} = this.state;
+        const {currentPlayState} = this.props;
 
         if (currentPlayState === TrackPlayer.STATE_PLAYING) {
             await TrackPlayer.pause();
@@ -39,7 +16,7 @@ export default class PlayingWidget extends React.Component {
     };
 
     render() {
-        const {currentPlayState} = this.state;
+        const {currentPlayState} = this.props;
 
         return (
             <View style={styles.container}>

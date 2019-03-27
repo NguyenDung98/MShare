@@ -4,36 +4,29 @@ import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
 import Button from "./Button";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import PlayingWrapper from "../screens/PlayingWrapper";
 import TrackPlayer from 'react-native-track-player';
-import store from "../store";
 
+import store from "../store";
 import {SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
-import NavigationService from "../service/NavigationService";
-import * as Action from "../actions";
 
 class StaticPlayingWidget extends Component {
 	state = {
-		currentPlayState: null
+		showPlayingWrapperScreen: false,
 	};
 
 	componentDidMount() {
-		this.subscriptions = [
-			TrackPlayer.addEventListener('playback-state', ({state}) => {
-				this.setState({currentPlayState: state});
-			}),
-		];
-		this.unsubcribte = store.onChange(() => {
+		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate()
 		});
 	}
 
 	componentWillUnmount() {
-		this.subscriptions.forEach(subscription => subscription.remove());
-		this.unsubcribte();
+		this.unsubcribe();
 	}
 
 	_onTogglePlay = async () => {
-		const {currentPlayState} = this.state;
+		const {currentPlayState} = store.getState();
 
 		if (currentPlayState === TrackPlayer.STATE_PLAYING) {
 			await TrackPlayer.pause();
@@ -42,18 +35,26 @@ class StaticPlayingWidget extends Component {
 		}
 	};
 
-	_navigatePlayingWrapper = () => {
-		Action.updateStaticWidget(false);
-		NavigationService.navigate('PlayingWrapper')
+	_openPlayingWrapper = () => {
+		this.setState({
+			showPlayingWrapperScreen: true,
+		})
+	};
+
+	_closePlayingWrapper = () => {
+		this.setState({
+			showPlayingWrapperScreen: false,
+		})
 	};
 
 	render() {
 		const {container, buttonStyle, songArtist} = styles;
-		const isPlaying = this.state.currentPlayState === TrackPlayer.STATE_PLAYING;
-		const {artwork, artist, title} = store.getState().currentPlaySong;
+		const {showPlayingWrapperScreen} = this.state;
+		const {currentPlaySong: {artwork, artist, title}, currentPlayState} = store.getState();
+		const isPlaying = currentPlayState === TrackPlayer.STATE_PLAYING;
 
 		return (
-			<TouchableNativeFeedback onPress={this._navigatePlayingWrapper}>
+			<TouchableNativeFeedback onPress={this._openPlayingWrapper}>
 				<View style={container}>
 					<Avatar
 						uri={artwork}
@@ -88,6 +89,10 @@ class StaticPlayingWidget extends Component {
 						style={buttonStyle(30)}
 						iconSize={30}
 						color={'black'}
+					/>
+					<PlayingWrapper
+						visible={showPlayingWrapperScreen}
+						onRequestClose={this._closePlayingWrapper}
 					/>
 				</View>
 			</TouchableNativeFeedback>

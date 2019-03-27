@@ -1,11 +1,17 @@
-import React, {Component} from 'react';
-import {StyleSheet, ViewPagerAndroid, View} from 'react-native';
+import React from 'react';
+import {Modal, StyleSheet, ViewPagerAndroid, View} from 'react-native';
 import PlayList from "./PlayList";
 import Playing from "./Playing";
+import PropTypes from 'prop-types';
 
-export default class PlayingWrapper extends Component {
-	render() {
-		return (
+export default function PlayingWrapper({visible, onRequestClose}) {
+	return (
+		<Modal
+			animationType={'slide'}
+			transparent={false}
+			visible={visible}
+			onRequestClose={onRequestClose}
+		>
 			<ViewPagerAndroid
 				style={styles.viewPager}
 				initialPage={1}
@@ -23,9 +29,14 @@ export default class PlayingWrapper extends Component {
 					<Playing/>
 				</View>
 			</ViewPagerAndroid>
-		)
-	}
+		</Modal>
+	)
 }
+
+PlayingWrapper.propTypes = {
+	visible: PropTypes.bool.isRequired,
+	onRequestClose: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
 	viewPager: {

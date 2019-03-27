@@ -1,60 +1,48 @@
-import TrackPlayer from "react-native-track-player";
 import store from "../store";
-const MODE = {
-	UPDATE: 1,
-	ADD: 2,
-	REMOVE: 3,
-};
-
-const updateState = (payload, stateName, mode) => {
-	const state = store.getState();
-
-	switch (mode) {
-		case MODE.UPDATE:
-			store.setState({
-				[stateName]: payload
-			});
-			break;
-		case MODE.ADD:
-			if (Array.isArray(payload)) {
-				store.setState({
-					[stateName]: [...state[stateName], ...payload]
-				});
-			} else {
-				store.setState({
-					[stateName]: [...state[stateName], payload]
-				});
-			}
-			break;
-		case MODE.REMOVE:
-			store.setState({
-				[stateName]: state[stateName].filter(item => item !== payload)
-			});
-			break;
-		default:
-
-	}
-};
+import TrackPlayer from "react-native-track-player";
 
 export const addToSongList = songList => {
-	const songs = store.getState().songs;
+	const {songs} = store.getState();
+
 	if (!songs.find(song => song.id === songList[0].id)) {
-		updateState(songList, 'songs', MODE.ADD);
+		store.setState({
+			songs: [...songs, ...songList]
+		});
 	}
 };
 
-export const updateCurrentPlaySong = song => {
-	updateState(song, 'currentPlaySong', MODE.UPDATE)
+export const updateCurrentPlaySong = (item, index, widgetState) => {
+	const {showStaticWidget} = store.getState();
+
+	store.setState({
+		currentPlaySong: item,
+		currentPlaySongIndex: index,
+		showStaticWidget: widgetState ? widgetState : showStaticWidget,
+	})
 };
 
 export const addToPlayList = async (song) => {
-	const playList = store.getState().playList;
+	const {playList} = store.getState();
+
 	if (!playList.find(item => item.id === song.id)) {
 		await TrackPlayer.add(song);
-		updateState(song, 'playList', MODE.ADD);
+		store.setState({
+			playList: [...playList, song]
+		});
 	}
 };
 
-export const updateStaticWidget = state => {
-	updateState(state, 'showStaticWidget', MODE.UPDATE);
-};
+export const subscriptions = [
+	TrackPlayer.addEventListener('playback-state', ({state}) => {
+		store.setState({
+			currentPlayState: state,
+		})
+	}),
+	TrackPlayer.addEventListener('playback-queue-ended', async () => { // repeat functionality
+		const {playList: [firstSong]} = store.getState();
+
+		if (firstSong) {
+			await TrackPlayer.skip(firstSong.id);
+		}
+	})
+];

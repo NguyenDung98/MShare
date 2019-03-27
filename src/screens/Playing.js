@@ -10,18 +10,8 @@ import store from "../store";
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
 export default class Playing extends Component {
-	async componentDidMount() {
-		this.unsubcribe = store.onChange(async () => {
-			this.forceUpdate();
-		});
-	}
-
-	componentWillUnmount() {
-		this.unsubcribe();
-	}
-
 	render() {
-		const {title, artist, artwork} = store.getState().currentPlaySong;
+		const {currentPlaySong: {title, artist, artwork}, currentPlayState} = store.getState();
 
 		return (
 			<View style={styles.container}>
@@ -38,7 +28,9 @@ export default class Playing extends Component {
 					artistSize={18}
 					wrapperStyle={styles.songArtist}
 				/>
-				<PlayingWidget/>
+				<PlayingWidget
+					currentPlayState={currentPlayState}
+				/>
 			</View>
 		);
 	}
@@ -50,6 +42,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: colors.white,
+		...StyleSheet.absoluteFill,
+		zIndex: 2,
 	},
 	nowPlaying: {
 		flexGrow: 1,

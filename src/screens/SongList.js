@@ -23,6 +23,12 @@ export default class SongList extends Component {
 	end = false;
 
 	async componentDidMount() {
+		this.unsubcribe = store.onChange(() => {
+			this.forceUpdate();
+			this.loading = false;
+		});
+		this._getAudios();
+
 		await TrackPlayer.setupPlayer();
 		TrackPlayer.updateOptions({
 			stopWithApp: true,
@@ -35,14 +41,8 @@ export default class SongList extends Component {
 				TrackPlayer.CAPABILITY_PLAY,
 				TrackPlayer.CAPABILITY_PAUSE
 			],
-			color: '#FF9ACD32'
+			color: 0xB34286f4
 		});
-
-		this._getAudios();
-		this.unsubcribe = store.onChange(() => {
-			this.forceUpdate();
-			this.loading = false;
-		})
 	}
 
 	componentWillUnmount() {
@@ -84,19 +84,18 @@ export default class SongList extends Component {
 		}
 	};
 
-	_pressItem = async (item)=> {
+	_pressItem = async (item, index)=> {
 		let track = {
 			...item,
 			url: item.uri,
 		};
-		Action.updateCurrentPlaySong(item);
-		Action.updateStaticWidget(true);
+		Action.updateCurrentPlaySong(item, index, true);
 		await Action.addToPlayList(track);
 		await TrackPlayer.skip(track.id);
 		await TrackPlayer.play();
 	};
 
-	_renderItem = ({item}) => {
+	_renderItem = ({item, index}) => {
 		const {artwork, artist, title} = item;
 
 		return (
@@ -104,7 +103,7 @@ export default class SongList extends Component {
 				uri={artwork}
 				artist={artist}
 				songTitle={title}
-				onPress={() => this._pressItem(item)}
+				onPress={() => this._pressItem(item, index)}
 			/>
 		)
 	};
