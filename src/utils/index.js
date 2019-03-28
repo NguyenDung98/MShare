@@ -3,3 +3,4 @@ export * from './TimeUtils';
 export * from './AudioUtils';
 export * from './constants';
 export * from './TextUtils';
+export * from './TrackUtils';

@@ -1,5 +1,6 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
+import {REPEAT_STATE, skipToNext} from "../utils";
 
 export const addToSongList = songList => {
 	const {songs} = store.getState();
@@ -18,7 +19,7 @@ export const updateCurrentPlaySong = (item, index, widgetState) => {
 		currentPlaySong: item,
 		currentPlaySongIndex: index,
 		showStaticWidget: widgetState ? widgetState : showStaticWidget,
-	})
+	});
 };
 
 export const addToPlayList = async (song) => {
@@ -39,10 +40,11 @@ export const subscriptions = [
 		})
 	}),
 	TrackPlayer.addEventListener('playback-queue-ended', async () => { // repeat functionality
-		const {playList: [firstSong]} = store.getState();
+		const {repeatState} = store.getState();
 
-		if (firstSong) {
-			await TrackPlayer.skip(firstSong.id);
+		await skipToNext();
+		if (repeatState === REPEAT_STATE.off) {
+			await TrackPlayer.stop();
 		}
 	})
 ];

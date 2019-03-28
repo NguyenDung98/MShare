@@ -85,11 +85,13 @@ export default class SongList extends Component {
 	};
 
 	_pressItem = async (item, index)=> {
+		const {playList} = store.getState();
 		let track = {
 			...item,
 			url: item.uri,
 		};
-		Action.updateCurrentPlaySong(item, index, true);
+
+		Action.updateCurrentPlaySong(item, playList.length, true);
 		await Action.addToPlayList(track);
 		await TrackPlayer.skip(track.id);
 		await TrackPlayer.play();

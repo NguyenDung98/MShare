@@ -8,22 +8,12 @@ import PlayingWrapper from "../screens/PlayingWrapper";
 import TrackPlayer from 'react-native-track-player';
 
 import store from "../store";
-import {SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
+import {skipToNext, skipToPrevious, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
 
 class StaticPlayingWidget extends Component {
 	state = {
 		showPlayingWrapperScreen: false,
 	};
-
-	componentDidMount() {
-		this.unsubcribe = store.onChange(() => {
-			this.forceUpdate()
-		});
-	}
-
-	componentWillUnmount() {
-		this.unsubcribe();
-	}
 
 	_onTogglePlay = async () => {
 		const {currentPlayState} = store.getState();
@@ -74,6 +64,7 @@ class StaticPlayingWidget extends Component {
 						style={buttonStyle(30)}
 						iconSize={30}
 						color={'black'}
+						onPress={skipToPrevious}
 					/>
 					<Button
 						IconType={Ionicons}
@@ -89,6 +80,7 @@ class StaticPlayingWidget extends Component {
 						style={buttonStyle(30)}
 						iconSize={30}
 						color={'black'}
+						onPress={skipToNext}
 					/>
 					<PlayingWrapper
 						visible={showPlayingWrapperScreen}

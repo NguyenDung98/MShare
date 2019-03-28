@@ -9,16 +9,6 @@ import TrackPlayer from "react-native-track-player";
 const keyExtractor = item => item.id;
 
 export default class PlayList extends Component {
-	componentDidMount() {
-		this.unsubcribe = store.onChange( () => {
-			this.forceUpdate();
-		})
-	}
-
-	componentWillUnmount() {
-		this.unsubcribe();
-	}
-
 	_renderItem = ({item, index}) => {
 		const {artist, title} = item;
 

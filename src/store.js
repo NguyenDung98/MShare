@@ -3,9 +3,11 @@ let state = {
 	currentPlaySong: null,
 	currentPlaySongIndex: -1,
 	playList: [],
-
+	// widget
 	showStaticWidget: false,
 	currentPlayState: null,
+	repeatState: 0,
+	shuffleState: false,
 };
 
 let listeners = [];
