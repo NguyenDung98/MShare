@@ -3,13 +3,12 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import {colors} from "../utils";
 import Song from "../components/Song";
 import store from "../store";
-import * as Action from "../actions";
 import TrackPlayer from "react-native-track-player";
 
 const keyExtractor = item => item.id;
 
 export default class PlayList extends Component {
-	_renderItem = ({item, index}) => {
+	_renderItem = ({item}) => {
 		const {artist, title} = item;
 
 		return (
@@ -18,7 +17,6 @@ export default class PlayList extends Component {
 				songTitle={title}
 				showAvatar={false}
 				onPress={async () => {
-					Action.updateCurrentPlaySong(item, index);
 					await TrackPlayer.skip(item.id);
 					await TrackPlayer.play();
 				}}

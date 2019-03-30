@@ -4,20 +4,10 @@ import Progress from "./Progress";
 import PlayingButtons from "./PlayingButtons";
 import TrackPlayer from 'react-native-track-player';
 
-import {REPEAT_STATE} from "../utils";
+import {REPEAT_STATE, shuffle, togglePlay} from "../utils";
 import store from "../store";
 
 export default class PlayingWidget extends React.Component {
-    _onTogglePlay = async () => {
-        const {currentPlayState} = this.props;
-
-        if (currentPlayState === TrackPlayer.STATE_PLAYING) {
-            await TrackPlayer.pause();
-        } else if (currentPlayState === TrackPlayer.STATE_PAUSED) {
-            await TrackPlayer.play();
-        }
-    };
-
 	_onToggleRepeat = () => {
 	    const {repeatState} = store.getState();
 
@@ -26,9 +16,9 @@ export default class PlayingWidget extends React.Component {
                 store.setState({repeatState: REPEAT_STATE.all});
                 break;
             case REPEAT_STATE.all:
-	            store.setState({repeatState: REPEAT_STATE.once});
+	            store.setState({repeatState: REPEAT_STATE.one});
                 break;
-            case REPEAT_STATE.once:
+            case REPEAT_STATE.one:
 	            store.setState({repeatState: REPEAT_STATE.off});
                 break;
 	    }
@@ -39,19 +29,45 @@ export default class PlayingWidget extends React.Component {
 
 	    store.setState({
             shuffleState: !shuffleState
-        })
+        });
+		this._shufflePlayList(!shuffleState);
    };
 
+	_shufflePlayList = shuffleState => {
+		const {playList, originalPlayList} = store.getState();
+
+		if (shuffleState) {
+			const shuffledPlayList = shuffle(playList);
+			store.setState({
+				originalPlayList: playList,
+				playList: shuffledPlayList,
+			})
+		} else {
+			store.setState({
+				playList: [...originalPlayList, ...playList.slice(originalPlayList.length)],
+			})
+		}
+		this._updateCurrentPlaySong();
+	};
+
+	_updateCurrentPlaySong = () => {
+		const {currentPlaySong, playList} = store.getState();
+		const songIndex = playList.findIndex(song => song.id === currentPlaySong.id);
+
+		store.setState({currentPlaySongIndex: songIndex});
+	};
+
     render() {
-        const {currentPlayState} = this.props;
-        const {shuffleState, repeatState} = store.getState();
+        const {currentPlayState, shuffleState, repeatState} = store.getState();
+	    const isPlaying = currentPlayState === TrackPlayer.STATE_PLAYING ||
+		    currentPlayState === TrackPlayer.STATE_BUFFERING;
 
         return (
             <View style={styles.container}>
                 <Progress/>
                 <PlayingButtons
-                    playing={currentPlayState === TrackPlayer.STATE_PLAYING}
-                    onPlayTogglePress={this._onTogglePlay}
+                    playing={isPlaying}
+                    onPlayTogglePress={togglePlay}
                     onRepeatTogglePress={this._onToggleRepeat}
                     repeatState={repeatState}
                     onShuffleTogglePress={this._onToggleShuffle}

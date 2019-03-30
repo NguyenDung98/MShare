@@ -3,6 +3,7 @@ let state = {
 	currentPlaySong: null,
 	currentPlaySongIndex: -1,
 	playList: [],
+	originalPlayList: [],
 	// widget
 	showStaticWidget: false,
 	currentPlayState: null,

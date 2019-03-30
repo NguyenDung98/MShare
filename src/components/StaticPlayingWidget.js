@@ -8,21 +8,42 @@ import PlayingWrapper from "../screens/PlayingWrapper";
 import TrackPlayer from 'react-native-track-player';
 
 import store from "../store";
-import {skipToNext, skipToPrevious, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
+import {REPEAT_STATE, skipToNext, skipToPrevious, SONG_ITEM_WIDTH, SONG_MARGIN, togglePlay} from "../utils";
+
+class ProgressTracking extends TrackPlayer.ProgressComponent {
+	shouldComponentUpdate() {
+		const {position, duration} = this.state;
+
+		return !(position > duration);
+	}
+
+	async componentDidUpdate() {
+		const {position, duration} = this.state;
+		const {repeatState, currentPlaySongIndex, playList} = store.getState();
+
+		if (position > duration) {
+			switch (repeatState) {
+				case REPEAT_STATE.one:
+					await TrackPlayer.seekTo(0);
+					break;
+				case REPEAT_STATE.all:
+					await skipToNext();
+					break;
+				case REPEAT_STATE.off:
+					await skipToNext();
+					if (currentPlaySongIndex === playList.length - 1) {
+						await TrackPlayer.stop();
+					}
+			}
+		}
+	}
+
+	render(){return null}
+}
 
 class StaticPlayingWidget extends Component {
 	state = {
 		showPlayingWrapperScreen: false,
-	};
-
-	_onTogglePlay = async () => {
-		const {currentPlayState} = store.getState();
-
-		if (currentPlayState === TrackPlayer.STATE_PLAYING) {
-			await TrackPlayer.pause();
-		} else if (currentPlayState === TrackPlayer.STATE_PAUSED) {
-			await TrackPlayer.play();
-		}
 	};
 
 	_openPlayingWrapper = () => {
@@ -41,7 +62,8 @@ class StaticPlayingWidget extends Component {
 		const {container, buttonStyle, songArtist} = styles;
 		const {showPlayingWrapperScreen} = this.state;
 		const {currentPlaySong: {artwork, artist, title}, currentPlayState} = store.getState();
-		const isPlaying = currentPlayState === TrackPlayer.STATE_PLAYING;
+		const isPlaying = currentPlayState === TrackPlayer.STATE_PLAYING ||
+			currentPlayState === TrackPlayer.STATE_BUFFERING;
 
 		return (
 			<TouchableNativeFeedback onPress={this._openPlayingWrapper}>
@@ -72,7 +94,7 @@ class StaticPlayingWidget extends Component {
 						style={buttonStyle(45)}
 						iconSize={45}
 						color={'black'}
-						onPress={this._onTogglePlay}
+						onPress={togglePlay}
 					/>
 					<Button
 						IconType={Ionicons}
@@ -86,6 +108,7 @@ class StaticPlayingWidget extends Component {
 						visible={showPlayingWrapperScreen}
 						onRequestClose={this._closePlayingWrapper}
 					/>
+					<ProgressTracking/>
 				</View>
 			</TouchableNativeFeedback>
 		);

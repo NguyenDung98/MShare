@@ -84,20 +84,20 @@ export default class SongList extends Component {
 		}
 	};
 
-	_pressItem = async (item, index)=> {
+	_pressItem = async (item)=> {
 		const {playList} = store.getState();
 		let track = {
 			...item,
 			url: item.uri,
 		};
 
-		Action.updateCurrentPlaySong(item, playList.length, true);
-		await Action.addToPlayList(track);
+		Action.updateCurrentPlaySong(item, playList.length);
+		await Action.addToPlayList(track, true);
 		await TrackPlayer.skip(track.id);
 		await TrackPlayer.play();
 	};
 
-	_renderItem = ({item, index}) => {
+	_renderItem = ({item}) => {
 		const {artwork, artist, title} = item;
 
 		return (
@@ -105,7 +105,7 @@ export default class SongList extends Component {
 				uri={artwork}
 				artist={artist}
 				songTitle={title}
-				onPress={() => this._pressItem(item, index)}
+				onPress={() => this._pressItem(item)}
 			/>
 		)
 	};

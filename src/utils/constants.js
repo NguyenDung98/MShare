@@ -3,6 +3,6 @@ export const SONG_MARGIN = 10;
 export const REPEAT_STATE = {
 	off: 0,
 	all: 1,
-	once: 2,
+	one: 2,
 };
 

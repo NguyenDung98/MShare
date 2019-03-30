@@ -1,6 +1,5 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
-import {REPEAT_STATE, skipToNext} from "../utils";
 
 export const addToSongList = songList => {
 	const {songs} = store.getState();
@@ -12,23 +11,21 @@ export const addToSongList = songList => {
 	}
 };
 
-export const updateCurrentPlaySong = (item, index, widgetState) => {
-	const {showStaticWidget} = store.getState();
-
+export const updateCurrentPlaySong = (item, index) => {
 	store.setState({
 		currentPlaySong: item,
 		currentPlaySongIndex: index,
-		showStaticWidget: widgetState ? widgetState : showStaticWidget,
 	});
 };
 
-export const addToPlayList = async (song) => {
-	const {playList} = store.getState();
+export const addToPlayList = async (song, showWidget) => {
+	const {playList, showStaticWidget} = store.getState();
 
 	if (!playList.find(item => item.id === song.id)) {
 		await TrackPlayer.add(song);
 		store.setState({
-			playList: [...playList, song]
+			playList: [...playList, song],
+			showStaticWidget: showWidget ? showWidget : showStaticWidget,
 		});
 	}
 };
@@ -37,14 +34,12 @@ export const subscriptions = [
 	TrackPlayer.addEventListener('playback-state', ({state}) => {
 		store.setState({
 			currentPlayState: state,
-		})
+		});
 	}),
-	TrackPlayer.addEventListener('playback-queue-ended', async () => { // repeat functionality
-		const {repeatState} = store.getState();
+	TrackPlayer.addEventListener('playback-track-changed', ({nextTrack}) => {
+		const {playList} = store.getState();
 
-		await skipToNext();
-		if (repeatState === REPEAT_STATE.off) {
-			await TrackPlayer.stop();
-		}
+		const currentPlaySongIndex = playList.findIndex(song => song.id === nextTrack);
+		updateCurrentPlaySong(playList[currentPlaySongIndex], currentPlaySongIndex);
 	})
 ];

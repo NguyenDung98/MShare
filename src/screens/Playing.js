@@ -11,7 +11,7 @@ const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 
 export default class Playing extends Component {
 	render() {
-		const {currentPlaySong: {title, artist, artwork}, currentPlayState} = store.getState();
+		const {currentPlaySong: {title, artist, artwork}} = store.getState();
 
 		return (
 			<View style={styles.container}>
@@ -28,9 +28,7 @@ export default class Playing extends Component {
 					artistSize={18}
 					wrapperStyle={styles.songArtist}
 				/>
-				<PlayingWidget
-					currentPlayState={currentPlayState}
-				/>
+				<PlayingWidget/>
 			</View>
 		);
 	}

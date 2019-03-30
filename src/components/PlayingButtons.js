@@ -32,7 +32,7 @@ export default function PlayingButtons({
 		case REPEAT_STATE.off:
 			repeatIcon = repeatIcons.repeat;
 			break;
-		case REPEAT_STATE.once:
+		case REPEAT_STATE.one:
 			repeatIcon = repeatIcons.repeatOnce;
 			break;
 	}
