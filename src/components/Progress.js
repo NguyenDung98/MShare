@@ -3,7 +3,7 @@ import TrackPlayer from 'react-native-track-player';
 import {StyleSheet, Text, View} from "react-native";
 import Slider from "react-native-slider";
 
-import {colors, secondsToHuman} from "../utils";
+import {colors, repeatOrNext, secondsToHuman} from "../utils";
 
 export default class Progress extends TrackPlayer.ProgressComponent {
 	state = {
@@ -24,6 +24,11 @@ export default class Progress extends TrackPlayer.ProgressComponent {
 		this.setState({
 			isSliding: false
 		});
+		const {duration} = this.state;
+
+		if (await repeatOrNext(value, duration)) {
+			return;
+		}
 		await TrackPlayer.seekTo(value);
 	};
 

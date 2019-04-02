@@ -22,6 +22,10 @@ export default class SongList extends Component {
 	cursor = null;
 	end = false;
 
+	static navigationOptions = {
+		tabBarLabel: "Danh sách nhạc"
+	};
+
 	async componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate();

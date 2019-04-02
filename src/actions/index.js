@@ -1,5 +1,6 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
+import {REPEAT_STATE, repeatOrNext} from "../utils";
 
 export const addToSongList = songList => {
 	const {songs} = store.getState();
@@ -36,10 +37,20 @@ export const subscriptions = [
 			currentPlayState: state,
 		});
 	}),
-	TrackPlayer.addEventListener('playback-track-changed', ({nextTrack}) => {
+	TrackPlayer.addEventListener('playback-queue-ended', async () => {
 		const {playList} = store.getState();
 
+		if (playList.length) {
+			await TrackPlayer.skip(playList[0].id);
+		}
+	}),
+	TrackPlayer.addEventListener('playback-track-changed', async ({nextTrack, position}) => {
+		const {appState, playList, currentPlaySong} = store.getState();
 		const currentPlaySongIndex = playList.findIndex(song => song.id === nextTrack);
+
+		if (appState === 'background') {
+			await repeatOrNext(position, currentPlaySong.duration);
+		}
 		updateCurrentPlaySong(playList[currentPlaySongIndex], currentPlaySongIndex);
-	})
+	}),
 ];

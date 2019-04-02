@@ -14,7 +14,7 @@ export default function Avatar({imageStyle, uri, width, showPlayButton, elevatio
                     style={styles.imageStyle(width, imageStyle)}
                 />
             ) : (
-                <View style={styles.imageStyle(width)}>
+                <View style={styles.imageStyle(width, imageStyle)}>
                     <FontAwesome
                         name={'music'}
                         color={colors.grey}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
 
 import SongList from '../screens/SongList';
@@ -17,15 +18,21 @@ const TabScreen = createMaterialTopTabNavigator({
 		animationEnabled: true,
 		tabBarOptions: {
 			style: {
-				borderBottomLeftRadius: 10,
-				borderBottomRightRadius: 10,
+				borderBottomLeftRadius: 26,
+				borderBottomRightRadius: 26,
 				backgroundColor: HEADER_COLOR,
+				paddingHorizontal: 40,
+				paddingTop: 10,
+				elevation: 5,
 			},
 			indicatorStyle: {
-				borderBottomColor: '#EEE6FF',
-				borderBottomWidth: 5 * SCALE_RATIO,
+				height: 0,
 			},
-		}
+			upperCaseLabel: false,
+			labelStyle: {
+				fontSize: 15,
+			}
+		},
 	});
 
 const HomeStack = createStackNavigator({

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from "react-native";
+import {AppState, View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
@@ -14,12 +14,18 @@ export default class App extends Component {
 			this.forceUpdate()
 		});
 		this.subscriptions = Action.subscriptions;
+		AppState.addEventListener('change', this._handleAppStateChange)
 	}
 
 	componentWillUnmount() {
 		this.unsubcribe();
 		this.subscriptions.forEach(subscription => subscription.remove());
+		AppState.removeEventListener('change', this._handleAppStateChange)
 	}
+
+	_handleAppStateChange = appState => {
+		store.setState({appState});
+	};
 
 	render() {
 		const {showStaticWidget} = store.getState();

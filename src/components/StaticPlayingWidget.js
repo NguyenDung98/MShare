@@ -8,7 +8,15 @@ import PlayingWrapper from "../screens/PlayingWrapper";
 import TrackPlayer from 'react-native-track-player';
 
 import store from "../store";
-import {REPEAT_STATE, skipToNext, skipToPrevious, SONG_ITEM_WIDTH, SONG_MARGIN, togglePlay} from "../utils";
+import {
+	colors,
+	repeatOrNext,
+	skipToNext,
+	skipToPrevious,
+	SONG_ITEM_WIDTH,
+	SONG_MARGIN,
+	togglePlay
+} from "../utils";
 
 class ProgressTracking extends TrackPlayer.ProgressComponent {
 	shouldComponentUpdate() {
@@ -19,26 +27,13 @@ class ProgressTracking extends TrackPlayer.ProgressComponent {
 
 	async componentDidUpdate() {
 		const {position, duration} = this.state;
-		const {repeatState, currentPlaySongIndex, playList} = store.getState();
 
-		if (position > duration) {
-			switch (repeatState) {
-				case REPEAT_STATE.one:
-					await TrackPlayer.seekTo(0);
-					break;
-				case REPEAT_STATE.all:
-					await skipToNext();
-					break;
-				case REPEAT_STATE.off:
-					await skipToNext();
-					if (currentPlaySongIndex === playList.length - 1) {
-						await TrackPlayer.stop();
-					}
-			}
-		}
+		await repeatOrNext(position, duration);
 	}
 
-	render(){return null}
+	render() {
+		return null
+	}
 }
 
 class StaticPlayingWidget extends Component {
@@ -120,6 +115,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
+		backgroundColor: colors.lighterGrey,
+		elevation: 1,
+		borderColor: colors.lightGrey
 	},
 	songArtist: {
 		flexGrow: 1,

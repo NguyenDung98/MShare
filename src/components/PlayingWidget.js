@@ -8,7 +8,7 @@ import {REPEAT_STATE, shuffle, togglePlay} from "../utils";
 import store from "../store";
 
 export default class PlayingWidget extends React.Component {
-	_onToggleRepeat = () => {
+	_onToggleRepeat = async () => {
 	    const {repeatState} = store.getState();
 
 	    switch (repeatState) {

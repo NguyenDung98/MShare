@@ -1,5 +1,6 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
+import {REPEAT_STATE} from "./constants";
 
 export const skipToNext = async () => {
 	const {currentPlaySongIndex, playList} = store.getState();
@@ -31,4 +32,26 @@ export const togglePlay = async () => {
 	) {
 		await TrackPlayer.play();
 	}
+};
+
+export const repeatOrNext = async (value, duration) => {
+	const {repeatState, currentPlaySongIndex, playList, currentPlaySong} = store.getState();
+
+	if (duration !== 0 && Math.ceil(value) >= Math.floor(duration)) {
+		switch (repeatState) {
+			case REPEAT_STATE.one:
+				await TrackPlayer.skip(currentPlaySong.id);
+				return true;
+			case REPEAT_STATE.all:
+				await skipToNext();
+				break;
+			case REPEAT_STATE.off:
+				await skipToNext();
+				if (currentPlaySongIndex === playList.length - 1) {
+					await TrackPlayer.stop();
+				}
+		}
+	}
+
+	return false;
 };

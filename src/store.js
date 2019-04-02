@@ -9,6 +9,8 @@ let state = {
 	currentPlayState: null,
 	repeatState: 0,
 	shuffleState: false,
+	//
+	appState: null,
 };
 
 let listeners = [];

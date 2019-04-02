@@ -2,6 +2,7 @@ export const colors = {
     brightRed: '#ff5a58',
     lightGrey: '#ededed',
     grey: '#aaaaaa',
-    white: '#F5FCFF',
+	lighterGrey: '#f6f6f6',
+	white: '#fcfcfc',
     transparent: 'transparent'
 };

@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 export function renderHeaderWithSearch() {
   return (
   <View style={styles.container}>
-  <StatusBar backgroundColor= {STATUSBAR_COLOR}/>
+  <StatusBar backgroundColor= {HEADER_COLOR}/>
 
   <MaterialCommunityIcons name ={'account-circle'} size={60 * SCALE_RATIO} style= {styles.icon} color={ICON_COLOR}/>
 
