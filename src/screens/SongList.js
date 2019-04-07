@@ -4,12 +4,12 @@ import Song from "../components/Song";
 
 import * as MediaLibrary from "expo-media-library";
 import * as Permissions from "expo-permissions";
+import TrackPlayer from "react-native-track-player";
 
-import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
+import {colors, playSong, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
 import {getAudioMetaData} from "../utils/";
-import TrackPlayer from "react-native-track-player";
 
 const keyExtractor = item => item.id;
 
@@ -31,7 +31,8 @@ export default class SongList extends Component {
 			this.forceUpdate();
 			this.loading = false;
 		});
-		this._getAudios();
+		await this._getAudios();
+		this._loadAudios();
 
 		await TrackPlayer.setupPlayer();
 		TrackPlayer.updateOptions({
@@ -66,7 +67,7 @@ export default class SongList extends Component {
 		this.loading = true;
 
 		const results = await MediaLibrary.getAssetsAsync({
-			first: numOfFirstItems,
+			first: 100,
 			mediaType: "audio",
 			sortBy: "id",
 			after,
@@ -77,7 +78,11 @@ export default class SongList extends Component {
 
 		this.cursor = hasNextPage ? endCursor : null;
 		this.end = !hasNextPage;
-		Action.addToSongList(songs);
+		if (Action.addToSongList(songs)) await this._getAudios(endCursor);
+	};
+
+	_loadAudios = () => {
+		Action.addToDisplaySongList(numOfFirstItems);
 	};
 
 	_getItemLayout = (data, index) => {
@@ -88,19 +93,6 @@ export default class SongList extends Component {
 		}
 	};
 
-	_pressItem = async (item)=> {
-		const {playList} = store.getState();
-		let track = {
-			...item,
-			url: item.uri,
-		};
-
-		Action.updateCurrentPlaySong(item, playList.length);
-		await Action.addToPlayList(track, true);
-		await TrackPlayer.skip(track.id);
-		await TrackPlayer.play();
-	};
-
 	_renderItem = ({item}) => {
 		const {artwork, artist, title} = item;
 
@@ -109,7 +101,7 @@ export default class SongList extends Component {
 				uri={artwork}
 				artist={artist}
 				songTitle={title}
-				onPress={() => this._pressItem(item)}
+				onPress={() => playSong(item)}
 			/>
 		)
 	};
@@ -119,9 +111,9 @@ export default class SongList extends Component {
 			<View style={styles.container}>
 				<FlatList
 					keyExtractor={keyExtractor}
-					data={store.getState().songs}
+					data={store.getState().loadedSongs}
 					renderItem={this._renderItem}
-					onEndReached={() => this._getAudios(this.cursor)}
+					onEndReached={this._loadAudios}
 					getItemLayout={this._getItemLayout}
 					removeClippedSubviews
 					showsVerticalScrollIndicator={false}

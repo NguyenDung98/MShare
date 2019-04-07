@@ -1,28 +1,29 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
 import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
 
 import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
-import HeaderWithHomeAndSearch, {renderHeaderWithSearch} from '../view/header/HeaderWithHomeAndSearch';
-import {SCALE_RATIO} from '../constants/constants';
+import TabHeader from '../components/TabHeader';
 import {HEADER_COLOR} from './../constants/constants'
+import SearchResult from "../screens/SearchResult";
+import Albums from "../screens/Albums";
 
 const TabScreen = createMaterialTopTabNavigator({
-		SongList: SongList,
+		SongList,
+		Albums,
 		Online: PlayingOnline,
 	},
 	{
 		tabBarPosition: 'top',
 		swipeEnabled: true,
 		animationEnabled: true,
+		lazy: true,
 		tabBarOptions: {
 			style: {
 				borderBottomLeftRadius: 26,
 				borderBottomRightRadius: 26,
 				backgroundColor: HEADER_COLOR,
 				paddingHorizontal: 40,
-				paddingTop: 10,
 				elevation: 5,
 			},
 			indicatorStyle: {
@@ -39,9 +40,12 @@ const HomeStack = createStackNavigator({
 	TabScreen: {
 		screen: TabScreen,
 		navigationOptions: {
-			header: renderHeaderWithSearch(),
+			header: <TabHeader/>,
 		},
 	},
+	SearchResult,
+}, {
+	headerMode: 'float',
 });
 
 export default createAppContainer(HomeStack);

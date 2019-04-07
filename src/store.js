@@ -1,5 +1,8 @@
 let state = {
-	songs: [],
+	songsInStorage: [],
+	loadedSongs: [],
+	albumList: [],
+	searchedSongs: [],
 	currentPlaySong: null,
 	currentPlaySongIndex: -1,
 	playList: [],

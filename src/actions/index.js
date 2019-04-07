@@ -1,15 +1,27 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
-import {REPEAT_STATE, repeatOrNext} from "../utils";
+import {repeatOrNext} from "../utils";
 
 export const addToSongList = songList => {
-	const {songs} = store.getState();
+	const {songsInStorage} = store.getState();
 
-	if (!songs.find(song => song.id === songList[0].id)) {
+	if (!songsInStorage.find(song => song.id === songList[0].id)) {
 		store.setState({
-			songs: [...songs, ...songList]
+			songsInStorage: [...songsInStorage, ...songList]
 		});
+		return true;
 	}
+	return false;
+};
+
+export const addToDisplaySongList = numberOfSongs => {
+	const {songsInStorage, loadedSongs} = store.getState();
+	const currentSongIndex = loadedSongs.length;
+	const nextSongs = songsInStorage.slice(currentSongIndex, currentSongIndex + numberOfSongs);
+
+	store.setState({
+		loadedSongs: [...loadedSongs, ...nextSongs]
+	})
 };
 
 export const updateCurrentPlaySong = (item, index) => {
@@ -29,6 +41,23 @@ export const addToPlayList = async (song, showWidget) => {
 			showStaticWidget: showWidget ? showWidget : showStaticWidget,
 		});
 	}
+};
+
+export const setUpAlbumList = () => {
+	const {songsInStorage} = store.getState();
+
+	const albumList = songsInStorage.reduce((acc, song) => {
+		if (song.albumName) {
+			const albumName = song.albumName.trim();
+			if (!acc.hasOwnProperty(albumName)) {
+				acc[albumName] = [];
+			}
+			acc[albumName].push(song);
+		}
+		return acc;
+	}, {});
+
+	store.setState({albumList})
 };
 
 export const subscriptions = [

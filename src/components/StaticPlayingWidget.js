@@ -22,7 +22,7 @@ class ProgressTracking extends TrackPlayer.ProgressComponent {
 	shouldComponentUpdate() {
 		const {position, duration} = this.state;
 
-		return !(position > duration);
+		return !(Math.ceil(position) >= Math.floor(duration));
 	}
 
 	async componentDidUpdate() {

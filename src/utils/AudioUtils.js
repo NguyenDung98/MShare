@@ -4,19 +4,18 @@ import {removeEndFile} from "./TextUtils";
 export const getAudioMetaData = async (assets) => {
 	const uriAssets = assets.map(asset => asset.uri);
 	const audiosMetaData = await RNMusicMetadata.getMetadata(uriAssets);
-	const audios = assets.map((asset, index) => {
+	return assets.map((asset, index) => {
 		const metadata = audiosMetaData[index];
 
 		return {
 			...metadata,
+			albumId: asset.albumId,
 			artwork: getArtwork(metadata.artwork),
 			title: metadata.title ? metadata.title : removeEndFile(asset.filename),
-			artist: metadata.artist ? metadata.artist : 'Unknown artist' ,
+			artist: metadata.artist ? metadata.artist : 'Unknown artist',
 			id: asset.id
 		}
 	});
-
-	return audios;
 };
 
 export const getArtwork = path => {
