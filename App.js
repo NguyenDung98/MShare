@@ -3,18 +3,34 @@ import {AppState, View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
-import store from "./src/store";
-import * as Action from './src/actions/'
-import {SONG_ITEM_WIDTH} from "./src/utils";
+import * as MediaLibrary from "expo-media-library";
+import * as Permissions from "expo-permissions";
+import TrackPlayer from "react-native-track-player";
+
 import NavigationService from "./src/service/NavigationService";
+import * as Action from './src/actions/'
+import {getAudioMetaData, numOfFirstItems, SONG_ITEM_WIDTH, trackPlayerUpdateOptions} from "./src/utils";
+import store from "./src/store";
 
 export default class App extends Component {
-	componentDidMount() {
+	loading = false;
+	cursor = null;
+	end = false;
+
+	async componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
-			this.forceUpdate()
+			this.forceUpdate();
+			this.loading = false;
 		});
 		this.subscriptions = Action.subscriptions;
-		AppState.addEventListener('change', this._handleAppStateChange)
+		AppState.addEventListener('change', this._handleAppStateChange);
+
+		await this._getAudios();
+		Action.addToDisplaySongList(numOfFirstItems);
+		Action.setUpAlbumList();
+		Action.setUpArtistList();
+		await TrackPlayer.setupPlayer();
+		TrackPlayer.updateOptions(trackPlayerUpdateOptions);
 	}
 
 	componentWillUnmount() {
@@ -25,6 +41,33 @@ export default class App extends Component {
 
 	_handleAppStateChange = appState => {
 		store.setState({appState});
+	};
+
+	_getAudios = async (after) => {
+		if (this.loading || this.end) return;
+
+		const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+		if (status !== 'granted') {
+			console.log("Camera roll permissions denied");
+			return;
+		}
+
+		this.loading = true;
+
+		const results = await MediaLibrary.getAssetsAsync({
+			first: 100,
+			mediaType: "audio",
+			sortBy: "id",
+			after,
+		});
+
+		const {assets, endCursor, hasNextPage} = results;
+		const songs = await getAudioMetaData(assets);
+
+		this.cursor = hasNextPage ? endCursor : null;
+		this.end = !hasNextPage;
+		if (Action.addToSongList(songs)) await this._getAudios(endCursor);
 	};
 
 	render() {

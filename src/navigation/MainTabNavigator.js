@@ -7,11 +7,13 @@ import TabHeader from '../components/TabHeader';
 import {HEADER_COLOR} from './../constants/constants'
 import SearchResult from "../screens/SearchResult";
 import Albums from "../screens/Albums";
+import Artists from "../screens/Artists";
 
 const TabScreen = createMaterialTopTabNavigator({
 		SongList,
 		Albums,
-		Online: PlayingOnline,
+		Artists,
+		// Online: PlayingOnline,
 	},
 	{
 		tabBarPosition: 'top',
@@ -23,7 +25,7 @@ const TabScreen = createMaterialTopTabNavigator({
 				borderBottomLeftRadius: 26,
 				borderBottomRightRadius: 26,
 				backgroundColor: HEADER_COLOR,
-				paddingHorizontal: 40,
+				paddingHorizontal: 25,
 				elevation: 5,
 			},
 			indicatorStyle: {

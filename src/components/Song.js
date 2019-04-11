@@ -1,5 +1,5 @@
 import React from 'react';
-import {ColorPropType, TouchableNativeFeedback, StyleSheet, View} from 'react-native';
+import {ColorPropType, TouchableNativeFeedback, StyleSheet, View, ViewPropTypes} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
@@ -18,6 +18,9 @@ export default class Song extends React.PureComponent {
 		onPress: PropTypes.func,
 		showAvatar: PropTypes.bool,
 		showPlayButton: PropTypes.bool,
+		iconName: PropTypes.string,
+		IconType: PropTypes.any,
+		imageStyle: ViewPropTypes.style,
 	};
 
 	static defaultProps = {
@@ -37,6 +40,9 @@ export default class Song extends React.PureComponent {
 			onPress,
 			songColor,
 			artistColor,
+			iconName,
+			IconType,
+			imageStyle
 		} = this.props;
 		return (
 			<TouchableNativeFeedback onPress={onPress}>
@@ -46,6 +52,9 @@ export default class Song extends React.PureComponent {
 							uri={uri}
 							width={SONG_ITEM_WIDTH}
 							showPlayButton={showPlayButton}
+							IconType={IconType}
+							iconName={iconName}
+							imageStyle={imageStyle}
 						/>
 					)}
 					<SongArtist

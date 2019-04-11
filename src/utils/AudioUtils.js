@@ -12,7 +12,7 @@ export const getAudioMetaData = async (assets) => {
 			albumId: asset.albumId,
 			artwork: getArtwork(metadata.artwork),
 			title: metadata.title ? metadata.title : removeEndFile(asset.filename),
-			artist: metadata.artist ? metadata.artist : 'Unknown artist',
+			artist: metadata.artist ? metadata.artist.trim() : 'Unknown artist',
 			id: asset.id
 		}
 	});

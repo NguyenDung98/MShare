@@ -1,13 +1,13 @@
 import React from 'react';
 import {ViewPropTypes, StyleSheet, Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {colors} from '../utils';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function Avatar({imageStyle, uri, width, showPlayButton, elevation}) {
+export default function Avatar({imageStyle, uri, width, showPlayButton, elevation, iconName, IconType}) {
     return (
-        <View style={styles.container(elevation)}>
+        <View style={styles.container(elevation, imageStyle)}>
             {uri ? (
                 <Image
                     source={{uri}}
@@ -15,8 +15,8 @@ export default function Avatar({imageStyle, uri, width, showPlayButton, elevatio
                 />
             ) : (
                 <View style={styles.imageStyle(width, imageStyle)}>
-                    <FontAwesome
-                        name={'music'}
+                    <IconType
+                        name={iconName}
                         color={colors.grey}
                         size={width * 3 / 4}
                     />
@@ -38,6 +38,8 @@ Avatar.propTypes = {
     showPlayButton: PropTypes.bool,
     elevation: PropTypes.number,
     imageStyle: ViewPropTypes.style,
+    iconName: PropTypes.string,
+	IconType: PropTypes.any,
 };
 
 Avatar.defaultProps = {
@@ -46,13 +48,16 @@ Avatar.defaultProps = {
     showPlayButton: false,
     elevation: 1,
     imageStyle: {},
+	iconName: 'music',
+	IconType: FontAwesome,
 };
 
 const styles = StyleSheet.create({
-    container: elevation => ({
+    container: (elevation, imageStyle) => ({
         elevation,
         borderColor: colors.lightGrey,
         borderRadius: 5,
+        ...imageStyle
     }),
     imageStyle: (width, imageStyle) => ({
         width,
