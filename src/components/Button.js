@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, ColorPropType, ViewPropTypes} from "react-native";
+import {View, TouchableOpacity, ColorPropType, ViewPropTypes} from "react-native";
 import PropTypes from 'prop-types';
 
 export default function Button({
@@ -9,19 +9,32 @@ export default function Button({
     color,
     IconType,
     ButtonType,
-    onPress
+    onPress,
+	buttonProps,
 }) {
-    return (
+    return ButtonType === TouchableOpacity ? (
         <ButtonType
-            style={style}
-            onPress={onPress}
+	        onPress={onPress}
+	        style={style}
         >
-            <IconType
-                name={name}
-                size={iconSize}
-                color={color}
-            />
+	        <IconType
+		        name={name}
+		        size={iconSize}
+		        color={color}
+	        />
         </ButtonType>
+    ) : (
+	    <View style={style}>
+		    <ButtonType onPress={onPress} {...buttonProps}>
+			    <View style={style}>
+				    <IconType
+					    name={name}
+					    size={iconSize}
+					    color={color}
+				    />
+			    </View>
+		    </ButtonType>
+	    </View>
     )
 }
 

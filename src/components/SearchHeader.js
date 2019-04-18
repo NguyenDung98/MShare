@@ -21,11 +21,15 @@ export default class SearchHeader extends Component {
 	};
 
 	_handleSearchMusic = () => {
-		const {songsInStorage} = store.getState();
+		const {songsInStorage, albums, artists} = store.getState();
 		const searchValueLowerCase = this.state.searchValue.toLowerCase();
-		const searchedSongs = songsInStorage.filter(song => song.title.toLowerCase().includes(searchValueLowerCase));
+		const searchedItems = {
+			searchedSongs: songsInStorage.filter(song => song.title.toLowerCase().includes(searchValueLowerCase)),
+			searchedAlbums: albums.filter(album => album.title.toLowerCase().includes(searchValueLowerCase)),
+			searchedArtists: artists.filter(artist => artist.name.toLocaleLowerCase().includes(searchValueLowerCase)),
+		};
 
-		store.setState({searchedSongs})
+		store.setState({...searchedItems})
 	};
 
 	render() {
@@ -34,7 +38,7 @@ export default class SearchHeader extends Component {
 
 		return (
 			<View style={container}>
-				<StatusBar backgroundColor={HEADER_COLOR}/>
+				<StatusBar backgroundColor={colors.brightRed}/>
 				<MaterialCommunityIcons
 					name={'keyboard-backspace'}
 					size={60 * SCALE_RATIO}
@@ -66,11 +70,10 @@ export default class SearchHeader extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: HEADER_COLOR,
+		backgroundColor: colors.brightRed,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingBottom: 10,
 	},
 	icon: {
 		marginHorizontal: 34 * SCALE_RATIO,

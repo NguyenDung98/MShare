@@ -4,17 +4,18 @@ import {SCALE_RATIO, HEADER_COLOR, ICON_COLOR} from '../constants/constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import NavigationService from "../service/NavigationService";
+import {colors} from "../utils";
 
 export default class TabHeader extends Component {
 	_handleSearchPress = () => {
-		NavigationService.navigate('SearchResult');
+		NavigationService.navigate('SearchTabScreen');
 	};
 	render() {
 		const {container, icon} = styles;
 
 		return (
 			<View style={container}>
-				<StatusBar backgroundColor={HEADER_COLOR}/>
+				<StatusBar backgroundColor={colors.brightRed}/>
 				<MaterialCommunityIcons
 					name={'account-circle'}
 					size={60 * SCALE_RATIO}
@@ -36,8 +37,8 @@ export default class TabHeader extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		height: 90 * SCALE_RATIO + (Platform.OS === 'android' ? 0 : getStatusBarHeight()),
-		backgroundColor: HEADER_COLOR,
+		height: 49,
+		backgroundColor: colors.brightRed,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

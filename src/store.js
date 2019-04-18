@@ -3,11 +3,14 @@ let state = {
 	loadedSongs: [],
 	albums: [],
 	artists: [],
-	searchedSongs: [],
 	currentPlaySong: null,
 	currentPlaySongIndex: -1,
 	playList: [],
 	originalPlayList: [],
+	// search
+	searchedSongs: [],
+	searchedAlbums: [],
+	searchedArtists: [],
 	// widget
 	showStaticWidget: false,
 	currentPlayState: null,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
 import Button from "./Button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -10,7 +10,7 @@ import AlbumArtist from "./SongArtist";
 const MARGIN = 18;
 const ARTWORK_SIZE = (Dimensions.get('screen').width - (MARGIN * 3)) * 0.5;
 
-export default function AlbumItem({item, index}) {
+export default function AlbumItem({item, index, onPress}) {
 	const style = {
 		marginTop: index / 2 < 1 ? MARGIN : MARGIN / 2,
 		marginLeft: index % 2 === 0 ? MARGIN : MARGIN / 2,
@@ -30,48 +30,50 @@ export default function AlbumItem({item, index}) {
 	const {artwork, title, artist} = item;
 
 	return (
-		<View style={style}>
-			{artwork ? (
-				<Image
-					source={{uri: artwork}}
-					style={imageStyle}
-				/>
-			) : (
-				<View style={imageStyle}>
-					<FontAwesome
-						name={'music'}
-						color={colors.grey}
-						size={ARTWORK_SIZE * 3 / 4}
+		<TouchableWithoutFeedback onPress={onPress}>
+			<View style={style}>
+				{artwork ? (
+					<Image
+						source={{uri: artwork}}
+						style={imageStyle}
 					/>
-				</View>
-			)}
-			<View style={overlayStyle}>
-				<Button
-					style={moreBtnStyle}
-					IconType={Ionicons}
-					name={'md-more'}
-					iconSize={30}
-					color={'black'}
-				/>
-				<View style={albumInfoStyle}>
-					<AlbumArtist
-						artist={artist}
-						artistSize={11}
-						songTitle={title}
-						songSize={13}
-						songColor={'black'}
-						wrapperStyle={albumArtistStyle}
-					/>
+				) : (
+					<View style={imageStyle}>
+						<FontAwesome
+							name={'music'}
+							color={colors.grey}
+							size={ARTWORK_SIZE * 3 / 4}
+						/>
+					</View>
+				)}
+				<View style={overlayStyle}>
 					<Button
-						style={favoriteBtnStyle}
+						style={moreBtnStyle}
 						IconType={Ionicons}
-						name={'ios-heart-empty'}
+						name={'md-more'}
 						iconSize={30}
-						// color={colors.brightRed}
+						color={'black'}
 					/>
+					<View style={albumInfoStyle}>
+						<AlbumArtist
+							artist={artist}
+							artistSize={11}
+							songTitle={title}
+							songSize={13}
+							songColor={'black'}
+							wrapperStyle={albumArtistStyle}
+						/>
+						<Button
+							style={favoriteBtnStyle}
+							IconType={Ionicons}
+							name={'ios-heart-empty'}
+							iconSize={30}
+							// color={colors.brightRed}
+						/>
+					</View>
 				</View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	)
 }
 
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
 	albumArtistStyle: {
 		marginLeft: 5,
 		flexBasis: '80%',
-
 	},
 	favoriteBtnStyle: {
 		width: 30,

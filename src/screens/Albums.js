@@ -17,13 +17,28 @@ export default class Albums extends Component {
 	}
 
 	_renderItem = ({item, index}) => {
-		return <AlbumItem item={item} index={index}/>
+		const {navigation: {navigate, getParam}} = this.props;
+
+		return (
+			<AlbumItem
+				item={item}
+				index={index}
+				onPress={() => navigate('CollectionDetail', {
+					type: 'Album',
+					index,
+					dataName: getParam('dataName'),
+				})}
+			/>
+		)
 	};
 
 	render() {
+		const {navigation: {getParam}} = this.props;
+		const data = getParam('dataName');
+
 		return (
 			<FlatList
-				data={store.getState().albums}
+				data={store.getState()[data]}
 				renderItem={this._renderItem}
 				keyExtractor={keyExtractor}
 				numColumns={2}

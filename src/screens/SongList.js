@@ -49,11 +49,14 @@ export default class SongList extends Component {
 	};
 
 	render() {
+		const {navigation: {getParam}} = this.props;
+		const data = getParam('dataName');
+
 		return (
 			<View style={styles.container}>
 				<FlatList
 					keyExtractor={keyExtractor}
-					data={store.getState().loadedSongs}
+					data={store.getState()[data]}
 					renderItem={this._renderItem}
 					onEndReached={this._loadAudios}
 					getItemLayout={this._getItemLayout}

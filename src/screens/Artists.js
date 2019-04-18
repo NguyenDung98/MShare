@@ -8,6 +8,10 @@ import store from "../store";
 const keyExtractor = (_, index) => index.toString();
 
 export default class Artists extends Component {
+	static navigationOptions = {
+		title: 'Ca sĩ'
+	};
+
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate()
@@ -18,8 +22,9 @@ export default class Artists extends Component {
 		this.unsubcribe();
 	}
 
-	_renderItem = ({item}) => {
+	_renderItem = ({item, index}) => {
 		const {avatar, name, songs} = item;
+		const {navigation: {navigate, getParam}} = this.props;
 
 		return (
 			<ArtistItem
@@ -29,14 +34,22 @@ export default class Artists extends Component {
 				iconName={'modern-mic'}
 				IconType={Entypo}
 				imageStyle={{borderRadius: SONG_ITEM_WIDTH / 2}}
+				onPress={() => navigate('CollectionDetail', {
+					type: 'Ca sĩ',
+					index,
+					dataName: getParam('dataName'),
+				})}
 			/>
 		)
 	};
 
 	render() {
+		const {navigation: {getParam}} = this.props;
+		const dataName = getParam('dataName');
+
 		return (
 			<FlatList
-				data={store.getState().artists}
+				data={store.getState()[dataName]}
 				keyExtractor={keyExtractor}
 				renderItem={this._renderItem}
 			/>

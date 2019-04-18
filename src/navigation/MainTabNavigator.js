@@ -5,14 +5,25 @@ import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
 import TabHeader from '../components/TabHeader';
 import {HEADER_COLOR} from './../constants/constants'
-import SearchResult from "../screens/SearchResult";
 import Albums from "../screens/Albums";
 import Artists from "../screens/Artists";
+import CollectionDetail from "../screens/CollectionDetail";
+import {colors} from "../utils/colors";
+import SearchHeader from "../components/SearchHeader";
 
-const TabScreen = createMaterialTopTabNavigator({
-		SongList,
-		Albums,
-		Artists,
+const TabScreen = (songListData, albumsData, artistData) => createMaterialTopTabNavigator({
+		SongList: {
+			screen: SongList,
+			params: {dataName: songListData}
+		},
+		Albums: {
+			screen: Albums,
+			params: {dataName: albumsData}
+		},
+		Artists: {
+			screen: Artists,
+			params: {dataName: artistData}
+		},
 		// Online: PlayingOnline,
 	},
 	{
@@ -24,7 +35,7 @@ const TabScreen = createMaterialTopTabNavigator({
 			style: {
 				borderBottomLeftRadius: 26,
 				borderBottomRightRadius: 26,
-				backgroundColor: HEADER_COLOR,
+				backgroundColor: colors.brightRed,
 				paddingHorizontal: 25,
 				elevation: 5,
 			},
@@ -39,13 +50,19 @@ const TabScreen = createMaterialTopTabNavigator({
 	});
 
 const HomeStack = createStackNavigator({
-	TabScreen: {
-		screen: TabScreen,
+	SongsTabScreen: {
+		screen: TabScreen('loadedSongs', 'albums', 'artists'),
 		navigationOptions: {
 			header: <TabHeader/>,
 		},
 	},
-	SearchResult,
+	SearchTabScreen: {
+		screen: TabScreen('searchedSongs', 'searchedAlbums', 'searchedArtists'),
+		navigationOptions: ({navigation}) => ({
+			header: <SearchHeader navigation={navigation}/>,
+		}),
+	},
+	CollectionDetail,
 }, {
 	headerMode: 'float',
 });

@@ -1,6 +1,6 @@
 export const colors = {
-    brightRed: '#ff5a58',
-    brighterRed: '#ff7d6a',
+    brightRed: '#ff8551',
+    brighterRed: '#ffa680',
     lightGrey: '#ededed',
     grey: '#aaaaaa',
 	lighterGrey: '#f6f6f6',
