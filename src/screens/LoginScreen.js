@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button , Text} from 'react-native';
 // import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
  
@@ -34,6 +34,8 @@ export default class Login extends Component{
     return (
       <View>
           <Button onPress={()=> {this._fbAuth(this);}} title='FB Login' />
+          <Text>Or</Text>
+          <Button color='green' onPress={() => {this.props.navigation.navigate('TabScreen')}}  title='Continue'/>
       </View>
     );
   }
