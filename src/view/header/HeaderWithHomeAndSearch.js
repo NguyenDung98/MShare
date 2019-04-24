@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar, Platform } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Platform, Image, TouchableOpacity } from 'react-native';
 import { SCALE_RATIO, HEADER_COLOR, STATUSBAR_COLOR, ICON_COLOR } from '../../constants/constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -7,9 +7,9 @@ export function renderHeaderWithSearch() {
   return (
   <View style={styles.container}>
   <StatusBar backgroundColor= {STATUSBAR_COLOR}/>
-  
+  <TouchableOpacity>
   <MaterialCommunityIcons name ={'account-circle'} size={60 * SCALE_RATIO} style= {styles.icon} color={ICON_COLOR}/>
-
+  </TouchableOpacity>
   <Text style={{flex: 3, backgroundColor: 'green'}}></Text>
 
   <MaterialCommunityIcons name ={'magnify'} size={60 * SCALE_RATIO} style= {styles.icon} color={ICON_COLOR}/>
