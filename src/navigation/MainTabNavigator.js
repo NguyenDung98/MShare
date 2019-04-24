@@ -1,6 +1,8 @@
 import React from 'react';
-import {createStackNavigator, createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
+import { Platform, View, Text } from 'react-native';
+import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator } from 'react-navigation';
 
+import Playing from './../screens/Playing';
 import SongList from '../screens/SongList';
 import PlayingOnline from '../screens/PlayingOnline';
 import TabHeader from '../components/TabHeader';
@@ -62,12 +64,59 @@ const HomeStack = createStackNavigator({
 			header: <SearchHeader navigation={navigation}/>,
 		}),
 	},
-	CollectionDetail,
+Login: {
+    screen: Login,
+        navigationOptions: {
+        title: 'Welcome', header: null
+    }
+},
+
+Profile : ProfileScreen,
+
+    CollectionDetail,
 }, {
 	headerMode: 'float',
 });
 
-export default createAppContainer(HomeStack);
+
+
+// const TabNavigator = createBottomTabNavigator({
+//     // Playing: Playing,
+//     Other: OtherScreen,
+// });
+
+// const PlayingStack = createStackNavigator({
+//     Playing: Playing,
+//   });
+
+//   PlayingStack.navigationOptions = {
+//     tabBarLabel: 'Playing',
+//     tabBarIcon: ({ focused }) => (
+//         <TabBarIcon
+//             focused={focused}
+//             name={
+//                 Platform.OS === 'ios'
+//                     ? `ios-information-circle${focused ? '' : '-outline'}`
+//                     : 'md-information-circle'
+//             }
+//         />
+//     ),
+// };
+
+// const LinksStack = createStackNavigator({
+//   Other: OtherScreen,
+// });
+
+// LinksStack.navigationOptions = {
+//   tabBarLabel: 'others',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+//     />
+//   ),
+// };
+
 
 // HomeStack.navigationOptions = {
 //     tabBarLabel: 'Home',
@@ -97,6 +146,8 @@ export default createAppContainer(HomeStack);
 //   ),
 // };
 
+
+
 // const SettingsStack = createStackNavigator({
 //   Settings: SettingsScreen,
 // });
@@ -110,5 +161,9 @@ export default createAppContainer(HomeStack);
 //     />
 //   ),
 // };
+
+
+export default createAppContainer(HomeStack);
+
 
 
