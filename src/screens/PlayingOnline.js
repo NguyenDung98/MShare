@@ -90,6 +90,7 @@ export default class PlayingOnline extends Component {
     return (
       <View>
         <Button onPress={() => { this.readUserData(); }} title="SHOW" />
+        <Button title = {'To list friend'}  onPress = {() => {this.props.navigation.navigate('ListFriends')}}/>
       </View>
     );
   }

@@ -9,10 +9,12 @@ import HeaderWithHomeAndSearch, { renderHeaderWithSearch } from '../view/header/
 import { SCALE_RATIO } from '../constants/constants';
 import {HEADER_COLOR} from './../constants/constants'
 import Login from '../screens/LoginScreen';
+import ListFriends from '../screens/friends/ListFriends';
 
 const TabScreen = createMaterialTopTabNavigator({
     SongList: SongList,
     Online: PlayingOnline,
+    ListFriends : ListFriends
 },
 {
     tabBarPosition: 'top',
@@ -33,13 +35,19 @@ const TabScreen = createMaterialTopTabNavigator({
 
 
 const HomeStack = createStackNavigator({
-    Login: Login,
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            title: 'Welcome', header: null 
+        }
+    },
     TabScreen: {
         screen: TabScreen,
         navigationOptions: {
             header : renderHeaderWithSearch(),
         },
     },
+    
     Playing: Playing,
 
 });
