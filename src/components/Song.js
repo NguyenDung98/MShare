@@ -1,9 +1,9 @@
 import React from 'react';
-import {ColorPropType, TouchableNativeFeedback, StyleSheet, View, ViewPropTypes} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ColorPropType, TouchableNativeFeedback, TouchableWithoutFeedback, StyleSheet, View, ViewPropTypes} from 'react-native';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import PropTypes from 'prop-types';
 
 import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils/";
@@ -11,68 +11,92 @@ import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils/";
 export default class Song extends React.PureComponent {
 	static propTypes = {
 		uri: PropTypes.string,
-		songTitle: PropTypes.string.isRequired,
-		songColor: ColorPropType,
-		artist: PropTypes.string.isRequired,
-		artistColor: ColorPropType,
+		title: PropTypes.string,
+		titleColor: ColorPropType,
+		subTitle: PropTypes.string,
+		subTitleColor: ColorPropType,
 		onPress: PropTypes.func,
 		showAvatar: PropTypes.bool,
-		showPlayButton: PropTypes.bool,
-		iconName: PropTypes.string,
-		IconType: PropTypes.any,
+		showOverlayIcon: PropTypes.bool,
+		showAlternativeIcon: PropTypes.bool,
+		avatarIconName: PropTypes.string,
+		avatarIconType: PropTypes.any,
+		avatarIconWidth: PropTypes.number,
+		onButtonPress: PropTypes.func,
+		showMoreButton: PropTypes.bool,
+		buttonType: PropTypes.any,
+		buttonIconName: PropTypes.string,
+		buttonIconType: PropTypes.any,
 		imageStyle: ViewPropTypes.style,
 	};
 
 	static defaultProps = {
 		uri: '',
-		onPress: () => {},
+		onPress: null,
 		showAvatar: true,
-		showPlayButton: false,
+		showOverlayIcon: false,
+		avatarIconWidth: SONG_ITEM_WIDTH,
+		buttonIconName: 'md-more',
+		buttonIconType: Ionicons,
+		showMoreButton: true,
 	};
 
 	render() {
 		const {
 			uri,
-			showPlayButton,
+			showOverlayIcon,
+			showAlternativeIcon,
 			showAvatar,
-			songTitle,
-			artist,
+			title,
+			subTitle,
 			onPress,
-			songColor,
-			artistColor,
-			iconName,
-			IconType,
+			titleColor,
+			subTitleColor,
+			avatarIconName,
+			avatarIconType,
+			avatarIconWidth,
+			onButtonPress,
+			buttonType,
+			buttonIconName,
+			buttonIconType,
+			showMoreButton,
 			imageStyle
 		} = this.props;
+		let WrapperComponent = onPress ?  TouchableNativeFeedback : TouchableWithoutFeedback;
 		return (
-			<TouchableNativeFeedback onPress={onPress}>
+			<WrapperComponent onPress={onPress}>
 				<View style={styles.container}>
 					{showAvatar && (
 						<Avatar
 							uri={uri}
-							width={SONG_ITEM_WIDTH}
-							showPlayButton={showPlayButton}
-							IconType={IconType}
-							iconName={iconName}
+							width={avatarIconWidth}
+							showOverlayIcon={showOverlayIcon}
+							IconType={avatarIconType}
+							iconName={avatarIconName}
 							imageStyle={imageStyle}
+							showAlternativeIcon={showAlternativeIcon}
 						/>
 					)}
 					<SongArtist
-						songTitle={songTitle}
-						artist={artist}
+						songTitle={title}
+						artist={subTitle}
 						wrapperStyle={styles.songArtist}
-						songColor={songColor}
-						artistColor={artistColor}
+						songColor={titleColor}
+						artistColor={subTitleColor}
 					/>
-					<Button
-						style={styles.moreBtnStyle}
-						IconType={Ionicons}
-						name={'md-more'}
-						iconSize={30}
-						color={colors.grey}
-					/>
+					{showMoreButton && (
+						<IconButton
+							onPress={onButtonPress}
+							ButtonType={buttonType}
+							style={styles.moreBtnStyle}
+							IconType={buttonIconType}
+							name={buttonIconName}
+							iconSize={30}
+							color={colors.grey}
+						/>
+					)}
 				</View>
-			</TouchableNativeFeedback>
+			</WrapperComponent>
 		)
 	}
 }
@@ -80,9 +104,9 @@ export default class Song extends React.PureComponent {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        margin: 15,
-        marginTop: SONG_MARGIN,
-        marginBottom: SONG_MARGIN,
+        padding: 15,
+        paddingTop: SONG_MARGIN,
+        paddingBottom: SONG_MARGIN,
         alignItems: 'center',
 	    flex: 1,
     },
@@ -90,6 +114,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         marginLeft: 10,
 	    flexBasis: '70%',
+	    justifyContent: 'center',
     },
     moreBtnStyle: {
         width: 30,

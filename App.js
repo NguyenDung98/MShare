@@ -18,19 +18,26 @@ export default class App extends Component {
 	end = false;
 
 	async componentDidMount() {
-		this.unsubcribe = store.onChange(() => {
-			this.forceUpdate();
-			this.loading = false;
-		});
-		this.subscriptions = Action.subscriptions;
-		AppState.addEventListener('change', this._handleAppStateChange);
+		try {
+			this.unsubcribe = store.onChange(() => {
+				this.forceUpdate();
+				this.loading = false;
+			});
+			this.subscriptions = Action.subscriptions;
+			AppState.addEventListener('change', this._handleAppStateChange);
 
-		await this._getAudios();
-		Action.addToDisplaySongList(numOfFirstItems);
-		Action.setUpAlbumList();
-		Action.setUpArtistList();
-		await TrackPlayer.setupPlayer();
-		TrackPlayer.updateOptions(trackPlayerUpdateOptions);
+			// setup local data
+			if (!await Action.setUpLocalData()) {
+				await this._getSongs();
+				Action.addToDisplaySongList(numOfFirstItems);
+				Action.setUpAlbumList();
+				Action.setUpArtistList();
+			}
+			await TrackPlayer.setupPlayer();
+			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
+		} catch (e) {
+			console.log('error: ' + e)
+		}
 	}
 
 	componentWillUnmount() {
@@ -43,31 +50,36 @@ export default class App extends Component {
 		store.setState({appState});
 	};
 
-	_getAudios = async (after) => {
-		if (this.loading || this.end) return;
+	_getSongs = async (after) => {
+		try {
+			if (this.loading || this.end) return;
 
-		const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+			const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-		if (status !== 'granted') {
-			console.log("Camera roll permissions denied");
-			return;
+			if (status !== 'granted') {
+				console.log("Camera roll permissions denied");
+				return;
+			}
+
+			this.loading = true;
+
+			const results = await MediaLibrary.getAssetsAsync({
+				first: 100,
+				mediaType: "audio",
+				sortBy: "id",
+				after,
+			});
+
+			const {assets, endCursor, hasNextPage} = results;
+			const songs = await getAudioMetaData(assets);
+
+			this.cursor = hasNextPage ? endCursor : null;
+			this.end = !hasNextPage;
+			if (Action.addToSongList(songs)) await this._getSongs(endCursor);
+			await Action.saveData();
+		} catch (e) {
+			console.log('error: ' + e)
 		}
-
-		this.loading = true;
-
-		const results = await MediaLibrary.getAssetsAsync({
-			first: 100,
-			mediaType: "audio",
-			sortBy: "id",
-			after,
-		});
-
-		const {assets, endCursor, hasNextPage} = results;
-		const songs = await getAudioMetaData(assets);
-
-		this.cursor = hasNextPage ? endCursor : null;
-		this.end = !hasNextPage;
-		if (Action.addToSongList(songs)) await this._getAudios(endCursor);
 	};
 
 	render() {

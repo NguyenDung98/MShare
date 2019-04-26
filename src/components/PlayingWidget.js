@@ -34,25 +34,25 @@ export default class PlayingWidget extends React.Component {
    };
 
 	_shufflePlayList = shuffleState => {
-		const {playList, originalPlayList} = store.getState();
+		const {currentPlaylist, originalPlaylist} = store.getState();
 
 		if (shuffleState) {
-			const shuffledPlayList = shuffle(playList);
+			const shuffledPlayList = shuffle(currentPlaylist);
 			store.setState({
-				originalPlayList: playList,
-				playList: shuffledPlayList,
+				originalPlaylist: currentPlaylist,
+				currentPlaylist: shuffledPlayList,
 			})
 		} else {
 			store.setState({
-				playList: [...originalPlayList, ...playList.slice(originalPlayList.length)],
+				currentPlaylist: [...originalPlaylist, ...currentPlaylist.slice(originalPlaylist.length)],
 			})
 		}
 		this._updateCurrentPlaySong();
 	};
 
 	_updateCurrentPlaySong = () => {
-		const {currentPlaySong, playList} = store.getState();
-		const songIndex = playList.findIndex(song => song.id === currentPlaySong.id);
+		const {currentPlaySong, currentPlaylist} = store.getState();
+		const songIndex = currentPlaylist.findIndex(song => song.id === currentPlaySong.id);
 
 		store.setState({currentPlaySongIndex: songIndex});
 	};

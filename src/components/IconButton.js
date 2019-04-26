@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, ColorPropType, ViewPropTypes} from "react-native";
 import PropTypes from 'prop-types';
 
-export default function Button({
+export default function IconButton({
     style,
     name,
     iconSize,
@@ -16,6 +16,7 @@ export default function Button({
         <ButtonType
 	        onPress={onPress}
 	        style={style}
+	        {...buttonProps}
         >
 	        <IconType
 		        name={name}
@@ -38,7 +39,7 @@ export default function Button({
     )
 }
 
-Button.propTypes = {
+IconButton.propTypes = {
     style: ViewPropTypes.style,
     name: PropTypes.string,
     iconSize: PropTypes.number,
@@ -48,7 +49,7 @@ Button.propTypes = {
     onPress: PropTypes.func,
 };
 
-Button.defaultProps = {
+IconButton.defaultProps = {
     ButtonType: TouchableOpacity,
     onPress: () => {},
 };

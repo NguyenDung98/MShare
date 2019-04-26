@@ -1,11 +1,11 @@
 import React from 'react';
 import {ViewPropTypes, StyleSheet, Image, View} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 import {colors} from '../utils';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function Avatar({imageStyle, uri, width, showPlayButton, elevation, iconName, IconType}) {
+export default function Avatar({imageStyle, uri, width, showOverlayIcon, showAlternativeIcon, elevation, iconName, IconType}) {
     return (
         <View style={styles.container(elevation, imageStyle)}>
             {uri ? (
@@ -15,19 +15,21 @@ export default function Avatar({imageStyle, uri, width, showPlayButton, elevatio
                 />
             ) : (
                 <View style={styles.imageStyle(width, imageStyle)}>
-                    <IconType
+                    {showAlternativeIcon && (<IconType
                         name={iconName}
                         color={colors.grey}
                         size={width * 3 / 4}
-                    />
+                    />)}
                 </View>
             )}
-            {showPlayButton &&
-            <AntDesign
-                name={"play"}
-                size={width / 2}
-                style={styles.iconStyle(width)}
-            />}
+            {showOverlayIcon &&
+                <View style={styles.iconStyle(width)}>
+	                <Ionicons
+		                name={"ios-add-circle"}
+		                size={width / 2}
+                        color={colors.brightRed}
+	                />
+                </View>}
         </View>
     )
 }
@@ -35,17 +37,19 @@ export default function Avatar({imageStyle, uri, width, showPlayButton, elevatio
 Avatar.propTypes = {
     uri: PropTypes.string,
     width: PropTypes.number,
-    showPlayButton: PropTypes.bool,
-    elevation: PropTypes.number,
-    imageStyle: ViewPropTypes.style,
-    iconName: PropTypes.string,
+    showOverlayIcon: PropTypes.bool,
+	showAlternativeIcon: PropTypes.bool,
+	elevation: PropTypes.number,
+	imageStyle: ViewPropTypes.style,
+	iconName: PropTypes.string,
 	IconType: PropTypes.any,
 };
 
 Avatar.defaultProps = {
     uri: '',
     width: 60,
-    showPlayButton: false,
+	showOverlayIcon: false,
+	showAlternativeIcon: true,
     elevation: 1,
     imageStyle: {},
 	iconName: 'music',
@@ -69,11 +73,10 @@ const styles = StyleSheet.create({
         ...imageStyle
     }),
     iconStyle: width => ({
-        color: colors.brightRed,
         ...StyleSheet.absoluteFillObject,
         top: width / 4,
-        left: width / 4,
-        backgroundColor: colors.white,
+        left: width / 3,
+        // backgroundColor: colors.white,
         width: width / 2,
         height: width / 2,
         borderRadius: width / 4,

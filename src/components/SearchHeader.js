@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {View, TextInput, StyleSheet, StatusBar, Platform} from 'react-native';
-import {SCALE_RATIO, HEADER_COLOR, ICON_COLOR} from '../constants/constants';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, TextInput, StyleSheet, StatusBar, TouchableNativeFeedback} from 'react-native';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import IconButton from "./IconButton";
+
 import {colors} from "../utils";
 import store from "../store";
+import {SCALE_RATIO, HEADER_COLOR, ICON_COLOR} from '../constants/constants';
+
+const BACK_BUTTON_SIZE = 40;
 
 export default class SearchHeader extends Component {
 	state = {
@@ -21,12 +25,13 @@ export default class SearchHeader extends Component {
 	};
 
 	_handleSearchMusic = () => {
-		const {songsInStorage, albums, artists} = store.getState();
-		const searchValueLowerCase = this.state.searchValue.toLowerCase();
+		const {songsInStorage, albums, artists, playlists} = store.getState();
+		const searchValueLowerCase = this.state.searchValue.toLowerCase().trim();
 		const searchedItems = {
 			searchedSongs: songsInStorage.filter(song => song.title.toLowerCase().includes(searchValueLowerCase)),
 			searchedAlbums: albums.filter(album => album.title.toLowerCase().includes(searchValueLowerCase)),
 			searchedArtists: artists.filter(artist => artist.name.toLocaleLowerCase().includes(searchValueLowerCase)),
+			searchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValueLowerCase)),
 		};
 
 		store.setState({...searchedItems})
@@ -34,16 +39,21 @@ export default class SearchHeader extends Component {
 
 	render() {
 		const {searchValue} = this.state;
-		const {container, icon, searchInputContainer, searchInput} = styles;
+		const {container, backBtnStyle, searchInputContainer, searchInput} = styles;
 
 		return (
 			<View style={container}>
 				<StatusBar backgroundColor={colors.brightRed}/>
-				<MaterialCommunityIcons
-					name={'keyboard-backspace'}
-					size={60 * SCALE_RATIO}
-					style={icon}
+				<IconButton
+					name={'ios-arrow-round-back'}
+					iconSize={BACK_BUTTON_SIZE}
+					style={backBtnStyle}
 					color={ICON_COLOR}
+					IconType={Ionicons}
+					ButtonType={TouchableNativeFeedback}
+					buttonProps={{
+						background: TouchableNativeFeedback.Ripple(colors.lighterGrey, true)
+					}}
 					onPress={this._handleDisableSearch}
 				/>
 				<View style={searchInputContainer}>
@@ -60,7 +70,7 @@ export default class SearchHeader extends Component {
 					/>
 				</View>
 				<View
-					style={[icon, {width: 60 * SCALE_RATIO}]}
+					style={backBtnStyle}
 				/>
 			</View>
 		);
@@ -75,10 +85,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
-	icon: {
-		marginHorizontal: 34 * SCALE_RATIO,
-		// paddingTop: 30 * SCALE_RATIO,
-		alignItems: "center",
+	backBtnStyle: {
+		marginLeft: 10,
+		width: BACK_BUTTON_SIZE * 0.7,
+		height: BACK_BUTTON_SIZE * 0.7,
+		borderRadius: BACK_BUTTON_SIZE / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	searchInputContainer: {
 		flexGrow: 1,

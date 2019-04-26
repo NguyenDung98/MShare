@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import {colors, REPEAT_STATE, skipToNext, skipToPrevious} from "../utils";
 
 const BUTTON_SIZE = 70;
@@ -39,7 +39,7 @@ export default function PlayingButtons({
 
 	return (
 		<View style={buttonsContainer}>
-			<Button
+			<IconButton
 				name={repeatIcon}
 				iconSize={BUTTON_SIZE / 2}
 				color={repeatState === REPEAT_STATE.off ? colors.grey : colors.brightRed}
@@ -47,7 +47,7 @@ export default function PlayingButtons({
 				onPress={onRepeatTogglePress}
 			/>
 			<View style={playButtonsContainer}>
-				<Button
+				<IconButton
 					style={skipBtn}
 					name={'ios-skip-backward'}
 					iconSize={BUTTON_SIZE / 3.5}
@@ -55,7 +55,7 @@ export default function PlayingButtons({
 					IconType={Ionicons}
 					onPress={skipToPrevious}
 				/>
-				<Button
+				<IconButton
 					style={playBtn}
 					name={playing ? 'ios-pause' : 'ios-play'}
 					iconSize={BUTTON_SIZE / 2}
@@ -63,7 +63,7 @@ export default function PlayingButtons({
 					onPress={onPlayTogglePress}
 					IconType={Ionicons}
 				/>
-				<Button
+				<IconButton
 					style={skipBtn}
 					name={'ios-skip-forward'}
 					iconSize={BUTTON_SIZE / 3.5}
@@ -72,7 +72,7 @@ export default function PlayingButtons({
 					onPress={skipToNext}
 				/>
 			</View>
-			<Button
+			<IconButton
 				name={'ios-shuffle'}
 				iconSize={35}
 				color={shuffleState ? colors.brightRed : colors.grey}

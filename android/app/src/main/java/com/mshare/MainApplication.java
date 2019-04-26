@@ -3,6 +3,7 @@ package com.mshare;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.venepe.RNMusicMetadata.RNMusicMetadataPackage;
 import com.guichaguri.trackplayer.TrackPlayer;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new RNGestureHandlerPackage(),
             new RNMusicMetadataPackage(),
             new TrackPlayer(),

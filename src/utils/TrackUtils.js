@@ -4,22 +4,22 @@ import {REPEAT_STATE} from "./constants";
 import * as Action from "../actions";
 
 export const skipToNext = async () => {
-	const {currentPlaySongIndex, playList} = store.getState();
+	const {currentPlaySongIndex, currentPlaylist} = store.getState();
 	if (currentPlaySongIndex !== -1) {
-		const nextSongIndex = currentPlaySongIndex + 1 >= playList.length ?
+		const nextSongIndex = currentPlaySongIndex + 1 >= currentPlaylist.length ?
 			0 : currentPlaySongIndex + 1;
 
-		await TrackPlayer.skip(playList[nextSongIndex].id);
+		await TrackPlayer.skip(currentPlaylist[nextSongIndex].id);
 	}
 };
 
 export const skipToPrevious = async () => {
-	const {currentPlaySongIndex, playList} = store.getState();
+	const {currentPlaySongIndex, currentPlaylist} = store.getState();
 	if (currentPlaySongIndex !== -1) {
 		const prevSongIndex = currentPlaySongIndex - 1 < 0 ?
-			playList.length - 1 : currentPlaySongIndex - 1;
+			currentPlaylist.length - 1 : currentPlaySongIndex - 1;
 
-		await TrackPlayer.skip(playList[prevSongIndex].id);
+		await TrackPlayer.skip(currentPlaylist[prevSongIndex].id);
 	}
 };
 
@@ -36,7 +36,7 @@ export const togglePlay = async () => {
 };
 
 export const repeatOrNext = async (value, duration) => {
-	const {repeatState, currentPlaySongIndex, playList, currentPlaySong} = store.getState();
+	const {repeatState, currentPlaySongIndex, currentPlaylist, currentPlaySong} = store.getState();
 
 	if (duration !== 0 && Math.ceil(value) >= Math.floor(duration)) {
 		switch (repeatState) {
@@ -48,7 +48,7 @@ export const repeatOrNext = async (value, duration) => {
 				break;
 			case REPEAT_STATE.off:
 				await skipToNext();
-				if (currentPlaySongIndex === playList.length - 1) {
+				if (currentPlaySongIndex === currentPlaylist.length - 1) {
 					await TrackPlayer.stop();
 				}
 		}
@@ -59,14 +59,10 @@ export const repeatOrNext = async (value, duration) => {
 };
 
 export const playSong = async (item) => {
-	const {playList} = store.getState();
-	let track = {
-		...item,
-		url: item.uri,
-	};
+	const {currentPlaylist} = store.getState();
 
-	Action.updateCurrentPlaySong(item, playList.length);
-	await Action.addToPlayList(track, true);
-	await TrackPlayer.skip(track.id);
+	Action.updateCurrentPlaySong(item, currentPlaylist.length);
+	await Action.addToPlayingList(item, true);
+	await TrackPlayer.skip(item.id);
 	await TrackPlayer.play();
 };

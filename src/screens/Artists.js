@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import ArtistItem from "../components/Song";
 import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import {SONG_ITEM_WIDTH} from '../utils/';
 import store from "../store";
 
@@ -29,13 +31,22 @@ export default class Artists extends Component {
 		return (
 			<ArtistItem
 				uri={avatar}
-				songTitle={name}
-				artist={songs.length + ' bài hát'}
-				iconName={'modern-mic'}
-				IconType={Entypo}
-				imageStyle={{borderRadius: SONG_ITEM_WIDTH / 2}}
+				title={name}
+				subTitle={songs.length + ' bài hát'}
+				avatarIconName={'modern-mic'}
+				avatarIconType={Entypo}
+				avatarIconWidth={50}
+				buttonType={TouchableWithoutFeedback}
+				buttonIconName={'chevron-small-right'}
+				buttonIconType={Entypo}
+				imageStyle={{borderRadius: SONG_ITEM_WIDTH / 2, width: 65}}
 				onPress={() => navigate('CollectionDetail', {
-					type: 'Ca sĩ',
+					type: 'Artist',
+					index,
+					dataName: getParam('dataName'),
+				})}
+				onButtonPress={() => navigate('CollectionDetail', {
+					type: 'Artist',
 					index,
 					dataName: getParam('dataName'),
 				})}

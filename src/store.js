@@ -4,13 +4,16 @@ let state = {
 	albums: [],
 	artists: [],
 	currentPlaySong: null,
-	currentPlaySongIndex: -1,
-	playList: [],
-	originalPlayList: [],
+	currentPlaySongIndex: -1, // before shuffle
+	// playList
+	currentPlaylist: [],
+	originalPlaylist: [],
+	playlists: [],
 	// search
 	searchedSongs: [],
 	searchedAlbums: [],
 	searchedArtists: [],
+	searchedPlaylists: [],
 	// widget
 	showStaticWidget: false,
 	currentPlayState: null,

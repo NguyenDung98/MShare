@@ -20,21 +20,23 @@ export default function SongArtist({
             >
                 {songTitle}
             </Text>
-            <Text
-                style={styles.artist(artistSize, artistColor)}
-                numberOfLines={1}
-                ellipsizeMode={'tail'}
-            >
-                {artist}
-            </Text>
+            {artist && (
+	            <Text
+		            style={styles.artist(artistSize, artistColor)}
+		            numberOfLines={1}
+		            ellipsizeMode={'tail'}
+	            >
+		            {artist}
+	            </Text>
+            )}
         </View>
     );
 
 }
 
 SongArtist.propTypes = {
-    artist: PropTypes.string.isRequired,
-    songTitle: PropTypes.string.isRequired,
+    artist: PropTypes.string,
+    songTitle: PropTypes.string,
     artistSize: PropTypes.number,
     wrapperStyle: ViewPropTypes.style,
 	songColor: ColorPropType,

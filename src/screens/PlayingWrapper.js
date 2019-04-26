@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal, StyleSheet, ViewPagerAndroid, View} from 'react-native';
-import PlayList from "./PlayList";
+import CurrentPlaylist from "./CurrentPlaylist";
 import Playing from "./Playing";
 import PropTypes from 'prop-types';
 
@@ -20,7 +20,7 @@ export default function PlayingWrapper({visible, onRequestClose}) {
 					style={styles.pageStyle}
 					key={'1'}
 				>
-					<PlayList/>
+					<CurrentPlaylist/>
 				</View>
 				<View
 					style={styles.pageStyle}

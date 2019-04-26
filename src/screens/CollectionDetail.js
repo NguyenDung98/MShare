@@ -47,6 +47,13 @@ export default class CollectionDetail extends Component {
 					title,
 					type,
 				})
+			} else if (type === 'Playlist') {
+				const {songs, title} = store.getState()[dataName][index];
+				this.setState({
+					songs,
+					title,
+					type,
+				})
 			} else {
 				const {songs, avatar, name} = store.getState()[dataName][index];
 				this.setState({
@@ -83,8 +90,8 @@ export default class CollectionDetail extends Component {
 		return (
 			<Song
 				uri={artwork}
-				artist={artist}
-				songTitle={title}
+				subTitle={artist}
+				title={title}
 				onPress={() => playSong(item)}
 			/>
 		)

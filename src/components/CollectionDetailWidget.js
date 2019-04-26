@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from "react-native";
 import Avatar from "./Avatar";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import {AVATAR_MARGIN_LEFT, AVATAR_SIZE, colors, WIDGET_BUTTON_SIZE} from "../utils";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -23,21 +23,21 @@ export default function CollectionDetailWidget({image}) {
 				elevation={2}
 			/>
 			<View style={widgetBtnContainerStyle}>
-				<Button
+				<IconButton
 					name={'ios-shuffle'}
 					color={colors.grey}
 					iconSize={WIDGET_BUTTON_SIZE}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE)}
 				/>
-				<Button
+				<IconButton
 					name={'ios-play'}
 					color={colors.brightRed}
 					iconSize={WIDGET_BUTTON_SIZE * 1.5}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE * 1.5)}
 				/>
-				<Button
+				<IconButton
 					name={'repeat'}
 					color={colors.grey}
 					iconSize={WIDGET_BUTTON_SIZE}

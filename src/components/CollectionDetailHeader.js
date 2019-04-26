@@ -1,12 +1,21 @@
 import React from 'react';
 import {StyleSheet, Image, Text, TouchableNativeFeedback, View, StatusBar, Animated} from "react-native";
 import {AVATAR_MARGIN_LEFT, AVATAR_SIZE, colors, SCREEN_HEIGHT} from "../utils";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const BACK_BUTTON_SIZE = 40;
 
-export default function CollectionDetailHeader({image, title, type, songs, goBack, onLayout, customTitleStyle, customTitleContainerStyle}) {
+export default function CollectionDetailHeader({
+	image,
+	title,
+	type,
+	songs,
+	goBack,
+	onLayout,
+	customTitleStyle,
+	customTitleContainerStyle,
+}) {
 	const {
 		overlayStyle,
 		backBtnStyle,
@@ -23,7 +32,7 @@ export default function CollectionDetailHeader({image, title, type, songs, goBac
 				resizeMode={'cover'}
 			/>
 			<View style={overlayStyle}>
-				<Button
+				<IconButton
 					name={'ios-arrow-round-back'}
 					IconType={Ionicons}
 					iconSize={BACK_BUTTON_SIZE}
@@ -67,7 +76,6 @@ const styles = StyleSheet.create({
 		borderRadius: BACK_BUTTON_SIZE / 2,
 		alignItems: 'center',
 		justifyContent: 'center',
-
 	},
 	textContainerStyle: {
 		position: 'absolute',

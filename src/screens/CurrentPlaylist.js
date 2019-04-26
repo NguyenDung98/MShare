@@ -7,7 +7,7 @@ import TrackPlayer from "react-native-track-player";
 
 const keyExtractor = item => item.id;
 
-export default class PlayList extends Component {
+export default class CurrentPlaylist extends Component {
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate();
@@ -25,23 +25,23 @@ export default class PlayList extends Component {
 		if (currentPlaySongIndex === index) {
 			return (
 				<Song
-					artist={artist}
-					songTitle={title}
+					subTitle={artist}
+					title={title}
 					showAvatar={false}
 					onPress={async () => {
 						await TrackPlayer.skip(item.id);
 						await TrackPlayer.play();
 					}}
-					artistColor={colors.brighterRed}
-					songColor={colors.brightRed}
+					subTitleColor={colors.brighterRed}
+					titleColor={colors.brightRed}
 				/>
 			)
 		}
 
 		return (
 			<Song
-				artist={artist}
-				songTitle={title}
+				subTitle={artist}
+				title={title}
 				showAvatar={false}
 				onPress={async () => {
 					await TrackPlayer.skip(item.id);
@@ -52,13 +52,13 @@ export default class PlayList extends Component {
 	};
 
 	render() {
-		const {playList, currentPlaySongIndex} = store.getState();
+		const {currentPlaylist, currentPlaySongIndex} = store.getState();
 
 		return (
 			<View style={styles.container}>
 				<FlatList
 					keyExtractor={keyExtractor}
-					data={playList}
+					data={currentPlaylist}
 					extraData={currentPlaySongIndex}
 					renderItem={this._renderItem}
 					// getItemLayout={this._getItemLayout}

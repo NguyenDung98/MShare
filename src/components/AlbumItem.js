@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, Image, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import {colors} from "../utils";
@@ -47,13 +47,14 @@ export default function AlbumItem({item, index, onPress}) {
 					</View>
 				)}
 				<View style={overlayStyle}>
-					<Button
-						style={moreBtnStyle}
-						IconType={Ionicons}
-						name={'md-more'}
-						iconSize={30}
-						color={'black'}
-					/>
+					{/*<IconButton*/}
+						{/*style={moreBtnStyle}*/}
+						{/*IconType={Ionicons}*/}
+						{/*name={'md-more'}*/}
+						{/*iconSize={30}*/}
+						{/*color={'black'}*/}
+						{/*onPress={onMoreBtnPress}*/}
+					{/*/>*/}
 					<View style={albumInfoStyle}>
 						<AlbumArtist
 							artist={artist}
@@ -63,7 +64,7 @@ export default function AlbumItem({item, index, onPress}) {
 							songColor={'black'}
 							wrapperStyle={albumArtistStyle}
 						/>
-						<Button
+						<IconButton
 							style={favoriteBtnStyle}
 							IconType={Ionicons}
 							name={'ios-heart-empty'}

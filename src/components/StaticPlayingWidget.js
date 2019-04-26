@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {TouchableNativeFeedback, View, StyleSheet} from "react-native";
 import Avatar from "./Avatar";
 import SongArtist from "./SongArtist";
-import Button from "./Button";
+import IconButton from "./IconButton";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PlayingWrapper from "../screens/PlayingWrapper";
 import TrackPlayer from 'react-native-track-player';
@@ -75,7 +75,7 @@ class StaticPlayingWidget extends Component {
 						artistSize={12}
 						songSize={15}
 					/>
-					<Button
+					<IconButton
 						IconType={Ionicons}
 						name={'ios-skip-backward'}
 						style={buttonStyle(30)}
@@ -83,7 +83,7 @@ class StaticPlayingWidget extends Component {
 						color={'black'}
 						onPress={skipToPrevious}
 					/>
-					<Button
+					<IconButton
 						IconType={Ionicons}
 						name={isPlaying ? 'ios-pause' : 'ios-play'}
 						style={buttonStyle(45)}
@@ -91,7 +91,7 @@ class StaticPlayingWidget extends Component {
 						color={'black'}
 						onPress={togglePlay}
 					/>
-					<Button
+					<IconButton
 						IconType={Ionicons}
 						name={'ios-skip-forward'}
 						style={buttonStyle(30)}
