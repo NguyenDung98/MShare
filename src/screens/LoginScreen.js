@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
-import {LoginManager, AccessToken} from "react-native-fbsdk";
-import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';
-import firebase from './../firebase/firebase';
-import {SCALE_RATIO} from '../constants/constants';
 import {Button} from 'native-base';
+
+import {LoginManager, AccessToken, GraphRequestManager, GraphRequest} from "react-native-fbsdk";
+import firebase from '@firebase/app';
+import '@firebase/auth';
+import '@firebase/database';
+import {SCALE_RATIO} from '../constants/constants';
+
+import store from "../store";
+import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';
 
 export default class Login extends Component {
 	constructor(props) {
@@ -15,12 +20,46 @@ export default class Login extends Component {
 		this.checkExistToken()
 	};
 
+	componentDidMount() {
+		// this.unsubcribe = store.onChange({
+		//
+		// })
+	}
+
 	async checkExistToken() {
 		const token = await getAccessToken();
 		if (token !== '') {
 			this.props.navigation.navigate('TabScreen');
 		}
 	}
+
+	_login = async () => {
+		try {
+			const loginResult = await LoginManager.logInWithReadPermissions(["public_profile", "user_friends", "email"]);
+
+			if (!loginResult.isCancelled) {
+				const {accessToken} = await AccessToken.getCurrentAccessToken();
+				await saveAccessToken(accessToken.toString());
+
+				const infoRequest = new GraphRequest(
+					'/me',
+					{
+						httpMethod: 'GET',
+						parameters: {fields: {string: "id,email,name,friends{id,name}"}}
+					},
+					(error, result) => {
+						store.setState({
+							user: result,
+						})
+					}
+				);
+				new GraphRequestManager().addRequest(infoRequest).start();
+
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	_fbAuth(self) {
 		LoginManager.logInWithReadPermissions(["public_profile", "user_friends", "email"]).then(
@@ -35,9 +74,7 @@ export default class Login extends Component {
 					AccessToken.getCurrentAccessToken().then(
 						(data) => {
 							saveAccessToken(data.accessToken.toString());
-							// const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-							// firebase.auth().signInAndRetrieveDataWithCredential(credential)
-							console.log(getAccessToken())
+							console.log(getAccessToken());
 							// Luu avatar
 							fetch('https://graph.facebook.com/me?fields=picture&access_token=' + data.accessToken)
 								.then((response) => response.json())
@@ -90,7 +127,7 @@ export default class Login extends Component {
 			<View style={styles.container}>
 				<View style={styles.form}>
 					<Button block primary style={styles.button} onPress={() => {
-						this._fbAuth(this);
+						this._login();
 					}}>
 						<Text style={{color: 'white', alignItems: 'center'}}>Facebook login</Text></Button>
 					{/* <Button style={styles.button} /> */}
