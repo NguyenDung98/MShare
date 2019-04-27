@@ -47,22 +47,9 @@ export default class ProfileScreen extends Component {
 	}
 
 	componentDidMount() {
-		// console.log("==========Get profile===========")
-		// getProfile(this.state.token, this);
-		// console.log(this.state.avt);
-		return fetch('https://graph.facebook.com/me?fields=name,picture.height(148)&access_token=' + this.state.token)
-			.then((response) => response.json())
-			.then((responseJson) => {
-				console.log("===============PROFILE===========")
-				console.log(responseJson)
-				this.setState({
-					name: responseJson.name,
-					avt: responseJson.picture.data.url,
-				})
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+		console.log("==========Get profile===========")
+		getProfile(this.state.token, this);
+
 	}
 
 
