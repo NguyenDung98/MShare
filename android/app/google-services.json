@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "53496378186",
+    "firebase_url": "https://mshare-d1155.firebaseio.com",
+    "project_id": "mshare-d1155",
+    "storage_bucket": "mshare-d1155.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53496378186:android:72918d1f8977c429",
+        "android_client_info": {
+          "package_name": "com.mshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "53496378186-9e0nt7vdfqfrk52vgkbcnb29d1ssm1qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4YAbAMY9JYwuN64yM0R2iaQ6k3KPdog8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53496378186-9e0nt7vdfqfrk52vgkbcnb29d1ssm1qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
