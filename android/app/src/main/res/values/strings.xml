@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MShare</string>
+    <string name="facebook_app_id">409014153244837</string> <string name="fb_login_protocol_scheme">fb409014153244837</string>
 </resources>

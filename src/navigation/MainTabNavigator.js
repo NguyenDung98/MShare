@@ -13,6 +13,8 @@ import Playlists from "../screens/Playlists";
 
 import {colors} from "../utils/colors";
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from "../utils";
+import LoginScreen from "../screens/LoginScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
 
 const TabScreen = (songListData, albumsData, artistData, playlistsData) => {
 	const TAB_BAR_PADDING = 25;
@@ -69,6 +71,13 @@ const TabScreen = (songListData, albumsData, artistData, playlistsData) => {
 };
 
 const HomeStack = createStackNavigator({
+	Login: {
+		screen: LoginScreen,
+		navigationOptions: {
+			title: 'Welcome',
+			header: null
+		}
+	},
 	HomeScreen,
 	SongsTabScreen: {
 		screen: TabScreen('loadedSongs', 'albums', 'artists', 'playlists'),
@@ -84,6 +93,7 @@ const HomeStack = createStackNavigator({
 		}),
 	},
 	CollectionDetail,
+	Profile : ProfileScreen,
 }, {
 	headerMode: 'float',
 });

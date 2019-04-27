@@ -1,17 +1,34 @@
 import React, {Component} from 'react';
-import {View, Text, SectionList, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, SectionList, StyleSheet, TouchableWithoutFeedback, TouchableNativeFeedback} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SectionItem from "../components/Song";
 
-import {deviceSection, SONG_MARGIN} from "../utils";
+import {colors, deviceSection, SONG_MARGIN} from "../utils";
 import store from "../store";
+import IconButton from "../components/IconButton";
+import {ICON_COLOR} from "../constants/constants";
 
 const keyExtractor = (_, index) => index.toString();
+const BUTTON_SIZE = 40;
 
 export default class HomeScreen extends Component {
-	// static navigationOptions = {
-	//
-	// };
+	static navigationOptions = ({navigation: {navigate}}) => ({
+		headerLeft: (
+			<IconButton
+				name={'account-circle'}
+				iconSize={BUTTON_SIZE}
+				style={styles.leftHeaderBtnStyle}
+				color={ICON_COLOR}
+				IconType={MaterialIcons}
+				ButtonType={TouchableNativeFeedback}
+				buttonProps={{
+					background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
+				}}
+				onPress={() => navigate('Profile')}
+			/>
+		)
+	});
 
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
@@ -69,4 +86,13 @@ export default class HomeScreen extends Component {
 	}
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	leftHeaderBtnStyle: {
+		marginLeft: 10,
+		width: BUTTON_SIZE,
+		height: BUTTON_SIZE,
+		borderRadius: BUTTON_SIZE / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+	}
+});
