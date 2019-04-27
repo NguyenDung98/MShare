@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AppState, View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
+import firebase from '@firebase/app';
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
 import * as MediaLibrary from "expo-media-library";
@@ -9,7 +10,13 @@ import TrackPlayer from "react-native-track-player";
 
 import NavigationService from "./src/service/NavigationService";
 import * as Action from './src/actions/'
-import {getAudioMetaData, numOfFirstItems, SONG_ITEM_WIDTH, trackPlayerUpdateOptions} from "./src/utils";
+import {
+	firebaseConfig,
+	getAudioMetaData,
+	numOfFirstItems,
+	SONG_ITEM_WIDTH,
+	trackPlayerUpdateOptions
+} from "./src/utils";
 import store from "./src/store";
 
 export default class App extends Component {
@@ -33,6 +40,9 @@ export default class App extends Component {
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
+			// setup firebase
+			firebase.initializeApp(firebaseConfig);
+			// setup track player
 			await TrackPlayer.setupPlayer();
 			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
 		} catch (e) {
