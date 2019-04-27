@@ -12,6 +12,8 @@ import Artists from "../screens/Artists";
 import CollectionDetail from "../screens/CollectionDetail";
 import {colors} from "../utils/colors";
 import SearchHeader from "../components/SearchHeader";
+import LoginScreen from './../screens/LoginScreen'
+import ProfileScreen from '../screens/profile/ProfileScreen';
 
 const TabScreen = (songListData, albumsData, artistData) => createMaterialTopTabNavigator({
 		SongList: {
@@ -52,10 +54,18 @@ const TabScreen = (songListData, albumsData, artistData) => createMaterialTopTab
 	});
 
 const HomeStack = createStackNavigator({
+	Login: {
+		screen: LoginScreen,
+			navigationOptions: {
+			title: 'Welcome', 
+			header: null
+		}
+	},
 	SongsTabScreen: {
 		screen: TabScreen('loadedSongs', 'albums', 'artists'),
 		navigationOptions: {
 			header: <TabHeader/>,
+			title: 'Thông tin cá nhân'
 		},
 	},
 	SearchTabScreen: {
@@ -64,12 +74,7 @@ const HomeStack = createStackNavigator({
 			header: <SearchHeader navigation={navigation}/>,
 		}),
 	},
-Login: {
-    screen: Login,
-        navigationOptions: {
-        title: 'Welcome', header: null
-    }
-},
+
 
 Profile : ProfileScreen,
 

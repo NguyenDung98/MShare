@@ -26,19 +26,20 @@ export const saveAccessToken = async (token = '') => {
     }
 };
 
-export const saveAvt = async (avt = '') => {
-    try {
-        await AsyncStorage.setItem('@avatar08022019:key', avt);
-    } catch (e) {
-        console.log(e);
-    }
-};
+// export const saveAvt = async (avt = '') => {
+//     try {
+//         await AsyncStorage.setItem('@avatar08022019:key', avt);
+//     } catch (e) {
+//         console.log(e);
+//     }
+// };
 
-export const getAvtURL = async () => {
-    try {
-        const token = await AsyncStorage.getItem('@avatar08022019:key');
-        return (avt !== null) ? avt : '';
-    } catch (error) {
-        return '';
-    }
-};
+// export const getAvtURL = async () => {
+//     try {
+//         const token = await AsyncStorage.getItem('@avatar08022019:key');
+//         return (avt !== null) ? avt : '';
+//     } catch (error) {
+//         return '';
+//     }
+// };
+

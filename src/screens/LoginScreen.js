@@ -5,6 +5,7 @@ import { saveAccessToken, getAccessToken, saveAvt } from '../utils/asyncStorage'
 import firebase from './../firebase/firebase';
 import { SCALE_RATIO } from '../constants/constants';
 import { Button } from 'native-base'
+import NavigationService from '../service/NavigationService';
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,7 @@ export default class Login extends Component {
   async checkExistToken() {
     const token = await getAccessToken();
     if (token !== '') {
-      this.props.navigation.navigate('TabScreen');
+      NavigationService.navigate('SongsTabScreen');
     }
   }
 
@@ -37,28 +38,21 @@ export default class Login extends Component {
               // const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
               // firebase.auth().signInAndRetrieveDataWithCredential(credential)
               console.log(getAccessToken())
-              // Luu avatar
-              fetch('https://graph.facebook.com/me?fields=picture&access_token=' +  data.accessToken)
-              .then((response) => response.json())
-              .then((responseJson) => {
-                  console.log("===============PICTURE===========")
-                  console.log(responseJson)
-                  saveAvt(responseJson.picture.data.url)
-              })
-              .catch((error) => {
-                  console.error(error);
-              });
-              //Kiem tra Id co ton tai k
-              fetch('https://graph.facebook.com/me?fields=id,name&access_token=' + data.accessToken)
+
+              //Luu avatar & Kiem tra Id co ton tai k
+              fetch('https://graph.facebook.com/me?fields=id&access_token=' + data.accessToken)
                 .then((response) => response.json())
                 .then((responseJson) => {
                   console.log("===============INFO USER==========")
-                  console.log(responseJson)
+                  console.log(responseJson);
+                  
+                  //Kiem tra user
                   firebase.database().ref().child('Users/' + responseJson.id).once('value', snapshot => {
                     if (!snapshot.exists()) {
                       firebase.database().ref('Users/' + responseJson.id).set({
                         name: responseJson.name,
-                        state: true
+                        state: true, 
+                        accessToken : data.accessToken
                       }).then((data) => {
                         //success callback
                         console.log('data ', data)
@@ -73,7 +67,8 @@ export default class Login extends Component {
                   console.error(error);
                 });
 
-              self.props.navigation.navigate("TabScreen");
+              // self.props.navigation.navigate("SongsTabScreen");
+              NavigationService.navigate('SongsTabScreen')
             }
           );
         }
@@ -123,7 +118,7 @@ export default class Login extends Component {
             <Text style={{ color: 'white', alignItems: 'center' }}>Facebook login</Text></Button>
           {/* <Button style={styles.button} /> */}
           <Text  >Hoặc</Text>
-          <Button block info style={styles.button} onPress={() => { this.props.navigation.navigate('TabScreen') }} >
+          <Button block info style={styles.button} onPress={() => { this.props.navigation.navigate('SongsTabScreen') }} >
             <Text style={{ color: 'white', alignItems: 'center' }}>Tiếp tục</Text></Button>
         </View>
       </View>
