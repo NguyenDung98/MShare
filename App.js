@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import {AppState, View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
 import firebase from '@firebase/app';
+import '@firebase/auth';
+import '@firebase/database';
+import '@firebase/storage';
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
 import * as MediaLibrary from "expo-media-library";
 import * as Permissions from "expo-permissions";
 import TrackPlayer from "react-native-track-player";
 
-import NavigationService from "./src/service/NavigationService";
+import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
 	firebaseConfig,
@@ -24,7 +27,7 @@ export default class App extends Component {
 	cursor = null;
 	end = false;
 
-	async componentDidMount() {
+	async componentWillMount() {
 		try {
 			this.unsubcribe = store.onChange(() => {
 				this.forceUpdate();
@@ -33,6 +36,8 @@ export default class App extends Component {
 			this.subscriptions = Action.subscriptions;
 			AppState.addEventListener('change', this._handleAppStateChange);
 
+			// setup firebase
+			firebase.initializeApp(firebaseConfig);
 			// setup local data
 			if (!await Action.setUpLocalData()) {
 				await this._getSongs();
@@ -40,8 +45,6 @@ export default class App extends Component {
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
-			// setup firebase
-			firebase.initializeApp(firebaseConfig);
 			// setup track player
 			await TrackPlayer.setupPlayer();
 			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
@@ -53,7 +56,7 @@ export default class App extends Component {
 	componentWillUnmount() {
 		this.unsubcribe();
 		this.subscriptions.forEach(subscription => subscription.remove());
-		AppState.removeEventListener('change', this._handleAppStateChange)
+		AppState.removeEventListener('change', this._handleAppStateChange);
 	}
 
 	_handleAppStateChange = appState => {

@@ -7,7 +7,10 @@ import App from './App';
 import {name as appName} from './app.json';
 
 import TrackPlayer from 'react-native-track-player';
-import service from './src/service/audioService';
+import audioService from './src/service/audioService';
+import timerService from './src/service/timerService';
 
+console.disableYellowBox = true;
 AppRegistry.registerComponent(appName, () => App);
-TrackPlayer.registerPlaybackService(() => service);
+TrackPlayer.registerPlaybackService(() => audioService);
+AppRegistry.registerHeadlessTask('timer', () => timerService);

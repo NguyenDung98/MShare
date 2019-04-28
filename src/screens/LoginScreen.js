@@ -2,29 +2,26 @@ import React, {Component} from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
 import {Button} from 'native-base';
 
-import {LoginManager, AccessToken, GraphRequestManager, GraphRequest} from "react-native-fbsdk";
+import {LoginManager, AccessToken} from "react-native-fbsdk";
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/database';
-import {SCALE_RATIO} from '../constants/constants';
 
-import store from "../store";
+import {SCALE_RATIO} from '../constants/constants';
 import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';
+import * as Action from "../actions";
 
 export default class Login extends Component {
-	constructor(props) {
-		super(props);
-	}
+	componentWillMount() {
+		const {navigation: {navigate}} = this.props;
 
-	componentWillMount = () => {
-		this.checkExistToken()
+		firebase.auth().onAuthStateChanged(user => {
+			if (user) {
+				navigate('HomeScreen');
+				Action.subscribeUserConnection();
+			}
+		});
 	};
-
-	componentDidMount() {
-		// this.unsubcribe = store.onChange({
-		//
-		// })
-	}
 
 	async checkExistToken() {
 		const token = await getAccessToken();
@@ -34,31 +31,10 @@ export default class Login extends Component {
 	}
 
 	_login = async () => {
-		try {
-			const loginResult = await LoginManager.logInWithReadPermissions(["public_profile", "user_friends", "email"]);
+		const {navigation: {navigate}} = this.props;
 
-			if (!loginResult.isCancelled) {
-				const {accessToken} = await AccessToken.getCurrentAccessToken();
-				await saveAccessToken(accessToken.toString());
-
-				const infoRequest = new GraphRequest(
-					'/me',
-					{
-						httpMethod: 'GET',
-						parameters: {fields: {string: "id,email,name,friends{id,name}"}}
-					},
-					(error, result) => {
-						store.setState({
-							user: result,
-						})
-					}
-				);
-				new GraphRequestManager().addRequest(infoRequest).start();
-
-			}
-		} catch (e) {
-			console.log(e);
-		}
+		await Action.loginWithFacebook();
+		navigate('HomeScreen');
 	};
 
 	_fbAuth(self) {
@@ -126,9 +102,7 @@ export default class Login extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.form}>
-					<Button block primary style={styles.button} onPress={() => {
-						this._login();
-					}}>
+					<Button block primary style={styles.button} onPress={this._login}>
 						<Text style={{color: 'white', alignItems: 'center'}}>Facebook login</Text></Button>
 					{/* <Button style={styles.button} /> */}
 					<Text>Hoặc</Text>

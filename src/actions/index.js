@@ -1,3 +1,4 @@
+export * from './FacebookAuthActions';
 export * from './StorageActions';
 export * from './SongActions';
 export * from './AritstActions';

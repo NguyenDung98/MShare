@@ -22,7 +22,7 @@ let state = {
 	//
 	appState: null,
 	// userInfo
-	user: null,
+	userFriends: [],
 };
 
 let listeners = [];
