@@ -1,5 +1,7 @@
+import React from 'react';
+
 export function getProfile(token = '', self) {
-    return fetch('https://graph.facebook.com/me?fields=name,picture.height(148)&access_token=' + this.state.token)
+    return fetch('https://graph.facebook.com/me?fields=name,picture.height(148)&access_token=' + token)
         .then((response) => response.json())
         .then((responseJson) => {
             console.log("===============PROFILE===========")

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, ColorPropType, ViewPropTypes} from "react-native";
+import { View, TouchableOpacity, ColorPropType, ViewPropTypes } from "react-native";
 import PropTypes from 'prop-types';
 
 export default function IconButton({
@@ -10,33 +10,33 @@ export default function IconButton({
     IconType,
     ButtonType,
     onPress,
-	buttonProps,
+    buttonProps,
 }) {
     return ButtonType === TouchableOpacity ? (
         <ButtonType
-	        onPress={onPress}
-	        style={style}
-	        {...buttonProps}
+            onPress={onPress}
+            style={style}
+            {...buttonProps}
         >
-	        <IconType
-		        name={name}
-		        size={iconSize}
-		        color={color}
-	        />
+            <IconType
+                name={name}
+                size={iconSize}
+                color={color}
+            />
         </ButtonType>
     ) : (
-	    <View style={style}>
-		    <ButtonType onPress={onPress} {...buttonProps}>
-			    <View style={style}>
-				    <IconType
-					    name={name}
-					    size={iconSize}
-					    color={color}
-				    />
-			    </View>
-		    </ButtonType>
-	    </View>
-    )
+            <View style={style}>
+                <ButtonType onPress={onPress} {...buttonProps}>
+                    <View style={style}>
+                        <IconType
+                            name={name}
+                            size={iconSize}
+                            color={color}
+                        />
+                    </View>
+                </ButtonType>
+            </View>
+        )
 }
 
 IconButton.propTypes = {
@@ -51,5 +51,5 @@ IconButton.propTypes = {
 
 IconButton.defaultProps = {
     ButtonType: TouchableOpacity,
-    onPress: () => {},
+    onPress: () => { },
 };
