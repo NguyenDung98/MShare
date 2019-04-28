@@ -21,6 +21,8 @@ let state = {
 	shuffleState: false,
 	//
 	appState: null,
+	// userInfo
+	user: null,
 };
 
 let listeners = [];

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, Button} from 'react-native';
-import firebase from './../firebase/firebase';
+import firebase from '@firebase/app';
+import '@firebase/storage';
+import '@firebase/database';
 
 export default class PlayingOnline extends Component {
 	constructor(props) {
