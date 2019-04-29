@@ -23,7 +23,7 @@ const saveUserToFirebase = async (isNewUser, id, user) => {
 	}
 };
 
-export const loginByFacebookProvider = async () => {
+export const loginByFacebookProvider = async (accessToken) => {
 	const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
 	const {additionalUserInfo: {isNewUser, profile: {id}}, user} =
 		await firebase.auth().signInAndRetrieveDataWithCredential(credential);

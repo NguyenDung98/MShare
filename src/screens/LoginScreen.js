@@ -17,7 +17,7 @@ export default class Login extends Component {
 
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				navigate('HomeScreen');
+				navigate('MainTabNavigator');
 				Action.subscribeUserConnection();
 			}
 		});
@@ -34,7 +34,7 @@ export default class Login extends Component {
 		const {navigation: {navigate}} = this.props;
 
 		await Action.loginWithFacebook();
-		navigate('HomeScreen');
+		navigate('MainTabNavigator');
 	};
 
 	_fbAuth(self) {
@@ -87,7 +87,7 @@ export default class Login extends Component {
 									console.error(error);
 								});
 
-							self.props.navigation.navigate("HomeScreen");
+							self.props.navigation.navigate("MainTabNavigator");
 						}
 					);
 				}
@@ -107,7 +107,7 @@ export default class Login extends Component {
 					{/* <Button style={styles.button} /> */}
 					<Text>Hoặc</Text>
 					<Button block info style={styles.button} onPress={() => {
-						this.props.navigation.navigate('HomeScreen')
+						this.props.navigation.navigate('MainTabNavigator')
 					}}>
 						<Text style={{color: 'white', alignItems: 'center'}}>Tiếp tục</Text></Button>
 				</View>

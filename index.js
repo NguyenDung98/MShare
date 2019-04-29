@@ -16,6 +16,9 @@ console.disableYellowBox = true;
 // setup firebase
 firebase.initializeApp(firebaseConfig);
 
+
 AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerPlaybackService(() => audioService);
 AppRegistry.registerHeadlessTask('timer', () => timerService);
+
+

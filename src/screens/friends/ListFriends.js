@@ -9,7 +9,6 @@ export default class ListFriends extends Component {
 		return (
 			<View>
 				<Button onPress={() => getListFriend()} title={'click and see console'} />
-				<Button title='Logout' onPress={()=> {LoginManager.logOut(); clearAccessToken(); this.props.navigation.navigate('Login')}} />
 			</View>
 		)
 	}
