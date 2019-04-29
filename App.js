@@ -7,9 +7,14 @@ import * as MediaLibrary from "expo-media-library";
 import * as Permissions from "expo-permissions";
 import TrackPlayer from "react-native-track-player";
 
-import NavigationService from "./src/service/NavigationService";
+import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
-import {getAudioMetaData, numOfFirstItems, SONG_ITEM_WIDTH, trackPlayerUpdateOptions} from "./src/utils";
+import {
+	getAudioMetaData,
+	numOfFirstItems,
+	SONG_ITEM_WIDTH,
+	trackPlayerUpdateOptions
+} from "./src/utils";
 import store from "./src/store";
 
 export default class App extends Component {
@@ -17,7 +22,7 @@ export default class App extends Component {
 	cursor = null;
 	end = false;
 
-	async componentDidMount() {
+	async componentWillMount() {
 		try {
 			this.unsubcribe = store.onChange(() => {
 				this.forceUpdate();
@@ -33,6 +38,7 @@ export default class App extends Component {
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
+			// setup track player
 			await TrackPlayer.setupPlayer();
 			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
 		} catch (e) {
@@ -43,7 +49,7 @@ export default class App extends Component {
 	componentWillUnmount() {
 		this.unsubcribe();
 		this.subscriptions.forEach(subscription => subscription.remove());
-		AppState.removeEventListener('change', this._handleAppStateChange)
+		AppState.removeEventListener('change', this._handleAppStateChange);
 	}
 
 	_handleAppStateChange = appState => {
