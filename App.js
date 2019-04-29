@@ -10,7 +10,6 @@ import TrackPlayer from "react-native-track-player";
 import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
-	firebaseConfig,
 	getAudioMetaData,
 	numOfFirstItems,
 	SONG_ITEM_WIDTH,
