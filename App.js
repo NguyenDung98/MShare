@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {AppState, View} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
-import firebase from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/database';
-import '@firebase/storage';
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
 import * as MediaLibrary from "expo-media-library";
@@ -36,8 +32,6 @@ export default class App extends Component {
 			this.subscriptions = Action.subscriptions;
 			AppState.addEventListener('change', this._handleAppStateChange);
 
-			// setup firebase
-			firebase.initializeApp(firebaseConfig);
 			// setup local data
 			if (!await Action.setUpLocalData()) {
 				await this._getSongs();

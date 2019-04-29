@@ -4,7 +4,6 @@ import store from "../store";
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/database';
-import timerService from '../service/timerService';
 
 const infoRequest = new GraphRequest(
 	'/me',
@@ -73,24 +72,23 @@ export const subscribeUserConnection = () => {
 	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${uid}`);
 	let keyInterval;
 
+	userPublicInfo.onDisconnect().update({
+		online: false,
+	});
 	firebase.database().ref('.info/connected')
 		.on('value', snap => {
 			if (snap.val()) {
 				updateUserOnlineState(userPublicInfo);
-				// keyInterval = setInterval(() => {
-				// 	updateUserOnlineState(userPublicInfo)
-				// }, 10000) // > 15000
-				keyInterval = timerService()
+				keyInterval = setInterval(() => {
+					updateUserOnlineState(userPublicInfo)
+				}, 10000);
 			} else {
 				clearInterval(keyInterval);
-				userPublicInfo.onDisconnect().update({
-					online: false,
-				})
 			}
 		})
 };
 
-const updateUserOnlineState = userPublicInfo => {
+export const updateUserOnlineState = userPublicInfo => {
 	userPublicInfo.update({
 		online: true,
 		stateTrack: new Date().getTime(),
