@@ -17,6 +17,7 @@ import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { Platform, TabBarIcon } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import NewsFeed from '../screens/Newsfeed';
 
 
 
@@ -85,7 +86,7 @@ const MainTabNavigator = createBottomTabNavigator({
 		}
 	},
 	Newsfeed: {
-		screen: TabScreen,
+		screen: NewsFeed,
 		navigationOptions: {
 			tabBarLable: 'News feed',
 			tabBarIcon: ({ tintColor = '', focused }) => (
@@ -137,7 +138,6 @@ const MainTabNavigator = createBottomTabNavigator({
 )
 
 const HomeStack = createStackNavigator({
-	MainTabNavigator: MainTabNavigator,
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {
@@ -145,6 +145,7 @@ const HomeStack = createStackNavigator({
 			header: null
 		}
 	},
+	MainTabNavigator: MainTabNavigator,
 	SongsTabScreen: {
 		screen: TabScreen('loadedSongs', 'albums', 'artists', 'playlists'),
 		navigationOptions: ({ navigation }) => ({

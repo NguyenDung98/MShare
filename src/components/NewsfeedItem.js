@@ -30,19 +30,18 @@ const styles = StyleSheet.create({
         marginRight: 20 *SCALE_RATIO, 
         marginTop: 20*SCALE_RATIO,
         backgroundColor : '#fff', 
-        borderRadius : 0.5,
+        borderWidth: 1,
+        backgroundColor : 'pink'
     },
     avt: {
         // flex: 1/6,
         width: 80 * SCALE_RATIO,
         height: 80 * SCALE_RATIO,
         borderRadius: 50, 
-        backgroundColor : 'pink'
     },
     container2: {
         flex: 1,
         flexDirection: 'row',
-        // backgroundColor: 'green',
     },
 
 })

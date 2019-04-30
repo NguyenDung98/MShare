@@ -20,6 +20,7 @@ export default class Login extends Component {
 				navigate('MainTabNavigator');
 				Action.subscribeUserConnection();
 			}
+			console.log('Dont user');
 		});
 	};
 
@@ -32,7 +33,6 @@ export default class Login extends Component {
 
 	_login = async () => {
 		const {navigation: {navigate}} = this.props;
-
 		await Action.loginWithFacebook();
 		navigate('MainTabNavigator');
 	};
