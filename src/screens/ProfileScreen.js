@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {View, Text, StatusBar, StyleSheet, TouchableNativeFeedback, Image, Animated, FlatList, ScrollView} from 'react-native';
-import {colors} from '../../utils/colors';
-import {SCREEN_HEIGHT, AVATAR_MARGIN_LEFT, AVATAR_SIZE, SCREEN_WIDTH} from '../../utils/constants';
+import {colors} from '../utils/colors';
+import {SCREEN_HEIGHT, AVATAR_MARGIN_LEFT, AVATAR_SIZE, SCREEN_WIDTH} from '../utils/constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Avatar from '../../components/Avatar';
-import {SCALE_RATIO} from '../../constants/constants';
-import {getProfile} from './ProfileAction';
-import IconButton from "../../components/IconButton";
-import { list } from '../../data/History';
-import {ItemTimeLine} from '../../components/Item';
+import Avatar from '../components/Avatar';
+import {SCALE_RATIO} from '../constants/constants';
+import {getProfile} from '../actions/ProfileAction';
+import IconButton from "../components/IconButton";
+import { list } from '../data/History';
+import {ItemTimeLine} from '../components/Item';
 
-const default_avt = require('./../../imgs/default-avatar.png')
+const default_avt = require('./../imgs/default-avatar.png')
 const BACK_BUTTON_SIZE = 40;
 
 const keyExtractor = item => item.item.id;

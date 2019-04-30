@@ -8,13 +8,13 @@ import CollectionDetail from "../screens/CollectionDetail";
 import SearchHeader from "../components/SearchHeader";
 import HomeScreen from "../screens/HomeScreen";
 import Playlists from "../screens/Playlists";
-import ListFriends from '../screens/friends/ListFriends';
+import ListFriends from '../screens/ListFriends';
 import OtherScreen from '../screens/OtherScreen';
 
 import { colors } from "../utils/colors";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../utils";
 import LoginScreen from "../screens/LoginScreen";
-import ProfileScreen from "../screens/profile/ProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 import { Platform, TabBarIcon } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
