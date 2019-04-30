@@ -105,11 +105,11 @@ export default class Login extends Component {
 					<Button block primary style={styles.button} onPress={this._login}>
 						<Text style={{color: 'white', alignItems: 'center'}}>Facebook login</Text></Button>
 					{/* <Button style={styles.button} /> */}
-					<Text>Hoặc</Text>
+					{/* <Text>Hoặc</Text>
 					<Button block info style={styles.button} onPress={() => {
 						this.props.navigation.navigate('MainTabNavigator')
 					}}>
-						<Text style={{color: 'white', alignItems: 'center'}}>Tiếp tục</Text></Button>
+						<Text style={{color: 'white', alignItems: 'center'}}>Tiếp tục</Text></Button> */}
 				</View>
 			</View>
 

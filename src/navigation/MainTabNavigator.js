@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator,  createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation';
 import SongList from '../screens/SongList';
 import TabHeader from '../components/TabHeader';
 import Albums from "../screens/Albums";
@@ -78,19 +78,19 @@ const MainTabNavigator = createBottomTabNavigator({
 	Home: {
 		screen: HomeScreen,
 		navigationOptions: {
-			tabBarLable : 'Home',
+			tabBarLable: 'Home',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={ Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home' } style={{ color: tintColor }} />
-			  )
+				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'} style={{ color: tintColor }} />
+			)
 		}
 	},
-	Newfeed: {
+	Newsfeed: {
 		screen: TabScreen,
 		navigationOptions: {
-			tabBarLable : 'Newfeed',
-			tabBarIcon: ({ tintColor='', focused }) => (
-				<Icon size={30} name={ Platform.OS === 'ios' ? (focused ? 'ios-paper' : 'ios-paper-outline') : 'md-paper' } style={{ color: tintColor }} />
-			  )
+			tabBarLable: 'News feed',
+			tabBarIcon: ({ tintColor = '', focused }) => (
+				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-paper' : 'ios-paper-outline') : 'md-paper'} style={{ color: tintColor }} />
+			)
 		}
 	},
 	// Musics: {
@@ -106,38 +106,38 @@ const MainTabNavigator = createBottomTabNavigator({
 	Friends: {
 		screen: ListFriends,
 		navigationOptions: {
-			tabBarLable : 'Friends',
+			tabBarLable: 'Friends',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={ Platform.OS === 'ios' ? (focused ? 'ios-people' : 'ios-people-outline') : 'md-people' } style={{ color: tintColor }} />
-			  )
+				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-people' : 'ios-people-outline') : 'md-people'} style={{ color: tintColor }} />
+			)
 		}
 	},
 	Other: {
 		screen: OtherScreen,
 		navigationOptions: {
-			tabBarLable : 'Other',
+			tabBarLable: 'Other',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={ Platform.OS === 'ios' ? (focused ? 'ios-apps' : 'ios-apps-outline') : 'md-apps' } style={{ color: tintColor }} />
-			  )
+				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-apps' : 'ios-apps-outline') : 'md-apps'} style={{ color: tintColor }} />
+			)
 		}
 	},
 
 
 
-}, 
-{
-	initialRouteName : 'Home',
-	swipeEnabled: true,
-	animationEnabled: true,
-	lazy: true,
-    tabBarOptions: {
-        activeTintColor: 'orange',
-        },
+},
+	{
+		initialRouteName: 'Home',
+		swipeEnabled: true,
+		animationEnabled: true,
+		lazy: true,
+		tabBarOptions: {
+			activeTintColor: 'orange',
+		},
 	}
-	)
+)
 
 const HomeStack = createStackNavigator({
-	MainTabNavigator : MainTabNavigator,
+	MainTabNavigator: MainTabNavigator,
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {

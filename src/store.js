@@ -40,5 +40,6 @@ export default {
 		return () => {
 			listeners = listeners.filter(listener => listener !== newListener)
 		}
-	}
+	},
+	
 };
