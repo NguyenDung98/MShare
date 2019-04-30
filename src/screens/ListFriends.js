@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, Button , FlatList} from 'react-native'
-import { getListFriend } from './ListFriendsAction';
+import { getListFriend } from '../actions/ListFriendsAction';
 import { LoginManager } from 'react-native-fbsdk';
-import { clearAccessToken } from '../../utils/asyncStorage';
-import { getUserFriends } from './../../actions/FacebookAuthActions'
-import store from './../../store'
-import { userFriends } from '../../data/Friend';
-import { ItemFriend } from '../../components/FriendItem';
+import { clearAccessToken } from '../utils/asyncStorage';
+import { getUserFriends } from '../actions/FacebookAuthActions'
+import store from '../store'
+import { userFriends } from '../data/Friend';
+import { ItemFriend } from '../components/FriendItem';
 
 
 const keyExtractor = item => item.id;

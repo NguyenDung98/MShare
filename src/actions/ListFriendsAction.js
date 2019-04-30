@@ -1,4 +1,4 @@
-import { getAccessToken } from "../../utils/asyncStorage";
+import { getAccessToken } from "../utils/asyncStorage";
 
 export function getListFriend() {
 	getAccessToken().then((token) => {
