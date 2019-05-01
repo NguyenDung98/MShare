@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Alert, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Button} from 'native-base';
 
 import {LoginManager, AccessToken} from "react-native-fbsdk";
-import firebase from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/database';
+import firebase from 'react-native-firebase';
 
 import {SCALE_RATIO} from '../constants/constants';
 import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';

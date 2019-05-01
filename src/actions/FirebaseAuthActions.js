@@ -1,6 +1,4 @@
-import firebase from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/database';
+import firebase from 'react-native-firebase';
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
 	if (isNewUser) {
@@ -25,7 +23,7 @@ const saveUserToFirebase = async (isNewUser, id, user) => {
 export const loginByFacebookProvider = async (accessToken) => {
 	const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
 	const {additionalUserInfo: {isNewUser, profile: {id}}, user} =
-		await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+		await firebase.auth().signInWithCredential(credential);
 
 	saveUserToFirebase(isNewUser, id, user);
 };
