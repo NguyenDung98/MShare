@@ -1,7 +1,6 @@
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/database';
-import * as facebookAction from "./FacebookAuthActions";
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
 	if (isNewUser) {
@@ -45,7 +44,6 @@ export const subscribeUserConnection = () => {
 	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${uid}`);
 	let keyInterval;
 
-	facebookAction.getUserFriends();
 	userPublicInfo.onDisconnect().update({
 		online: false,
 	});

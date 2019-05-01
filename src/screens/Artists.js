@@ -41,12 +41,12 @@ export default class Artists extends Component {
 				buttonIconType={Entypo}
 				imageStyle={{borderRadius: SONG_ITEM_WIDTH / 2, width: 65}}
 				onPress={() => navigate('CollectionDetail', {
-					type: 'Artist',
+					type: 'Ca sĩ',
 					index,
 					dataName: getParam('dataName'),
 				})}
 				onButtonPress={() => navigate('CollectionDetail', {
-					type: 'Artist',
+					type: 'Ca sĩ',
 					index,
 					dataName: getParam('dataName'),
 				})}

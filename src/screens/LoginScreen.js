@@ -10,6 +10,7 @@ import '@firebase/database';
 import {SCALE_RATIO} from '../constants/constants';
 import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';
 import * as Action from "../actions";
+import * as facebookAction from "../actions/FacebookAuthActions";
 
 export default class Login extends Component {
 	componentWillMount() {
@@ -18,6 +19,7 @@ export default class Login extends Component {
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				navigate('MainTabNavigator');
+				facebookAction.getUserFriends();
 				Action.subscribeUserConnection();
 			}
 			// console.log('Dont user');

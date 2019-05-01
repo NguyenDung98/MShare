@@ -69,7 +69,7 @@ export default class TabHeader extends Component {
 			this.end = !hasNextPage;
 			if (Action.addToSongList(songs)) await this._getSongs(endCursor);
 
-			await Action.saveData();
+			await Action.saveDataToLocal();
 			this.cursor = null;
 			this.loading = false;
 			this.end = false;
@@ -79,7 +79,7 @@ export default class TabHeader extends Component {
 	};
 
 	_handleScanSongs = async () => {
-		await Action.clearData();
+		await Action.clearDataFromLocal();
 		await this._getSongs();
 		Action.addToDisplaySongList(numOfFirstItems);
 		Action.setUpAlbumList();
