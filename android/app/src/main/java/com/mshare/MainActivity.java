@@ -42,7 +42,7 @@ public class MainActivity extends ReactActivity {
             timer.scheduleAtFixedRate(new TimerTask(){
                 @Override
                 public void run(){
-                    if (counter == 2) {
+                    if (counter > 1) {
                         this.cancel();
                         counter -= 1;
                     } else if (!isRunning && counter == 1) {

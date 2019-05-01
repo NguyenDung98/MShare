@@ -15,9 +15,12 @@ import { colors } from "../utils/colors";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../utils";
 import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Platform, TabBarIcon } from 'react-native';
+import {Platform, TabBarIcon, TouchableNativeFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NewsFeed from '../screens/Newsfeed';
+import IconButton from "../components/IconButton";
+import {ICON_COLOR} from "../constants/constants";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 
@@ -122,9 +125,6 @@ const MainTabNavigator = createBottomTabNavigator({
 			)
 		}
 	},
-
-
-
 },
 	{
 		initialRouteName: 'Home',
@@ -145,7 +145,32 @@ const HomeStack = createStackNavigator({
 			header: null
 		}
 	},
-	MainTabNavigator: MainTabNavigator,
+	MainTabNavigator: {
+		screen: MainTabNavigator,
+		navigationOptions: ({navigation: {navigate}}) => ({
+			headerLeft: (
+				<IconButton
+					name={'account-circle'}
+					iconSize={40}
+					style={{
+						marginLeft: 10,
+						width: 40,
+						height: 40,
+						borderRadius: 40 / 2,
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+					color={ICON_COLOR}
+					IconType={MaterialIcons}
+					ButtonType={TouchableNativeFeedback}
+					buttonProps={{
+						background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
+					}}
+					onPress={() => navigate('Profile')}
+				/>
+			)
+		})
+	},
 	SongsTabScreen: {
 		screen: TabScreen('loadedSongs', 'albums', 'artists', 'playlists'),
 		navigationOptions: ({ navigation }) => ({
@@ -163,7 +188,7 @@ const HomeStack = createStackNavigator({
 	Profile: ProfileScreen,
 }, {
 		headerMode: 'float',
-	});
+});
 
 export default createAppContainer(HomeStack);
 

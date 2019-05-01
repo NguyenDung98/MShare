@@ -54,7 +54,11 @@ export const subscribeUserConnection = () => {
 			if (snap.val()) {
 				updateUserOnlineState(userPublicInfo);
 				keyInterval = setInterval(() => {
-					updateUserOnlineState(userPublicInfo)
+					if (firebase.auth().currentUser) {
+						updateUserOnlineState(userPublicInfo)
+					} else {
+						clearInterval(keyInterval);
+					}
 				}, 10000);
 			} else {
 				clearInterval(keyInterval);

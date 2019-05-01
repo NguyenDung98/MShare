@@ -20,7 +20,7 @@ export default class Login extends Component {
 				navigate('MainTabNavigator');
 				Action.subscribeUserConnection();
 			}
-			console.log('Dont user');
+			// console.log('Dont user');
 		});
 	};
 
