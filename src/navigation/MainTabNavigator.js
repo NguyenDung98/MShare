@@ -15,11 +15,11 @@ import { colors } from "../utils/colors";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../utils";
 import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import {Platform, Dimensions, TouchableNativeFeedback} from 'react-native';
+import { Platform, Dimensions, TouchableNativeFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NewsFeed from '../screens/Newsfeed';
 import IconButton from "../components/IconButton";
-import {ICON_COLOR} from "../constants/constants";
+import { ICON_COLOR } from "../constants/constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const { height } = Dimensions.get('window');
@@ -130,38 +130,38 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 },
 	{
 		initialRouteName: 'Home',
-		tabBarPosition : 'bottom',
+		tabBarPosition: 'bottom',
 		swipeEnabled: true,
 		animationEnabled: true,
 		// lazy: true,
 		tabBarOptions: {
 			showIcon: true,
-			style : {
-				backgroundColor : colors.brightRed,
+			style: {
+				backgroundColor: colors.brightRed,
 				height: height / 14 + 5,
 			},
 			labelStyle: {
 				fontSize: 12,
-				marginTop : 0,
-			  },
-			  upperCaseLabel: false
+				marginTop: 0,
+			},
+			upperCaseLabel: false
 
 		},
-		
+
 	}
 )
 
 const HomeStack = createStackNavigator({
-	Login: {
-		screen: LoginScreen,
-		navigationOptions: {
-			title: 'Welcome',
-			header: null
-		}
-	},
+	// Login: {
+	// 	screen: LoginScreen,
+	// 	navigationOptions: {
+	// 		title: 'Welcome',
+	// 		header: null
+	// 	}
+	// },
 	MainTabNavigator: {
 		screen: MainTabNavigator,
-		navigationOptions: ({navigation: {navigate}}) => ({
+		navigationOptions: ({ navigation: { navigate } }) => ({
 			headerLeft: (
 				<IconButton
 					name={'account-circle'}
@@ -183,7 +183,7 @@ const HomeStack = createStackNavigator({
 					onPress={() => navigate('Profile')}
 				/>
 			),
-			
+
 		})
 	},
 	SongsTabScreen: {
@@ -203,7 +203,7 @@ const HomeStack = createStackNavigator({
 	Profile: ProfileScreen,
 }, {
 		headerMode: 'float',
-});
+	});
 
 export default createAppContainer(HomeStack);
 
