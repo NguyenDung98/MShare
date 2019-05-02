@@ -91,14 +91,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-<<<<<<< HEAD
-    name : {
-        justifyContent : 'center',
-        alignItems: 'center',
-        fontSize: 16,
-    }
 
-=======
     container5: {
         flexDirection: 'row'
     },
@@ -114,5 +107,4 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#f2f2f2',
     }
->>>>>>> devHuyen
 })
