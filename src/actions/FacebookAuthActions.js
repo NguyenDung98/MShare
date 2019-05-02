@@ -28,7 +28,6 @@ export const loginWithFacebook = async () => {
 			const {accessToken} = await AccessToken.getCurrentAccessToken();
 
 			saveAccessToken(accessToken.toString());
-			getUserFriends();
 			firebaseAction.loginByFacebookProvider(accessToken);
 		}
 	} catch (e) {

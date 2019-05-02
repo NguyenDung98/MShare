@@ -82,7 +82,7 @@ export default class App extends Component {
 			this.cursor = hasNextPage ? endCursor : null;
 			this.end = !hasNextPage;
 			if (Action.addToSongList(songs)) await this._getSongs(endCursor);
-			await Action.saveData();
+			await Action.saveDataToLocal();
 		} catch (e) {
 			console.log('error: ' + e)
 		}

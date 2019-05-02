@@ -3,7 +3,7 @@ import store from "../store";
 import * as Action from "./index";
 import {numOfFirstItems} from "../utils";
 
-export const clearData = async () => {
+export const clearDataFromLocal = async () => {
 	try {
 		await AsyncStorage.removeItem('songs');
 		store.setState({
@@ -33,7 +33,7 @@ export const setUpLocalData = async () => {
 	}
 };
 
-export const saveData = async () => {
+export const saveDataToLocal = async () => {
 	try {
 		const {songsInStorage} = store.getState();
 

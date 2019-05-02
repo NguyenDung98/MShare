@@ -1,6 +1,4 @@
-import firebase from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/database';
+import firebase from 'react-native-firebase';
 import {updateUserOnlineState} from "../actions";
 
 

@@ -152,6 +152,12 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.8"
+    implementation "com.google.firebase:firebase-auth:16.2.1"
+    implementation "com.google.firebase:firebase-storage:16.1.0"
+    implementation "com.google.firebase:firebase-database:16.1.0"
     implementation project(':react-native-fbsdk')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-gesture-handler')
@@ -175,3 +181,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply plugin: 'com.google.gms.google-services'
