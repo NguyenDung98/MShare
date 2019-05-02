@@ -3,6 +3,7 @@ import {View, Text, StatusBar, StyleSheet, TouchableNativeFeedback, Image, Anima
 import {colors} from '../utils/colors';
 import {SCREEN_HEIGHT, AVATAR_MARGIN_LEFT, AVATAR_SIZE, SCREEN_WIDTH} from '../utils/constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
+
 import Avatar from '../components/Avatar';
 import {SCALE_RATIO} from '../constants/constants';
 import {getProfile} from '../actions/ProfileAction';

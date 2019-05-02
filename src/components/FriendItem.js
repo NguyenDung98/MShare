@@ -3,7 +3,6 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
-import { colors } from './../utils/colors'
 import Icon from 'react-native-vector-icons/Feather';
 
 

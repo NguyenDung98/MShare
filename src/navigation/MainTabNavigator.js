@@ -183,6 +183,16 @@ const HomeStack = createStackNavigator({
 					onPress={() => navigate('Profile')}
 				/>
 			),
+			title: 'MShare',
+			headerStyle: {
+				backgroundColor: colors.brightRed,
+				flex : 1
+			},
+			headerTintColor: '#fff',
+			// headerTitleStyle : {
+			// 	paddingLeft: 30 
+			// }
+
 
 		})
 	},
