@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { LoginManager } from 'react-native-fbsdk';
-import { clearAccessToken } from '../utils/asyncStorage';
-
-import firebase from '@firebase/app';
+import firebase from 'react-native-firebase';
 import { Button } from 'native-base';
 import { SCALE_RATIO } from '../constants/constants';
 
