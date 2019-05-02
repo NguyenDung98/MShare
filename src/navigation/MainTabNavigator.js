@@ -15,12 +15,14 @@ import { colors } from "../utils/colors";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../utils";
 import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import {Platform, TabBarIcon, TouchableNativeFeedback} from 'react-native';
+import {Platform, Dimensions, TouchableNativeFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NewsFeed from '../screens/Newsfeed';
 import IconButton from "../components/IconButton";
 import {ICON_COLOR} from "../constants/constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
+const { height } = Dimensions.get('window');
 
 
 
@@ -78,13 +80,13 @@ const TabScreen = (songListData, albumsData, artistData, playlistsData) => {
 		});
 };
 
-const MainTabNavigator = createBottomTabNavigator({
+const MainTabNavigator = createMaterialTopTabNavigator({
 	Home: {
 		screen: HomeScreen,
 		navigationOptions: {
 			tabBarLable: 'Home',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'} style={{ color: tintColor }} />
+				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'} style={{ color: tintColor }} />
 			)
 		}
 	},
@@ -93,7 +95,7 @@ const MainTabNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLable: 'News feed',
 			tabBarIcon: ({ tintColor = '', focused }) => (
-				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-paper' : 'ios-paper-outline') : 'md-paper'} style={{ color: tintColor }} />
+				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-paper' : 'ios-paper-outline') : 'md-paper'} style={{ color: tintColor }} />
 			)
 		}
 	},
@@ -112,7 +114,7 @@ const MainTabNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLable: 'Friends',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-people' : 'ios-people-outline') : 'md-people'} style={{ color: tintColor }} />
+				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-people' : 'ios-people-outline') : 'md-people'} style={{ color: tintColor }} />
 			)
 		}
 	},
@@ -121,19 +123,31 @@ const MainTabNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLable: 'Other',
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon size={30} name={Platform.OS === 'ios' ? (focused ? 'ios-apps' : 'ios-apps-outline') : 'md-apps'} style={{ color: tintColor }} />
+				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-apps' : 'ios-apps-outline') : 'md-apps'} style={{ color: tintColor }} />
 			)
 		}
 	},
 },
 	{
 		initialRouteName: 'Home',
+		tabBarPosition : 'bottom',
 		swipeEnabled: true,
 		animationEnabled: true,
-		lazy: true,
+		// lazy: true,
 		tabBarOptions: {
-			activeTintColor: 'orange',
+			showIcon: true,
+			style : {
+				backgroundColor : colors.brightRed,
+				height: height / 14 + 5,
+			},
+			labelStyle: {
+				fontSize: 12,
+				marginTop : 0,
+			  },
+			  upperCaseLabel: false
+
 		},
+		
 	}
 )
 
@@ -168,7 +182,8 @@ const HomeStack = createStackNavigator({
 					}}
 					onPress={() => navigate('Profile')}
 				/>
-			)
+			),
+			
 		})
 	},
 	SongsTabScreen: {

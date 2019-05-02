@@ -5,5 +5,6 @@ export const colors = {
     grey: '#aaaaaa',
 	lighterGrey: '#f6f6f6',
 	white: '#fcfcfc',
-    transparent: 'transparent'
+    transparent: 'transparent', 
+    P_COLOR : '#EE6002'
 };
