@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { userFriends } from '../data/Friend';
 import { ItemNewsfeed } from '../components/NewsfeedItem';
+import { list } from '../data/newsfeed';
 const keyExtractor = item => item.id;
 
 export default class NewsFeed extends Component {
@@ -20,8 +20,8 @@ export default class NewsFeed extends Component {
         return (
             <View>
                 <FlatList
-                    extraData={userFriends.friends.data}
-                    data={userFriends.friends.data}
+                    extraData={list}
+                    data={list}
                     renderItem={this._renderItem}
                     keyExtractor={keyExtractor}
                 />
