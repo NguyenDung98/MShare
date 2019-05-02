@@ -152,13 +152,13 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 )
 
 const HomeStack = createStackNavigator({
-	// Login: {
-	// 	screen: LoginScreen,
-	// 	navigationOptions: {
-	// 		title: 'Welcome',
-	// 		header: null
-	// 	}
-	// },
+	Login: {
+		screen: LoginScreen,
+		navigationOptions: {
+			title: 'Welcome',
+			header: null
+		}
+	},
 	MainTabNavigator: {
 		screen: MainTabNavigator,
 		navigationOptions: ({ navigation: { navigate } }) => ({

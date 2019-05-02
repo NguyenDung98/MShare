@@ -15,8 +15,7 @@ export const ItemNewsfeed = ({
         <View style={styles.container}>
             <View style={styles.container2}>
                 <Image source={{ uri: uri }} style={styles.avt} />
-                {/* This for item online */}
-                <Text>{name}</Text>
+                <Text style={styles.name}>{name}</Text>
             </View>
         </View>
     )
@@ -43,5 +42,10 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
     },
+    name : {
+        justifyContent : 'center',
+        alignItems: 'center',
+        fontSize: 16,
+    }
 
 })
