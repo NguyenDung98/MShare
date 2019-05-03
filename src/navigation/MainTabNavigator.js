@@ -1,90 +1,26 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation';
-import SongList from '../screens/SongList';
-import TabHeader from '../components/TabHeader';
-import Albums from "../screens/Albums";
-import Artists from "../screens/Artists";
-import CollectionDetail from "../screens/CollectionDetail";
-import SearchHeader from "../components/SearchHeader";
+import {Platform, Dimensions, TouchableNativeFeedback, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { createMaterialTopTabNavigator } from 'react-navigation';
+
 import HomeScreen from "../screens/HomeScreen";
-import Playlists from "../screens/Playlists";
 import ListFriends from '../screens/ListFriends';
 import OtherScreen from '../screens/OtherScreen';
+import NewsFeed from '../screens/Newsfeed';
 
 import { colors } from "../utils/colors";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../utils";
-import LoginScreen from "../screens/LoginScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import { Platform, Dimensions, TouchableNativeFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import NewsFeed from '../screens/Newsfeed';
 import IconButton from "../components/IconButton";
-import { ICON_COLOR } from "../constants/constants";
+import {ICON_COLOR} from "../constants/constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const { height } = Dimensions.get('window');
 
-
-
-const TabScreen = (songListData, albumsData, artistData, playlistsData) => {
-	const TAB_BAR_PADDING = 25;
-
-	return createMaterialTopTabNavigator({
-		SongList: {
-			screen: SongList,
-			params: { dataName: songListData }
-		},
-		Albums: {
-			screen: Albums,
-			params: { dataName: albumsData }
-		},
-		Artists: {
-			screen: Artists,
-			params: { dataName: artistData }
-		},
-		Playlists: {
-			screen: Playlists,
-			params: { dataName: playlistsData }
-		},
-	},
-		{
-			tabBarPosition: 'top',
-			swipeEnabled: true,
-			animationEnabled: true,
-			lazy: true,
-			backBehavior: 'none',
-			initialLayout: {
-				height: 0,
-				width: SCREEN_WIDTH,
-			},
-			tabBarOptions: {
-				style: {
-					borderBottomLeftRadius: 26,
-					borderBottomRightRadius: 26,
-					backgroundColor: colors.brightRed,
-					paddingHorizontal: TAB_BAR_PADDING,
-					elevation: 5,
-				},
-				indicatorStyle: {
-					height: 0,
-				},
-				upperCaseLabel: false,
-				scrollEnabled: true,
-				labelStyle: {
-					fontSize: 15,
-				},
-				tabStyle: {
-					width: SCREEN_WIDTH / 3 - TAB_BAR_PADDING / 3,
-				}
-			},
-		});
-};
-
-const MainTabNavigator = createMaterialTopTabNavigator({
+export const MainTabNavigator = createMaterialTopTabNavigator({
 	Home: {
 		screen: HomeScreen,
 		navigationOptions: {
-			tabBarLable: 'Home',
+			tabBarLabel: 'Home',
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'} style={{ color: tintColor }} />
 			)
@@ -93,15 +29,15 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 	Newsfeed: {
 		screen: NewsFeed,
 		navigationOptions: {
-			tabBarLable: 'News feed',
+			tabBarLabel: 'News feed',
 			tabBarIcon: ({ tintColor = '', focused }) => (
 				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-paper' : 'ios-paper-outline') : 'md-paper'} style={{ color: tintColor }} />
 			)
 		}
 	},
 	// Musics: {
-	// 	screen: TabScreen('searchedSongs', 'searchedAlbums',
-	// 	'searchedArtists', 'searchedPlaylists'),
+	// 	screen: TabScreen('deviceSearchedSongs', 'deviceSearchedAlbums',
+	// 	'deviceSearchedArtists', 'deviceSearchedPlaylists'),
 	// 	navigationOptions: {
 	// 		tabBarLable : 'Musics',
 	// 		tabBarIcon: ({ tintColor, focused }) => (
@@ -112,7 +48,7 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 	Friends: {
 		screen: ListFriends,
 		navigationOptions: {
-			tabBarLable: 'Friends',
+			tabBarLabel: 'Friends',
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-people' : 'ios-people-outline') : 'md-people'} style={{ color: tintColor }} />
 			)
@@ -121,7 +57,7 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 	Other: {
 		screen: OtherScreen,
 		navigationOptions: {
-			tabBarLable: 'Other',
+			tabBarLabel: 'Other',
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon size={24} name={Platform.OS === 'ios' ? (focused ? 'ios-apps' : 'ios-apps-outline') : 'md-apps'} style={{ color: tintColor }} />
 			)
@@ -133,7 +69,7 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 		tabBarPosition: 'bottom',
 		swipeEnabled: true,
 		animationEnabled: true,
-		// lazy: true,
+		lazy: true,
 		tabBarOptions: {
 			showIcon: true,
 			style: {
@@ -145,75 +81,61 @@ const MainTabNavigator = createMaterialTopTabNavigator({
 				marginTop: 0,
 			},
 			upperCaseLabel: false
-
 		},
-
 	}
-)
+);
 
-const HomeStack = createStackNavigator({
-	Login: {
-		screen: LoginScreen,
-		navigationOptions: {
-			title: 'Welcome',
-			header: null
-		}
+export const navigationOptions = ({navigation: {navigate}}) =>  ({
+	title: 'MShare',
+	headerLeft: (
+		<IconButton
+			name={'account-circle'}
+			iconSize={40}
+			style={styles.leftHeaderBtnStyle(40)}
+			color={ICON_COLOR}
+			IconType={MaterialIcons}
+			ButtonType={TouchableNativeFeedback}
+			buttonProps={{
+				background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
+			}}
+			onPress={() => navigate('Profile')}
+		/>
+	),
+	headerRight: (
+		<IconButton
+			name={'search1'}
+			IconType={AntDesign}
+			iconSize={40 * 0.7}
+			style={styles.searchBtnStyle(40)}
+			color={ICON_COLOR}
+			ButtonType={TouchableNativeFeedback}
+			buttonProps={{
+				background: TouchableNativeFeedback.Ripple(colors.lighterGrey, true)
+			}}
+			onPress={() => navigate('OnlineSearchTabScreen')}
+		/>
+	),
+	headerStyle: {
+		backgroundColor: colors.brightRed,
 	},
-	MainTabNavigator: {
-		screen: MainTabNavigator,
-		navigationOptions: ({ navigation: { navigate } }) => ({
-			headerLeft: (
-				<IconButton
-					name={'account-circle'}
-					iconSize={40}
-					style={{
-						marginLeft: 10,
-						width: 40,
-						height: 40,
-						borderRadius: 40 / 2,
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-					color={ICON_COLOR}
-					IconType={MaterialIcons}
-					ButtonType={TouchableNativeFeedback}
-					buttonProps={{
-						background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
-					}}
-					onPress={() => navigate('Profile')}
-				/>
-			),
-			title: 'MShare',
-			headerStyle: {
-				backgroundColor: colors.brightRed,
-				flex : 1
-			},
-			headerTintColor: '#fff',
-			// headerTitleStyle : {
-			// 	paddingLeft: 30 
-			// }
+	headerTintColor: '#fff',
+});
 
-
-		})
-	},
-	SongsTabScreen: {
-		screen: TabScreen('loadedSongs', 'albums', 'artists', 'playlists'),
-		navigationOptions: ({ navigation }) => ({
-			header: <TabHeader navigation={navigation} />,
-		}),
-	},
-	SearchTabScreen: {
-		screen: TabScreen('searchedSongs', 'searchedAlbums',
-			'searchedArtists', 'searchedPlaylists'),
-		navigationOptions: ({ navigation }) => ({
-			header: <SearchHeader navigation={navigation} />,
-		}),
-	},
-	CollectionDetail,
-	Profile: ProfileScreen,
-}, {
-		headerMode: 'float',
-	});
-
-export default createAppContainer(HomeStack);
-
+const styles = StyleSheet.create({
+	leftHeaderBtnStyle: (buttonSize) => ({
+		marginLeft: 10,
+		width: buttonSize,
+		height: buttonSize,
+		borderRadius: buttonSize / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	searchBtnStyle: (buttonSize) => ({
+		marginRight: 10,
+		width: buttonSize * 0.7,
+		height: buttonSize * 0.7,
+		borderRadius: buttonSize / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+});

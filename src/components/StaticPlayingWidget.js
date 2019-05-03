@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: colors.lighterGrey,
-		elevation: 1,
 		borderColor: colors.lightGrey
 	},
 	songArtist: {

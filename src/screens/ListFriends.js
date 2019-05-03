@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, Button , FlatList} from 'react-native'
-import { getListFriend } from '../actions/ListFriendsAction';
+import { getListFriend } from '../actions/ListFriendsActions';
 import { LoginManager } from 'react-native-fbsdk';
 import { clearAccessToken } from '../utils/asyncStorage';
 import { getUserFriends } from '../actions/FacebookAuthActions'

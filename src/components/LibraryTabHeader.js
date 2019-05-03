@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ICON_COLOR} from '../constants/constants';
-import {colors, getAudioMetaData, numOfFirstItems} from "../utils";
+import {colors, getAudioMetaData, numOfFirsSongItems} from "../utils";
 import IconButton from "./IconButton";
 
 import * as MediaLibrary from "expo-media-library";
@@ -15,7 +15,7 @@ import store from "../store";
 
 const BUTTON_SIZE = 40;
 
-export default class TabHeader extends Component {
+export default class LibraryTabHeader extends Component {
 	loading = false;
 	cursor = null;
 	end = false;
@@ -39,7 +39,7 @@ export default class TabHeader extends Component {
 	_handleSearchPress = () => {
 		const {navigation: {navigate}} = this.props;
 
-		navigate('SearchTabScreen');
+		navigate('DeviceSearchTabScreen');
 	};
 
 	_getSongs = async (after) => {
@@ -81,7 +81,7 @@ export default class TabHeader extends Component {
 	_handleScanSongs = async () => {
 		await Action.clearDataFromLocal();
 		await this._getSongs();
-		Action.addToDisplaySongList(numOfFirstItems);
+		Action.addToDisplaySongList(numOfFirsSongItems);
 		Action.setUpAlbumList();
 		Action.setUpArtistList();
 	};

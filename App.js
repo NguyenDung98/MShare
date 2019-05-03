@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppState, View} from "react-native";
+import {AppState, View, StyleSheet} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
@@ -11,7 +11,7 @@ import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
 	getAudioMetaData,
-	numOfFirstItems,
+	numOfFirsSongItems,
 	SONG_ITEM_WIDTH,
 	trackPlayerUpdateOptions
 } from "./src/utils";
@@ -34,7 +34,7 @@ export default class App extends Component {
 			// setup local data
 			if (!await Action.setUpLocalData()) {
 				await this._getSongs();
-				Action.addToDisplaySongList(numOfFirstItems);
+				Action.addToDisplaySongList(numOfFirsSongItems);
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
@@ -89,7 +89,7 @@ export default class App extends Component {
 	};
 
 	render() {
-		const {showStaticWidget} = store.getState();
+		const {showStaticWidget, atMainTab} = store.getState();
 
 		return (
 			<View style={{flex: 1}}>
@@ -99,7 +99,7 @@ export default class App extends Component {
                     }}
                 />
 				{showStaticWidget && (
-					<View style={{height: SONG_ITEM_WIDTH}}>
+					<View style={styles.staticWidgetContainer(atMainTab)}>
 						<StaticPlayingWidget/>
 					</View>
 				)}
@@ -107,3 +107,12 @@ export default class App extends Component {
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	staticWidgetContainer: (atMainTab)  => ({
+		height: SONG_ITEM_WIDTH,
+		width: '100%',
+		position: atMainTab ? 'absolute' : 'relative',
+		bottom: atMainTab ? 50.5 : 0,
+	}),
+});

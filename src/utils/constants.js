@@ -15,7 +15,7 @@ export const REPEAT_STATE = {
 };
 export const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export const SCREEN_WIDTH = Dimensions.get('screen').width;
-export const numOfFirstItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
+export const numOfFirsSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 // collection detail
 export const AVATAR_SIZE = 120;
 export const WIDGET_BUTTON_SIZE = 35;

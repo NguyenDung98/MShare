@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import Avatar from '../components/Avatar';
 import {SCALE_RATIO} from '../constants/constants';
-import {getProfile} from '../actions/ProfileAction';
+import {getProfile} from '../actions/ProfileActions';
 import IconButton from "../components/IconButton";
 import { list } from '../data/History';
 import {ItemTimeLine} from '../components/Item';
@@ -62,7 +62,7 @@ export default class ProfileScreen extends Component {
 			item = {item}
 		/>
 	)
-  
+
 
 	render() {
     const {navigation: {goBack}} = this.props;
@@ -116,7 +116,7 @@ export default class ProfileScreen extends Component {
 						</View>
 
 					</View>
-          <FlatList 
+          <FlatList
             extraData={list}
             data={list}
             renderItem={this._renderItem}

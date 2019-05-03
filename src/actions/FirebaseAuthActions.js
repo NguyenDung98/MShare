@@ -45,7 +45,7 @@ export const subscribeUserConnection = () => {
 	userPublicInfo.onDisconnect().update({
 		online: false,
 	});
-	firebase.database().ref('.info/connected')
+	firebase.database().ref('/.info/connected')
 		.on('value', snap => {
 			if (snap.val()) {
 				updateUserOnlineState(userPublicInfo);

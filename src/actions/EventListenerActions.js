@@ -26,3 +26,24 @@ export const subscriptions = [
 		updateCurrentPlaySong(currentPlaylist[currentPlaySongIndex], currentPlaySongIndex);
 	}),
 ];
+
+export const navigationEventSubscriptions = (navigation) => {
+	const parent = navigation.dangerouslyGetParent();
+
+	return [
+		parent.addListener('willFocus', onFocusMainTab),
+		parent.addListener('willBlur', onBlurMainTab)
+	]
+};
+
+const onBlurMainTab = () => {
+	store.setState({
+		atMainTab: false,
+	})
+};
+
+const onFocusMainTab = () => {
+	store.setState({
+		atMainTab: true,
+	})
+};

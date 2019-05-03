@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, FlatList, Animated, Easing} from "react-native";
 import Song from "../components/Song";
 
-import {colors, ITEM_HEIGHT, numOfFirstItems, playSong, SCREEN_HEIGHT} from "../utils";
+import {colors, ITEM_HEIGHT, numOfFirsSongItems, playSong, SCREEN_HEIGHT} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
 import OptionModal from "../components/OptionModal";
@@ -47,7 +47,7 @@ export default class SongList extends Component {
 	}
 
 	_loadAudios = () => {
-		Action.addToDisplaySongList(numOfFirstItems);
+		Action.addToDisplaySongList(numOfFirsSongItems);
 	};
 
 	_getItemLayout = (data, index) => {
@@ -189,10 +189,9 @@ export default class SongList extends Component {
 					renderItem={this._renderItem}
 					onEndReached={this._loadAudios}
 					getItemLayout={this._getItemLayout}
-					removeClippedSubviews
 					showsVerticalScrollIndicator={false}
-					initialNumToRender={numOfFirstItems}
-					windowSize={11}
+					initialNumToRender={numOfFirsSongItems}
+					windowSize={15}
 				/>
 				<OptionModal
 					visible={showModal}

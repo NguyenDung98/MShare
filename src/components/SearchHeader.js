@@ -6,6 +6,7 @@ import IconButton from "./IconButton";
 import {colors} from "../utils";
 import store from "../store";
 import {SCALE_RATIO, HEADER_COLOR, ICON_COLOR} from '../constants/constants';
+import * as Action from "../actions";
 
 const BACK_BUTTON_SIZE = 40;
 
@@ -24,22 +25,30 @@ export default class SearchHeader extends Component {
 		this.setState({searchValue})
 	};
 
-	_handleSearchMusic = () => {
+	_handleSearchMusicOnDevice = () => {
 		const {songsInStorage, albums, artists, playlists} = store.getState();
 		const searchValueLowerCase = this.state.searchValue.toLowerCase().trim();
 		const searchedItems = {
-			searchedSongs: songsInStorage.filter(song => song.title.toLowerCase().includes(searchValueLowerCase)),
-			searchedAlbums: albums.filter(album => album.title.toLowerCase().includes(searchValueLowerCase)),
-			searchedArtists: artists.filter(artist => artist.name.toLocaleLowerCase().includes(searchValueLowerCase)),
-			searchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValueLowerCase)),
+			deviceSearchedSongs: songsInStorage.filter(song => song.title.toLowerCase().includes(searchValueLowerCase)),
+			deviceSearchedAlbums: albums.filter(album => album.title.toLowerCase().includes(searchValueLowerCase)),
+			deviceSearchedArtists: artists.filter(artist => artist.name.toLocaleLowerCase().includes(searchValueLowerCase)),
+			deviceSearchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValueLowerCase)),
 		};
 
 		store.setState({...searchedItems})
 	};
 
+	_handleSearchMusicOnline = async () => {
+		const searchValueLowerCase = this.state.searchValue.toLowerCase().trim();
+
+		await Action.searchMusicOnline(searchValueLowerCase);
+	};
+
 	render() {
+		const {online} = this.props;
 		const {searchValue} = this.state;
 		const {container, backBtnStyle, searchInputContainer, searchInput} = styles;
+		const placeholder = online ? 'Nhập từ khóa' : 'Nhập tên bài hát, ca sĩ, album...';
 
 		return (
 			<View style={container}>
@@ -59,14 +68,14 @@ export default class SearchHeader extends Component {
 				<View style={searchInputContainer}>
 					<TextInput
 						autoFocus
-						placeholder={'Nhập tên bài hát, album, ca sĩ...'}
+						placeholder={placeholder}
 						placeholderTextColor={colors.lightGrey}
 						underlineColorAndroid={colors.lighterGrey}
 						returnKeyType={'search'}
 						style={searchInput}
 						value={searchValue}
 						onChangeText={this._handleTextChange}
-						onSubmitEditing={this._handleSearchMusic}
+						onSubmitEditing={online ? this._handleSearchMusicOnline : this._handleSearchMusicOnDevice}
 					/>
 				</View>
 				<View

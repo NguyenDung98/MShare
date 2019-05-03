@@ -1,43 +1,27 @@
 import React, {Component} from 'react';
-import {View, Text, SectionList, StyleSheet, TouchableWithoutFeedback, TouchableNativeFeedback} from 'react-native';
+import {View, Text, SectionList, TouchableWithoutFeedback} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SectionItem from "../components/Song";
 
-import {colors, deviceSection, SONG_MARGIN} from "../utils";
+import {deviceSection, SONG_MARGIN} from "../utils";
 import store from "../store";
-import IconButton from "../components/IconButton";
-import {ICON_COLOR} from "../constants/constants";
+import * as Action from "../actions";
 
 const keyExtractor = (_, index) => index.toString();
-const BUTTON_SIZE = 40;
 
 export default class HomeScreen extends Component {
-	static navigationOptions = ({navigation: {navigate}}) => ({
-		headerLeft: (
-			<IconButton
-				name={'account-circle'}
-				iconSize={BUTTON_SIZE}
-				style={styles.leftHeaderBtnStyle}
-				color={ICON_COLOR}
-				IconType={MaterialIcons}
-				ButtonType={TouchableNativeFeedback}
-				buttonProps={{
-					background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
-				}}
-				onPress={() => navigate('Profile')}
-			/>
-		)
-	});
-
 	componentDidMount() {
+		const {navigation} = this.props;
+
 		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate()
-		})
+		});
+		this.navigationEventSubcriptions = Action.navigationEventSubscriptions(navigation);
 	}
 
 	componentWillUnmount() {
 		this.unsubcribe();
+		this.navigationEventSubcriptions.forEach(event => event.remove())
 	}
 
 	_renderItem = ({item}) => {
@@ -85,14 +69,3 @@ export default class HomeScreen extends Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	leftHeaderBtnStyle: {
-		marginLeft: 10,
-		width: BUTTON_SIZE,
-		height: BUTTON_SIZE,
-		borderRadius: BUTTON_SIZE / 2,
-		alignItems: 'center',
-		justifyContent: 'center',
-	}
-});

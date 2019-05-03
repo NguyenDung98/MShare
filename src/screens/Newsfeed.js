@@ -5,12 +5,7 @@ import { list } from '../data/newsfeed';
 const keyExtractor = item => item.id;
 
 export default class NewsFeed extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-    _renderItem =  ({item}) => (
+	_renderItem =  ({item}) => (
 		<ItemNewsfeed
 			item = {item}
 		/>

@@ -9,11 +9,18 @@ let state = {
 	currentPlaylist: [],
 	originalPlaylist: [],
 	playlists: [],
-	// search
-	searchedSongs: [],
-	searchedAlbums: [],
-	searchedArtists: [],
-	searchedPlaylists: [],
+	// device search
+	deviceSearchedSongs: [],
+	deviceSearchedAlbums: [],
+	deviceSearchedArtists: [],
+	deviceSearchedPlaylists: [],
+	// online search
+	registerGetOnlineData: false,
+	onlineSearchData: null,
+	onlineSearchedSongs: [],
+	onlineSearchedAlbums: [],
+	onlineSearchedArtists: [],
+	onlineSearchedPlaylists: [],
 	// widget
 	showStaticWidget: false,
 	currentPlayState: null,
@@ -21,6 +28,7 @@ let state = {
 	shuffleState: false,
 	//
 	appState: null,
+	atMainTab: false,
 	// userInfo
 	userFriends: [],
 };
@@ -41,5 +49,5 @@ export default {
 			listeners = listeners.filter(listener => listener !== newListener)
 		}
 	},
-	
+
 };
