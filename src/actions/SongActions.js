@@ -16,16 +16,6 @@ export const addToSongList = songList => {
 	return true;
 };
 
-export const addToDisplaySongList = numberOfSongs => {
-	const {songsInStorage, loadedSongs} = store.getState();
-	const currentSongIndex = loadedSongs.length;
-	const nextSongs = songsInStorage.slice(currentSongIndex, currentSongIndex + numberOfSongs);
-
-	store.setState({
-		loadedSongs: [...loadedSongs, ...nextSongs]
-	})
-};
-
 export const updateCurrentPlaySong = (item, index) => {
 	store.setState({
 		currentPlaySong: item,

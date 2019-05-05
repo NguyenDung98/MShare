@@ -1,7 +1,7 @@
 import firebase from 'react-native-firebase';
 
 export const uploadSongToFirebaseStorage = async (song) => {
-	const {filename, uri, title, artwork, artist, albumName} = song;
+	const {filename, uri, title, artwork, artist, albumName, duration} = song;
 	const uploadRef = firebase.storage().ref(`/music/${filename}`);
 
 	uploadRef.putFile(uri)
@@ -13,6 +13,7 @@ export const uploadSongToFirebaseStorage = async (song) => {
 					artist,
 					albumName,
 					filename,
+					duration,
 				}, () => {
 					console.log("Your're good to go!")
 				})

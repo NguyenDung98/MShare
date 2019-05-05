@@ -6,20 +6,25 @@ export const setUpArtistList = () => {
 
 	const artistsObject = songsInStorage.reduce((acc, song) => {
 		if (song.artist) {
-			if (!acc.hasOwnProperty(song.artist)) {
-				acc[song.artist] = {
-					songs: [],
-					name: song.artist,
-					avatar: null,
+			const artistsArray = song.artist.split(',');
+
+			artistsArray.forEach(artist => {
+				const trimmedArtist = artist.trim();
+
+				if (!acc.hasOwnProperty(trimmedArtist)) {
+					acc[trimmedArtist] = {
+						songs: [],
+						name: trimmedArtist,
+						avatar: null,
+					}
 				}
-			}
-			acc[song.artist].songs.push(song);
+				acc[trimmedArtist].songs.push(song);
 
-			if (!acc[song.artist].avatar && song.artwork) {
-				acc[song.artist].avatar = song.artwork;
-			}
+				if (!acc[trimmedArtist].avatar && song.artwork) {
+					acc[trimmedArtist].avatar = song.artwork;
+				}
+			})
 		}
-
 		return acc;
 	}, {});
 

@@ -6,6 +6,7 @@ import CollectionDetailWidget from "../components/CollectionDetailWidget";
 
 import {AVATAR_SIZE, colors, playSong, SCREEN_HEIGHT, SCREEN_WIDTH, SONG_ITEM_WIDTH} from "../utils";
 import store from "../store";
+import * as Action from '../actions/'
 
 const keyExtractor = (_, index) => index.toString();
 
@@ -39,25 +40,25 @@ export default class CollectionDetail extends Component {
 		const {type, index, dataName} = params;
 
 		if (type !== null && index !== null) {
+			const {songs} = store.getState()[dataName][index];
+			this._setUpSongsData(songs);
+
 			if (type === 'Album') {
-				const {songs, artwork, artist, title} = store.getState()[dataName][index];
+				const {artwork, artist, title} = store.getState()[dataName][index];
 				this.setState({
-					songs,
 					image: artwork,
 					title,
 					type,
 				})
 			} else if (type === 'Playlist') {
-				const {songs, title} = store.getState()[dataName][index];
+				const {title} = store.getState()[dataName][index];
 				this.setState({
-					songs,
 					title,
 					type,
 				})
 			} else {
-				const {songs, avatar, name} = store.getState()[dataName][index];
+				const {avatar, name} = store.getState()[dataName][index];
 				this.setState({
-					songs,
 					image: avatar,
 					title: name,
 					type,
@@ -69,6 +70,16 @@ export default class CollectionDetail extends Component {
 	componentWillUnmount() {
 		this.unsubcribe();
 	}
+
+	_setUpSongsData = (songs) => {
+		if (typeof songs[0] !== 'object') {
+			Action.getSongsDetail(songs).then(songs => {
+				this.setState({songs})
+			})
+		} else {
+			this.setState({songs})
+		}
+	};
 
 	_onLayout = ({nativeEvent: {layout: {width}}}) => {
 		if (width > SCREEN_WIDTH * 0.6 && !this.state.animation) {

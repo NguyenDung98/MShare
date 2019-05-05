@@ -6,8 +6,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import store from "../store";
 
 export const SONG_ITEM_WIDTH = 65;
-export const SONG_MARGIN = 10;
-export const ITEM_HEIGHT = SONG_ITEM_WIDTH + SONG_MARGIN * 2;
+export const SONG_PADDING = 10;
+export const ITEM_HEIGHT = SONG_ITEM_WIDTH + SONG_PADDING * 2;
 export const REPEAT_STATE = {
 	off: 0,
 	all: 1,
@@ -15,7 +15,6 @@ export const REPEAT_STATE = {
 };
 export const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export const SCREEN_WIDTH = Dimensions.get('screen').width;
-export const numOfFirsSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 // collection detail
 export const AVATAR_SIZE = 120;
 export const WIDGET_BUTTON_SIZE = 35;

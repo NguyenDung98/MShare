@@ -1,14 +1,14 @@
 import React from 'react';
-import {Dimensions, Image, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
+import {Image, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
 import IconButton from "./IconButton";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import {colors} from "../utils";
+import {colors, SCREEN_WIDTH} from "../utils";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AlbumArtist from "./SongArtist";
 
 const MARGIN = 18;
-const ARTWORK_SIZE = (Dimensions.get('screen').width - (MARGIN * 3)) * 0.5;
+const ARTWORK_SIZE = (SCREEN_WIDTH - (MARGIN * 3)) * 0.5;
 
 export default function AlbumItem({item, index, onPress}) {
 	const style = {

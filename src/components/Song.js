@@ -6,7 +6,7 @@ import SongArtist from "./SongArtist";
 import IconButton from "./IconButton";
 import PropTypes from 'prop-types';
 
-import {colors, SONG_ITEM_WIDTH, SONG_MARGIN} from "../utils/";
+import {colors, SONG_ITEM_WIDTH, SONG_PADDING} from "../utils/";
 
 export default class Song extends React.PureComponent {
 	static propTypes = {
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         padding: 15,
-        paddingTop: SONG_MARGIN,
-        paddingBottom: SONG_MARGIN,
+        paddingTop: SONG_PADDING,
+        paddingBottom: SONG_PADDING,
         alignItems: 'center',
 	    flex: 1,
     },

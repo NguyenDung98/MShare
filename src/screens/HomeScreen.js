@@ -3,7 +3,7 @@ import {View, Text, SectionList, TouchableWithoutFeedback} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SectionItem from "../components/Song";
 
-import {deviceSection, SONG_MARGIN} from "../utils";
+import {deviceSection, SONG_PADDING} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
 
@@ -50,7 +50,7 @@ export default class HomeScreen extends Component {
 
 	_renderSectionHeader = ({section: {title}}) => {
 		return (
-			<View style={{margin: SONG_MARGIN}}>
+			<View style={{margin: SONG_PADDING}}>
 				<Text style={{fontSize: 25, color: 'black'}}>{title.toUpperCase()}</Text>
 			</View>
 		)

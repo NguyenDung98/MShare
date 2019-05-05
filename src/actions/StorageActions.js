@@ -1,14 +1,12 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import store from "../store";
 import * as Action from "./index";
-import {numOfFirsSongItems} from "../utils";
 
 export const clearDataFromLocal = async () => {
 	try {
 		await AsyncStorage.removeItem('songs');
 		store.setState({
 			songsInStorage: [],
-			loadedSongs: [],
 		});
 	} catch (e) {
 		console.log(e);
@@ -24,10 +22,12 @@ export const setUpLocalData = async () => {
 			playlists: dataOnStorage[1][1] ? JSON.parse(dataOnStorage[1][1]) : [],
 		});
 		if (dataOnStorage[0][1]) {
-			Action.addToDisplaySongList(numOfFirsSongItems);
 			Action.setUpAlbumList();
 			Action.setUpArtistList();
+			return true;
 		}
+
+		return false;
 	} catch (e) {
 		console.log('error: ' + e)
 	}

@@ -1,6 +1,5 @@
 let state = {
 	songsInStorage: [],
-	loadedSongs: [],
 	albums: [],
 	artists: [],
 	currentPlaySong: null,

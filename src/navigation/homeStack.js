@@ -23,7 +23,7 @@ const HomeStack = createStackNavigator({
 		navigationOptions,
 	},
 	SongsTabScreen: {
-		screen: libraryTab('loadedSongs', 'albums', 'artists', 'playlists'),
+		screen: libraryTab('songsInStorage', 'albums', 'artists', 'playlists'),
 		navigationOptions: ({navigation}) => ({
 			header: <LibraryTabHeader navigation={navigation}/>,
 		}),

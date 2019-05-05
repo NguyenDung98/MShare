@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, FlatList, Animated, Easing} from "react-native";
 import Song from "../components/Song";
 
-import {colors, ITEM_HEIGHT, numOfFirsSongItems, playSong, SCREEN_HEIGHT} from "../utils";
+import {colors, ITEM_HEIGHT, playSong, SCREEN_HEIGHT} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
 import OptionModal from "../components/OptionModal";
@@ -12,6 +12,7 @@ import TextInputBottomOption from "../components/TextInputBottomOption";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const keyExtractor = item => item.id;
+const numOfFirstSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 const ANIMATION_CONFIG = {
 	duration: 200,
 	easing: Easing.linear(),
@@ -35,6 +36,7 @@ export default class SongList extends Component {
 
 	inputBoxPosition = new Animated.Value(0);
 	overlayOpacity = new Animated.Value(0);
+	endItems =  numOfFirstSongItems;
 
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
@@ -47,7 +49,8 @@ export default class SongList extends Component {
 	}
 
 	_loadAudios = () => {
-		Action.addToDisplaySongList(numOfFirsSongItems);
+		this.endItems =  this.endItems + numOfFirstSongItems;
+		this.forceUpdate();
 	};
 
 	_getItemLayout = (data, index) => {
@@ -179,19 +182,25 @@ export default class SongList extends Component {
 	render() {
 		const {navigation: {getParam}} = this.props;
 		const data = getParam('dataName');
-		const {selectedSong, boxHeight, showModal, showFirstOptionBox, showCreatePlaylistBox, newPlaylistTitle} = this.state;
+		const {
+			selectedSong,
+			boxHeight,
+			showModal,
+			showFirstOptionBox,
+			showCreatePlaylistBox,
+			newPlaylistTitle,
+		} = this.state;
 
 		return (
 			<View style={styles.container}>
 				<FlatList
 					keyExtractor={keyExtractor}
-					data={store.getState()[data]}
+					data={store.getState()[data].slice(0, this.endItems)}
 					renderItem={this._renderItem}
 					onEndReached={this._loadAudios}
 					getItemLayout={this._getItemLayout}
 					showsVerticalScrollIndicator={false}
-					initialNumToRender={numOfFirsSongItems}
-					windowSize={15}
+					initialNumToRender={numOfFirstSongItems}
 				/>
 				<OptionModal
 					visible={showModal}

@@ -13,31 +13,32 @@ export const searchMusicOnline = async (searchValue) => {
 		const {songs, albums, artists} = onlineSearchData;
 
 		const searchedItems = {
-			onlineSearchedSongs: await getSongsDetail(songs.filter(song => song[0].toLowerCase().includes(searchValue))),
+			onlineSearchedSongs: await getSongsDetail(
+				songs.filter(song => song[0].toLowerCase().includes(searchValue)).map(song => song[1])
+			),
 			onlineSearchedAlbums: albums.filter(album => album.title.toLowerCase().includes(searchValue)),
 			onlineSearchedArtists: artists.filter(artist => artist.name.toLocaleLowerCase().includes(searchValue)),
 			// onlineSearchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValue)),
 		};
 
-		store.setState({...searchedItems})
+		store.setState({...searchedItems});
 	}
 };
 
-const getSongsDetail = async (songs) => {
-	const songsID = songs.map(song => song[1]);
+export const getSongsDetail = async (songsID) => {
 	const musicDatabaseRef = firebase.database().ref('/musics');
 	const musicStorageRef = firebase.storage().ref('/music');
 
 	const songsData = await Promise.all(songsID.map(songID => {
 		return musicDatabaseRef.child(songID).once('value')
 	}));
-	const songsWithUrl = await Promise.all(songsData.map(song => {
+	const songsUrl = await Promise.all(songsData.map(song => {
 		return musicStorageRef.child(song.val().filename).getDownloadURL();
 	}));
 
 	return songsData.map((song, index) => ({
 		id: songsID[index],
-		uri: songsWithUrl[index],
+		uri: songsUrl[index],
 		...song.val(),
 	}));
 };

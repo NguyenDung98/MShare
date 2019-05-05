@@ -14,7 +14,7 @@ import {
 	skipToNext,
 	skipToPrevious,
 	SONG_ITEM_WIDTH,
-	SONG_MARGIN,
+	SONG_PADDING,
 	togglePlay
 } from "../utils";
 
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
 	},
 	songArtist: {
 		flexGrow: 1,
-		marginHorizontal: SONG_MARGIN,
+		marginHorizontal: SONG_PADDING,
 		flexBasis: '40%',
 	},
 	buttonStyle: width => ({
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginRight: SONG_MARGIN / 2,
+		marginRight: SONG_PADDING / 2,
 		width
 	}),
 });

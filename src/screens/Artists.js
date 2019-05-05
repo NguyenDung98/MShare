@@ -2,17 +2,19 @@ import React, {Component} from 'react';
 import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import ArtistItem from "../components/Song";
 import Entypo from 'react-native-vector-icons/Entypo';
-import Ionicons from "react-native-vector-icons/Ionicons";
 
-import {SONG_ITEM_WIDTH} from '../utils/';
+import {ITEM_HEIGHT, SCREEN_HEIGHT, SONG_ITEM_WIDTH} from '../utils/';
 import store from "../store";
 
 const keyExtractor = (_, index) => index.toString();
+const numOfFirstItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
 export default class Artists extends Component {
 	static navigationOptions = {
 		title: 'Ca sĩ'
 	};
+
+	endItems = numOfFirstItems;
 
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
@@ -23,6 +25,19 @@ export default class Artists extends Component {
 	componentWillUnmount() {
 		this.unsubcribe();
 	}
+
+	_getItemLayout = (data, index) => {
+		return {
+			length: ITEM_HEIGHT,
+			offset: ITEM_HEIGHT * index,
+			index,
+		}
+	};
+
+	_loadMoreArtists = () => {
+		this.endItems = this.endItems + numOfFirstItems;
+		this.forceUpdate();
+	};
 
 	_renderItem = ({item, index}) => {
 		const {avatar, name, songs} = item;
@@ -60,9 +75,13 @@ export default class Artists extends Component {
 
 		return (
 			<FlatList
-				data={store.getState()[dataName]}
 				keyExtractor={keyExtractor}
+				data={store.getState()[dataName].slice(0, this.endItems)}
+				onEndReached={this._loadMoreArtists}
+				getItemLayout={this._getItemLayout}
 				renderItem={this._renderItem}
+				showsVerticalScrollIndicator={false}
+				initialNumToRender={numOfFirstItems}
 			/>
 		)
 	}

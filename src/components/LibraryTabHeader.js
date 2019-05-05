@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ICON_COLOR} from '../constants/constants';
-import {colors, getAudioMetaData, numOfFirsSongItems} from "../utils";
+import {colors, getAudioMetaData} from "../utils";
 import IconButton from "./IconButton";
 
 import * as MediaLibrary from "expo-media-library";
@@ -81,7 +81,6 @@ export default class LibraryTabHeader extends Component {
 	_handleScanSongs = async () => {
 		await Action.clearDataFromLocal();
 		await this._getSongs();
-		Action.addToDisplaySongList(numOfFirsSongItems);
 		Action.setUpAlbumList();
 		Action.setUpArtistList();
 	};

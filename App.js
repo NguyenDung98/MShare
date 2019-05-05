@@ -11,7 +11,6 @@ import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
 	getAudioMetaData,
-	numOfFirsSongItems,
 	SONG_ITEM_WIDTH,
 	trackPlayerUpdateOptions
 } from "./src/utils";
@@ -34,7 +33,6 @@ export default class App extends Component {
 			// setup local data
 			if (!await Action.setUpLocalData()) {
 				await this._getSongs();
-				Action.addToDisplaySongList(numOfFirsSongItems);
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
