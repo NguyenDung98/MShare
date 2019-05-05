@@ -4,11 +4,12 @@ import Song from "../components/Song";
 import CollectionDetailHeader from "../components/CollectionDetailHeader";
 import CollectionDetailWidget from "../components/CollectionDetailWidget";
 
-import {AVATAR_SIZE, colors, playSong, SCREEN_HEIGHT, SCREEN_WIDTH, SONG_ITEM_WIDTH} from "../utils";
+import {AVATAR_SIZE, colors, ITEM_HEIGHT, playSong, SCREEN_HEIGHT, SCREEN_WIDTH, SONG_ITEM_WIDTH} from "../utils";
 import store from "../store";
 import * as Action from '../actions/'
 
 const keyExtractor = (_, index) => index.toString();
+const numOfFirstSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
 export default class CollectionDetail extends Component {
 	static navigationOptions = {
@@ -28,6 +29,7 @@ export default class CollectionDetail extends Component {
 	};
 
 	titlePosition = new Animated.Value(0);
+	endItems = numOfFirstSongItems;
 
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
@@ -95,19 +97,6 @@ export default class CollectionDetail extends Component {
 		}
 	};
 
-	_renderItem = ({item}) => {
-		const {artwork, artist, title} = item;
-
-		return (
-			<Song
-				uri={artwork}
-				subTitle={artist}
-				title={title}
-				onPress={() => playSong(item)}
-			/>
-		)
-	};
-
 	_changeWidth = () => {
 		if (this.state.animation) {
 			return {
@@ -123,6 +112,32 @@ export default class CollectionDetail extends Component {
 		}
 
 		return title;
+	};
+
+	_getItemLayout = (data, index) => {
+		return {
+			length: ITEM_HEIGHT,
+			offset: ITEM_HEIGHT * index,
+			index,
+		}
+	};
+
+	_loadMoreSongs = () => {
+		this.endItems = this.endItems + numOfFirstSongItems;
+		this.forceUpdate();
+	};
+
+	_renderItem = ({item}) => {
+		const {artwork, artist, title} = item;
+
+		return (
+			<Song
+				uri={artwork}
+				subTitle={artist}
+				title={title}
+				onPress={() => playSong(item)}
+			/>
+		)
 	};
 
 	render() {
@@ -158,10 +173,14 @@ export default class CollectionDetail extends Component {
 					image={image}
 				/>
 				<FlatList
-					data={songs}
-					renderItem={this._renderItem}
 					keyExtractor={keyExtractor}
+					data={songs.slice(0, this.endItems)}
+					onEndReached={this._loadMoreSongs}
+					getItemLayout={this._getItemLayout}
+					renderItem={this._renderItem}
 					style={songListStyle}
+					initialNumToRender={numOfFirstSongItems}
+					showsVerticalScrollIndicator={false}
 				/>
 			</View>
 		);
