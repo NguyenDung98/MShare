@@ -1,31 +1,35 @@
 import React, { Component } from 'react'
-import { Text, View, Button , FlatList} from 'react-native'
-import { getListFriend } from '../actions/ListFriendsActions';
-import { LoginManager } from 'react-native-fbsdk';
-import { clearAccessToken } from '../utils/asyncStorage';
-import { getUserFriends } from '../actions/FacebookAuthActions'
-import store from '../store'
-import { userFriends } from '../data/Friend';
+import { View, FlatList} from 'react-native'
 import { ItemFriend } from '../components/FriendItem';
 
+import store from "../store";
 
 const keyExtractor = item => item.id;
 
 export default class ListFriends extends Component {
-	componentWillMount() {
-		getUserFriends();
+	componentDidMount() {
+		this.unsubcribe = store.onChange(() => {
+			this.forceUpdate()
+		});
 	}
+
+	componentWillUnmount() {
+		this.unsubcribe();
+	}
+
 	_renderItem =  ({item}) => (
 		<ItemFriend
 			item = {item}
 		/>
-	)
+	);
+
 	render() {
+		const data = Object.values(store.getState().userFriends);
+
 		return (
 			<View>
 				<FlatList
-					extraData={userFriends.friends.data}
-					data={userFriends.friends.data}
+					data={data}
 					renderItem={this._renderItem}
 					keyExtractor={keyExtractor}
 				/>

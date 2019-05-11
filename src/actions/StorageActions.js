@@ -37,7 +37,9 @@ export const saveDataToLocal = async () => {
 	try {
 		const {songsInStorage} = store.getState();
 
-		await AsyncStorage.setItem('songs', JSON.stringify(songsInStorage));
+		if (songsInStorage.length > 20) {
+			await AsyncStorage.setItem('songs', JSON.stringify(songsInStorage));
+		}
 	} catch (e) {
 		console.log(e);
 	}

@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: colors.white,
 		...StyleSheet.absoluteFill,
-		zIndex: 2,
 	},
 	nowPlaying: {
 		flexGrow: 1,

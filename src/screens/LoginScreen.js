@@ -13,14 +13,15 @@ import * as facebookAction from "../actions/FacebookAuthActions";
 export default class Login extends Component {
 	componentWillMount() {
 		const {navigation: {navigate}} = this.props;
+		let firstCall = true;
 
 		firebase.auth().onAuthStateChanged(user => {
-			if (user) {
+			if (!firstCall && user) {
 				navigate('MainTabNavigator');
 				facebookAction.getUserFriends();
 				Action.subscribeUserConnection();
 			}
-			// console.log('Dont user');
+			firstCall = false;
 		});
 	};
 

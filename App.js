@@ -10,7 +10,7 @@ import TrackPlayer from "react-native-track-player";
 import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
-	getAudioMetaData,
+	getAudioMetaData, SCREEN_HEIGHT,
 	SONG_ITEM_WIDTH,
 	trackPlayerUpdateOptions
 } from "./src/utils";
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
 		height: SONG_ITEM_WIDTH,
 		width: '100%',
 		position: atMainTab ? 'absolute' : 'relative',
-		bottom: atMainTab ? 50.5 : 0,
+		bottom: atMainTab ? SCREEN_HEIGHT / 14 + 5 : 0,
 	}),
 });

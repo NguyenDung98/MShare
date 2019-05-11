@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase';
+import store from "../store";
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
 	if (isNewUser) {
@@ -67,4 +68,29 @@ export const updateUserOnlineState = userPublicInfo => {
 		online: true,
 		stateTrack: new Date().getTime(),
 	});
+};
+
+export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
+	const usersPublicInfoRef = firebase.database().ref('/usersPublicInfo');
+
+	userFriendsFbInfo.forEach(data => {
+		usersPublicInfoRef.child(data.id).on('value', snapshot => {
+			const {userFriends} = store.getState();
+
+			store.setState({
+				userFriends: {
+					...userFriends,
+					[data.id]: {
+						...data,
+						...snapshot.val(),
+					}
+				}
+			})
+		})
+	})
+};
+
+export const logOutFirebase = async () => {
+	await toggleUserState(false);
+	firebase.auth().signOut();
 };

@@ -12,7 +12,7 @@ export const setUpAlbumList = () => {
 					songs: [],
 					artwork: null,
 					artist: null,
-					title: song.albumName ? song.albumName : 'Unknown',
+					title: albumName ? albumName : 'Unknown',
 				};
 			}
 			acc[albumName].songs.push(song);
@@ -32,7 +32,7 @@ export const setUpAlbumList = () => {
 		return acc;
 	}, {});
 
-	const albums = _.toArray(albumListObject);
+	const albums = Object.values(albumListObject);
 
 	store.setState({albums})
 };

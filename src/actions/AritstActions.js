@@ -28,7 +28,7 @@ export const setUpArtistList = () => {
 		return acc;
 	}, {});
 
-	const artists = _.toArray(artistsObject);
+	const artists = Object.values(artistsObject);
 
 	store.setState({artists});
 };

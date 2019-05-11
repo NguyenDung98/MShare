@@ -1,31 +1,23 @@
 import React from 'react';
 
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
 import Icon from 'react-native-vector-icons/Feather';
-
-
-
-
+import Song from "./Song";
 
 export const ItemFriend = ({
     item = {}
 }) => {
-    console.log(item)
-    const { name, uri, online, listening } = item
+    const { name, avatarUrl, online, listening } = item;
     if(!online)
-        return <View />
+        return <View />;
     return (
-        
         <View style={styles.container}>
             <View style={styles.container2}>
-                <Image source={{ uri: uri }} style={styles.avt} />
+                <Image source={{ uri: avatarUrl }} style={styles.avt} />
                 {/* This for item online */}
                 <View style={styles.online} />
                 <View />
-
-
             </View>
             <View style={styles.container3}>
                 <Text style={styles.name}>{name}</Text>
@@ -36,7 +28,6 @@ export const ItemFriend = ({
                     </View>
                     : <View />
                 }
-
             </View>
             {listening ?
                 <TouchableOpacity style={styles.play}>
@@ -44,11 +35,14 @@ export const ItemFriend = ({
                 </TouchableOpacity>
                 : <View />
             }
+            {/*<Song*/}
+                {/*showAvatar={false}*/}
+                {/*title={name}*/}
+                {/*subTitle={item.item.title}*/}
+            {/*/>*/}
         </View>
-
     )
-}
-
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -72,10 +66,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     container2: {
-        flex: 1 / 6,
         flexDirection: 'column',
     },
-
     online: {
         flex: 1,
         width: 30 * SCALE_RATIO,
@@ -86,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#17c603',
         marginTop: -30 * SCALE_RATIO,
         marginLeft: 70 * SCALE_RATIO
-
     },
     name: {
         fontSize: 17,
@@ -120,4 +111,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // width : 50 * SCALE_RATIO,
     }
-})
+});
