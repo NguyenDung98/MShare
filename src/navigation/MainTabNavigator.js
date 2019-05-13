@@ -8,13 +8,11 @@ import ListFriends from '../screens/ListFriends';
 import OtherScreen from '../screens/OtherScreen';
 import NewsFeed from '../screens/Newsfeed';
 
-import { colors } from "../utils/colors";
+import { colors, SCREEN_HEIGHT } from "../utils";
 import IconButton from "../components/IconButton";
 import {ICON_COLOR} from "../constants/constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
-const { height } = Dimensions.get('window');
 
 export const MainTabNavigator = createMaterialTopTabNavigator({
 	Home: {
@@ -74,7 +72,7 @@ export const MainTabNavigator = createMaterialTopTabNavigator({
 			showIcon: true,
 			style: {
 				backgroundColor: colors.brightRed,
-				height: height / 14 + 5,
+				height: SCREEN_HEIGHT / 14 + 5,
 			},
 			labelStyle: {
 				fontSize: 12,

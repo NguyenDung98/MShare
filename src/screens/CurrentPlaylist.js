@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {colors} from "../utils";
+import {colors, playSong} from "../utils";
 import Song from "../components/Song";
 import store from "../store";
-import TrackPlayer from "react-native-track-player";
 
 const keyExtractor = item => item.id;
 
@@ -28,10 +27,7 @@ export default class CurrentPlaylist extends Component {
 					subTitle={artist}
 					title={title}
 					showAvatar={false}
-					onPress={async () => {
-						await TrackPlayer.skip(item.id);
-						await TrackPlayer.play();
-					}}
+					onPress={async () => await playSong(item)}
 					subTitleColor={colors.brighterRed}
 					titleColor={colors.brightRed}
 				/>
@@ -43,10 +39,7 @@ export default class CurrentPlaylist extends Component {
 				subTitle={artist}
 				title={title}
 				showAvatar={false}
-				onPress={async () => {
-					await TrackPlayer.skip(item.id);
-					await TrackPlayer.play();
-				}}
+				onPress={async () => await playSong(item)}
 			/>
 		)
 	};

@@ -31,7 +31,7 @@ export default function SongOption({song, closeModal, onAddToPlaylist}) {
 				IconType={Ionicons}
 				iconSize={40}
 				onPress={async () => {
-					await Action.addToPlayingList(song, true);
+					await Action.addToCurrentPlayList(song, true);
 					closeModal();
 				}}
 			/>

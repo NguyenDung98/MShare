@@ -10,6 +10,7 @@ export const skipToNext = async () => {
 			0 : currentPlaySongIndex + 1;
 
 		await TrackPlayer.skip(currentPlaylist[nextSongIndex].id);
+		Action.updateCurrentPlaySong(currentPlaylist[nextSongIndex], nextSongIndex);
 	}
 };
 
@@ -20,11 +21,12 @@ export const skipToPrevious = async () => {
 			currentPlaylist.length - 1 : currentPlaySongIndex - 1;
 
 		await TrackPlayer.skip(currentPlaylist[prevSongIndex].id);
+		Action.updateCurrentPlaySong(currentPlaylist[prevSongIndex], prevSongIndex);
 	}
 };
 
 export const togglePlay = async () => {
-	const {currentPlayState} = store.getState();
+	const {currentPlayState, currentPlaySong, currentPlaySongIndex} = store.getState();
 
 	if (currentPlayState === TrackPlayer.STATE_PLAYING) {
 		await TrackPlayer.pause();
@@ -32,13 +34,15 @@ export const togglePlay = async () => {
 		currentPlayState === TrackPlayer.STATE_NONE
 	) {
 		await TrackPlayer.play();
+		Action.updateCurrentPlaySong(currentPlaySong, currentPlaySongIndex)
 	}
 };
 
-export const repeatOrNext = async (value, duration) => {
+export const repeatOrNext = async (value, duration, isSeeking) => {
 	const {repeatState, currentPlaySongIndex, currentPlaylist, currentPlaySong} = store.getState();
 
 	if (duration !== 0 && Math.ceil(value) >= Math.floor(duration)) {
+		Action.updateSharingSongs(isSeeking, currentPlaySong);
 		switch (repeatState) {
 			case REPEAT_STATE.one:
 				await TrackPlayer.skip(currentPlaySong.id);
@@ -50,6 +54,9 @@ export const repeatOrNext = async (value, duration) => {
 				await skipToNext();
 				if (currentPlaySongIndex === currentPlaylist.length - 1) {
 					await TrackPlayer.stop();
+					Action.updateUserPublicInfo({
+						playingSong: 'inactive'
+					})
 				}
 		}
 		return true;
@@ -58,11 +65,18 @@ export const repeatOrNext = async (value, duration) => {
 	return false;
 };
 
+
 export const playSong = async (item) => {
 	const {currentPlaylist} = store.getState();
+	const songIndex = currentPlaylist.findIndex(song => song.id === item.id);
 
-	Action.updateCurrentPlaySong(item, currentPlaylist.length);
-	await Action.addToPlayingList(item, true);
+	if (songIndex === -1) {
+		Action.updateCurrentPlaySong(item, currentPlaylist.length);
+		await Action.addToCurrentPlayList(item, true, true);
+	} else {
+		Action.updateCurrentPlaySong(item, songIndex);
+	}
+
 	await TrackPlayer.skip(item.id);
 	await TrackPlayer.play();
 };

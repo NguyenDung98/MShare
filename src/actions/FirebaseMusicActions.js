@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase';
 import store from "../store";
+import * as Action from "./StorageActions";
 
 export const searchMusicOnline = async (searchValue) => {
 	const {registerGetOnlineData} = store.getState();
@@ -27,18 +28,13 @@ export const searchMusicOnline = async (searchValue) => {
 
 export const getSongsDetail = async (songsID) => {
 	const musicDatabaseRef = firebase.database().ref('/musics');
-	const musicStorageRef = firebase.storage().ref('/music');
 
 	const songsData = await Promise.all(songsID.map(songID => {
 		return musicDatabaseRef.child(songID).once('value')
 	}));
-	const songsUrl = await Promise.all(songsData.map(song => {
-		return musicStorageRef.child(song.val().filename).getDownloadURL();
-	}));
 
 	return songsData.map((song, index) => ({
 		id: songsID[index],
-		uri: songsUrl[index],
 		...song.val(),
 	}));
 };
@@ -54,4 +50,41 @@ const registerGetOnlineDataFromFirebase = () => {
 				resolve('success')
 			})
 	})
+};
+
+export const filterPlayingSongType = async (songID) => {
+	switch (songID) {
+		case 'device':
+			return 'Nghe nhạc trên thiết bị';
+		case undefined:
+		case 'inactive':
+			return null;
+		default:
+			return (await getSongsDetail([songID]))[0];
+	}
+};
+
+export const updateUserPublicInfo = (updateObject) => {
+	if (firebase.auth().currentUser) {
+		const {currentUser: {providerData: [{uid}]}} = firebase.auth();
+		const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${uid}`);
+
+		userPublicInfo.update({
+			...updateObject,
+		})
+	}
+};
+
+export const updateSharingSongs = (isSeeking, currentPlaySong) => {
+	if (!isSeeking && currentPlaySong.resource !== 'device') {
+		const {sharingSongs} = store.getState();
+		const newSharingSongs = Array.from(new Set([currentPlaySong.id, ...sharingSongs].slice(0, 5)));
+
+		store.setState({
+			sharingSongs: newSharingSongs,
+		});
+		updateUserPublicInfo({
+			sharingSongs: newSharingSongs,
+		})
+	}
 };

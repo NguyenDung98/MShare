@@ -5,9 +5,21 @@ import PropTypes from 'prop-types';
 import {colors} from '../utils';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function Avatar({imageStyle, uri, width, showOverlayIcon, showAlternativeIcon, elevation, iconName, IconType}) {
+export default function Avatar({
+	imageStyle,
+	uri,
+	width,
+	showOverlayIcon,
+	showAlternativeIcon,
+    showBadge,
+	elevation,
+	iconName,
+	IconType,
+}) {
+	const {badgeStyle, container, iconStyle} = styles;
+
     return (
-        <View style={styles.container(elevation, imageStyle)}>
+        <View style={container(elevation, imageStyle)}>
             {uri ? (
                 <Image
                     source={{uri}}
@@ -22,14 +34,18 @@ export default function Avatar({imageStyle, uri, width, showOverlayIcon, showAlt
                     />)}
                 </View>
             )}
-            {showOverlayIcon &&
-                <View style={styles.iconStyle(width)}>
+	        {showBadge && (
+	        	<View style={badgeStyle}/>
+	        )}
+            {showOverlayIcon && (
+                <View style={iconStyle(width)}>
 	                <Ionicons
 		                name={"ios-add-circle"}
 		                size={width / 2}
                         color={colors.brightRed}
 	                />
-                </View>}
+                </View>
+            )}
         </View>
     )
 }
@@ -39,6 +55,7 @@ Avatar.propTypes = {
     width: PropTypes.number,
     showOverlayIcon: PropTypes.bool,
 	showAlternativeIcon: PropTypes.bool,
+	showBadge: PropTypes.bool,
 	elevation: PropTypes.number,
 	imageStyle: ViewPropTypes.style,
 	iconName: PropTypes.string,
@@ -50,7 +67,8 @@ Avatar.defaultProps = {
     width: 60,
 	showOverlayIcon: false,
 	showAlternativeIcon: true,
-    elevation: 1,
+	showBadge: false,
+	elevation: 1,
     imageStyle: {},
 	iconName: 'music',
 	IconType: FontAwesome,
@@ -81,4 +99,15 @@ const styles = StyleSheet.create({
         height: width / 2,
         borderRadius: width / 4,
     }),
+	badgeStyle: {
+    	position: 'absolute',
+		bottom: 0,
+		right: 0,
+    	width: 15,
+		height: 15,
+		backgroundColor: colors.green,
+		borderRadius: 15 / 2,
+		borderWidth: 2,
+		borderColor: colors.white
+	},
 });

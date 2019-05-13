@@ -26,7 +26,7 @@ export default class Progress extends TrackPlayer.ProgressComponent {
 		});
 		const {duration} = this.state;
 
-		if (await repeatOrNext(value, duration)) {
+		if (await repeatOrNext(value, duration, true)) {
 			return;
 		}
 		await TrackPlayer.seekTo(value);

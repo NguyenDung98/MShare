@@ -1,23 +1,26 @@
 import firebase from 'react-native-firebase';
 import store from "../store";
+import {filterPlayingSongType, updateUserPublicInfo} from "./FirebaseMusicActions";
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
+	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${id}`);
 	if (isNewUser) {
-		firebase.database().ref(`/usersPublicInfo/${id}`)
-			.set({
-				online: true,
-				stateTrack: new Date().getTime(),
-			});
+		userPublicInfo.set({
+			online: true,
+			stateTrack: new Date().getTime(),
+			playingSong: 'inactive',
+			sharing: true,
+		});
 		firebase.database().ref(`/users/${user.uid}`)
 			.set({
 				fb_id: id,
 			});
 	} else {
-		firebase.database().ref(`/usersPublicInfo/${id}`)
-			.update({
-				online: true,
-				stateTrack: new Date().getTime(),
-			})
+		userPublicInfo.update({
+			online: true,
+			stateTrack: new Date().getTime(),
+			playingSong: 'inactive',
+		});
 	}
 };
 
@@ -30,12 +33,14 @@ export const loginByFacebookProvider = async (accessToken) => {
 };
 
 export const toggleUserState = async (online) => {
-	const {currentUser: {providerData: [{uid}]}} = firebase.auth();
-
-	firebase.database().ref(`/usersPublicInfo/${uid}`)
-		.update({
+	if (online) {
+		updateUserPublicInfo({online})
+	} else {
+		updateUserPublicInfo({
 			online,
+			playingSong: 'inactive',
 		});
+	}
 };
 
 export const subscribeUserConnection = () => {
@@ -46,13 +51,21 @@ export const subscribeUserConnection = () => {
 	userPublicInfo.onDisconnect().update({
 		online: false,
 	});
+	userPublicInfo.once('value', snapshot => {
+		const {sharing, sharingSongs} = snapshot.val();
+
+		store.setState({
+			sharing,
+			sharingSongs: sharingSongs ? sharingSongs : [],
+		})
+	});
 	firebase.database().ref('/.info/connected')
 		.on('value', snap => {
 			if (snap.val()) {
-				updateUserOnlineState(userPublicInfo);
+				updateUserOnlineState();
 				keyInterval = setInterval(() => {
 					if (firebase.auth().currentUser) {
-						updateUserOnlineState(userPublicInfo)
+						updateUserOnlineState()
 					} else {
 						clearInterval(keyInterval);
 					}
@@ -63,8 +76,8 @@ export const subscribeUserConnection = () => {
 		})
 };
 
-export const updateUserOnlineState = userPublicInfo => {
-	userPublicInfo.update({
+export const updateUserOnlineState = () => {
+	updateUserPublicInfo({
 		online: true,
 		stateTrack: new Date().getTime(),
 	});
@@ -74,8 +87,10 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 	const usersPublicInfoRef = firebase.database().ref('/usersPublicInfo');
 
 	userFriendsFbInfo.forEach(data => {
-		usersPublicInfoRef.child(data.id).on('value', snapshot => {
+		usersPublicInfoRef.child(data.id).on('value', async (snapshot) => {
 			const {userFriends} = store.getState();
+			const playingSongID = snapshot.val() ? snapshot.val().playingSong : undefined;
+			const playingSong = await filterPlayingSongType(playingSongID);
 
 			store.setState({
 				userFriends: {
@@ -83,6 +98,7 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 					[data.id]: {
 						...data,
 						...snapshot.val(),
+						playingSong,
 					}
 				}
 			})

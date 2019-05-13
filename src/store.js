@@ -30,6 +30,8 @@ let state = {
 	atMainTab: false,
 	// userInfo
 	userFriends: [],
+	sharing: false,
+	sharingSongs: [],
 };
 
 let listeners = [];

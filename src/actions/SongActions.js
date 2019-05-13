@@ -1,5 +1,6 @@
 import store from "../store";
 import TrackPlayer from "react-native-track-player";
+import * as firebaseMusicAction from "./FirebaseMusicActions";
 
 export const addToSongList = songList => {
 	const {songsInStorage} = store.getState();
@@ -17,20 +18,30 @@ export const addToSongList = songList => {
 };
 
 export const updateCurrentPlaySong = (item, index) => {
+	if (item.resource !== 'device') {
+		firebaseMusicAction.updateUserPublicInfo( {
+			playingSong: item.id
+		});
+	} else {
+		firebaseMusicAction.updateUserPublicInfo({
+			playingSong: 'device'
+		})
+	}
+
 	store.setState({
 		currentPlaySong: item,
 		currentPlaySongIndex: index,
 	});
 };
 
-export const addToPlayingList = async (song, showWidget) => {
+export const addToCurrentPlayList = async (song, showWidget, filtered) => {
 	const {currentPlaylist, showStaticWidget, currentPlaySong} = store.getState();
 	let track = {
 		...song,
 		url: song.uri,
 	};
 
-	if (!currentPlaylist.find(item => item.id === track.id)) {
+	if (filtered || !currentPlaylist.find(item => item.id === track.id)) {
 		await TrackPlayer.add(track);
 		store.setState({
 			currentPlaylist: [...currentPlaylist, track],

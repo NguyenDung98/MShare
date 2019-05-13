@@ -10,7 +10,8 @@ import TrackPlayer from "react-native-track-player";
 import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
-	getAudioMetaData, SCREEN_HEIGHT,
+	getAudioMetaData,
+	SCREEN_HEIGHT,
 	SONG_ITEM_WIDTH,
 	trackPlayerUpdateOptions
 } from "./src/utils";
@@ -92,10 +93,10 @@ export default class App extends Component {
 		return (
 			<View style={{flex: 1}}>
 				<AppNavigator
-                    ref={navigatorRef => {
-                        NavigationService.setTopLevelNavigator(navigatorRef)
-                    }}
-                />
+					ref={navigatorRef => {
+						NavigationService.setTopLevelNavigator(navigatorRef)
+					}}
+				/>
 				{showStaticWidget && (
 					<View style={styles.staticWidgetContainer(atMainTab)}>
 						<StaticPlayingWidget/>
@@ -107,7 +108,7 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-	staticWidgetContainer: (atMainTab)  => ({
+	staticWidgetContainer: (atMainTab) => ({
 		height: SONG_ITEM_WIDTH,
 		width: '100%',
 		position: atMainTab ? 'absolute' : 'relative',

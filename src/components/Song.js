@@ -19,6 +19,7 @@ export default class Song extends React.PureComponent {
 		showAvatar: PropTypes.bool,
 		showOverlayIcon: PropTypes.bool,
 		showAlternativeIcon: PropTypes.bool,
+		showBadge: PropTypes.bool,
 		avatarIconName: PropTypes.string,
 		avatarIconType: PropTypes.any,
 		avatarIconWidth: PropTypes.number,
@@ -47,6 +48,7 @@ export default class Song extends React.PureComponent {
 			showOverlayIcon,
 			showAlternativeIcon,
 			showAvatar,
+			showBadge,
 			title,
 			subTitle,
 			onPress,
@@ -75,6 +77,7 @@ export default class Song extends React.PureComponent {
 							iconName={avatarIconName}
 							imageStyle={imageStyle}
 							showAlternativeIcon={showAlternativeIcon}
+							showBadge={showBadge}
 						/>
 					)}
 					<SongArtist

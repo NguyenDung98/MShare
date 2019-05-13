@@ -1,14 +1,13 @@
 import TrackPlayer from "react-native-track-player";
 import store from "../store";
 import {repeatOrNext} from "../utils";
-import {updateCurrentPlaySong} from "./index";
 
 export const subscriptions = [
 	TrackPlayer.addEventListener('playback-state', ({state}) => {
 		store.setState({
 			currentPlayState: state,
 		});
-	}),
+	}), // doi queue ended voi track changed neu can
 	TrackPlayer.addEventListener('playback-queue-ended', async () => {
 		const {currentPlaylist} = store.getState();
 
@@ -17,13 +16,11 @@ export const subscriptions = [
 		}
 	}),
 	TrackPlayer.addEventListener('playback-track-changed', async ({nextTrack, position}) => {
-		const {appState, currentPlaylist, currentPlaySong} = store.getState();
-		const currentPlaySongIndex = currentPlaylist.findIndex(song => song.id === nextTrack);
+		const {appState, currentPlaySong} = store.getState();
 
 		if (appState === 'background') {
 			await repeatOrNext(position, currentPlaySong.duration);
 		}
-		updateCurrentPlaySong(currentPlaylist[currentPlaySongIndex], currentPlaySongIndex);
 	}),
 ];
 

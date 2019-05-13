@@ -26,9 +26,12 @@ class ProgressTracking extends TrackPlayer.ProgressComponent {
 	}
 
 	async componentDidUpdate() {
+		const {appState} = store.getState();
 		const {position, duration} = this.state;
 
-		await repeatOrNext(position, duration);
+		if (appState !== 'background') {
+			await repeatOrNext(position, duration);
+		}
 	}
 
 	render() {

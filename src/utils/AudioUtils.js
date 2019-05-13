@@ -15,6 +15,7 @@ export const getAudioMetaData = async (assets) => {
 			artist: metadata.artist ? metadata.artist.trim() : 'Unknown artist',
 			id: asset.id,
 			filename: asset.filename,
+			resource: 'device'
 		}
 	});
 };

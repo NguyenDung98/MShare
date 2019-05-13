@@ -31,7 +31,6 @@ export default function SongArtist({
             )}
         </View>
     );
-
 }
 
 SongArtist.propTypes = {
@@ -44,8 +43,8 @@ SongArtist.propTypes = {
 };
 
 SongArtist.defaultProps = {
-	artistSize: 14,
-    songSize: 18,
+	artistSize: 13,
+    songSize: 17,
     wrapperStyle: {},
     songColor: 'black',
 };
