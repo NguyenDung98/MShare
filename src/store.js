@@ -32,6 +32,9 @@ let state = {
 	userFriends: [],
 	sharing: false,
 	sharingSongs: [],
+	history: [],
+	//
+	me: []
 };
 
 let listeners = [];

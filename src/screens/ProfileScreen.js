@@ -10,19 +10,24 @@ import {getProfile} from '../actions/ProfileActions';
 import IconButton from "../components/IconButton";
 import { list } from '../data/History';
 import {ItemTimeLine} from '../components/Item';
+import { getSharingMusic } from '../actions';
+import store from '../store';
 
 const default_avt = require('./../imgs/default-avatar.png')
 const BACK_BUTTON_SIZE = 40;
 
-const keyExtractor = item => item.item.id;
+// const keyExtractor = item => item.item.id;
 
 export default class ProfileScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			avt: '',
-			token: 'EAAFzZCwdP8KUBAJnTWsorZBKOmXJF7d96FGmHeFXyAZALoZAfgZCZBa2ot7GbLW515LajlZAAb3EnfDdpkNFcUH8428vNNQVfxCFxXSgJ1wnhwVkpNtVaIkfgbkcdllQG3xvjJZALys5IUQsiR4UZAlQja2CYDMDjHloCLJRSy3A9E4KUAFBN2qi5sz0UOI4ls4oH0UTbgNDsZBqqVMQZAbZBmXo73xSdFpSJTHypCI23pZCXMwZDZD'
+			//fake
+			name: 'User',
+			id : '1253082528182609',
+			//fake
+			avt: 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+			sharingSong : ["1556727023465399", "1556726991019476"]
 		};
 	}
 
@@ -40,21 +45,15 @@ export default class ProfileScreen extends Component {
 		_onLayout = ({nativeEvent: {layout: {width}}}) => {
 			if (width > SCREEN_WIDTH *
 				3 + 0.6 && !this.state.animation) {
-				// Animated.loop(Animated.timing(this.titlePosition, {
-				//   toValue: -SCREEN_WIDTH * 1.18,
-				//   duration: 10000,
-				//   easing: Easing.linear(),
-				//   useNativeDriver: true,
-				// })).start()
+
 			}
 		};
 
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		console.log("==========Get profile===========")
-		getProfile(this.state.token, this);
-
+		// this.setState({listMusic :  }) 
 	}
 
   _renderItem =  ({item}) => (
@@ -66,7 +65,7 @@ export default class ProfileScreen extends Component {
 
 	render() {
     const {navigation: {goBack}} = this.props;
-    var data = []
+    const {sharingSongs} = store.getState();
 		return (
 			<View>
 				<StatusBar
@@ -117,10 +116,9 @@ export default class ProfileScreen extends Component {
 
 					</View>
           <FlatList
-            extraData={list}
-            data={list}
+            data={sharingSongs}
             renderItem={this._renderItem}
-            keyExtractor={keyExtractor}
+            keyExtractor={this.sharingSong}
           />
 
 				</ScrollView>

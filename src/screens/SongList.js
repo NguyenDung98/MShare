@@ -193,6 +193,7 @@ export default class SongList extends Component {
 
 		return (
 			<View style={styles.container}>
+			
 				<FlatList
 					keyExtractor={keyExtractor}
 					data={store.getState()[data].slice(0, this.endItems)}

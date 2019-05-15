@@ -1,6 +1,6 @@
-import firebase from 'react-native-firebase';
+import firebase , {GraphRequestManager, GraphRequest}from 'react-native-firebase';
 import store from "../store";
-import {filterPlayingSongType, updateUserPublicInfo} from "./FirebaseMusicActions";
+import { filterPlayingSongType, updateUserPublicInfo } from "./FirebaseMusicActions";
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
 	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${id}`);
@@ -26,7 +26,7 @@ const saveUserToFirebase = async (isNewUser, id, user) => {
 
 export const loginByFacebookProvider = async (accessToken) => {
 	const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
-	const {additionalUserInfo: {isNewUser, profile: {id}}, user} =
+	const { additionalUserInfo: { isNewUser, profile: { id } }, user } =
 		await firebase.auth().signInWithCredential(credential);
 
 	saveUserToFirebase(isNewUser, id, user);
@@ -34,7 +34,7 @@ export const loginByFacebookProvider = async (accessToken) => {
 
 export const toggleUserState = async (online) => {
 	if (online) {
-		updateUserPublicInfo({online})
+		updateUserPublicInfo({ online })
 	} else {
 		updateUserPublicInfo({
 			online,
@@ -44,7 +44,7 @@ export const toggleUserState = async (online) => {
 };
 
 export const subscribeUserConnection = () => {
-	const {currentUser: {providerData: [{uid}]}} = firebase.auth();
+	const { currentUser: { providerData: [{ uid }] } } = firebase.auth();
 	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${uid}`);
 	let keyInterval;
 
@@ -52,7 +52,7 @@ export const subscribeUserConnection = () => {
 		online: false,
 	});
 	userPublicInfo.once('value', snapshot => {
-		const {sharing, sharingSongs} = snapshot.val();
+		const { sharing, sharingSongs } = snapshot.val();
 
 		store.setState({
 			sharing,
@@ -88,7 +88,7 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 
 	userFriendsFbInfo.forEach(data => {
 		usersPublicInfoRef.child(data.id).on('value', async (snapshot) => {
-			const {userFriends} = store.getState();
+			const { userFriends } = store.getState();
 			const playingSongID = snapshot.val() ? snapshot.val().playingSong : undefined;
 			const playingSong = await filterPlayingSongType(playingSongID);
 
@@ -105,6 +105,7 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 		})
 	})
 };
+
 
 export const logOutFirebase = async () => {
 	await toggleUserState(false);

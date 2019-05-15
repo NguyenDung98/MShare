@@ -3,6 +3,8 @@ import { Text, View, StyleSheet } from 'react-native'
 import { Button } from 'native-base';
 import { SCALE_RATIO } from '../constants/constants';
 import * as Action from "../actions";
+import store from '../store';
+import { getSharingMusic } from '../actions';
 
 export default class OtherScreen extends Component {
 	_handlePressLogOutBtn = () => {
@@ -10,6 +12,9 @@ export default class OtherScreen extends Component {
 		Action.logOutFirebase();
 		this.props.navigation.navigate('Login')
 	};
+	_test = ()=> {
+		console.log(store.getState().userFriends)
+	}
 
 	render() {
 		return (
@@ -18,6 +23,11 @@ export default class OtherScreen extends Component {
 					<Button style={styles.button} onPress={this._handlePressLogOutBtn} >
 						<View style={styles.text}>
 							<Text style={{color : 'white'}} >Log out</Text>
+						</View>
+					</Button>
+					<Button style={styles.button} onPress={this._test} >
+						<View style={styles.text}>
+							<Text style={{color : 'white'}} >Test</Text>
 						</View>
 					</Button>
 				</View>

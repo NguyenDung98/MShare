@@ -1,6 +1,7 @@
 import {AccessToken, GraphRequest, GraphRequestManager, LoginManager} from "react-native-fbsdk";
 import {saveAccessToken} from "../utils/asyncStorage";
 import * as firebaseAction from "./FirebaseAuthActions";
+import { firebase } from 'react-native-firebase';
 
 const permissions = ["public_profile", "user_friends", "email"];
 
@@ -45,6 +46,7 @@ export const loginWithFacebook = async () => {
 			const {accessToken} = await AccessToken.getCurrentAccessToken();
 
 			saveAccessToken(accessToken.toString());
+			console.log("+++++")
 			firebaseAction.loginByFacebookProvider(accessToken);
 		}
 	} catch (e) {
@@ -70,8 +72,11 @@ const getProfilePic = userFriendsFbInfo => {
 				...data,
 				avatarUrl: picObject[data.id],
 			})));
+			
 		}
 	});
 	userFriendsFbInfo.forEach(({id}) => requestManager.addRequest(pictureRequest(id, picObject)));
 	requestManager.start();
 };
+
+

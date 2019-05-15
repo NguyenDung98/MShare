@@ -3,15 +3,15 @@ import store from "../store";
 import * as Action from "./StorageActions";
 
 export const searchMusicOnline = async (searchValue) => {
-	const {registerGetOnlineData} = store.getState();
+	const { registerGetOnlineData } = store.getState();
 
 	if (!registerGetOnlineData) {
 		await registerGetOnlineDataFromFirebase()
 	}
 
-	const {onlineSearchData} = store.getState();
+	const { onlineSearchData } = store.getState();
 	if (searchValue && onlineSearchData) {
-		const {songs, albums, artists} = onlineSearchData;
+		const { songs, albums, artists } = onlineSearchData;
 
 		const searchedItems = {
 			onlineSearchedSongs: await getSongsDetail(
@@ -22,7 +22,7 @@ export const searchMusicOnline = async (searchValue) => {
 			// onlineSearchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValue)),
 		};
 
-		store.setState({...searchedItems});
+		store.setState({ ...searchedItems });
 	}
 };
 
@@ -38,6 +38,8 @@ export const getSongsDetail = async (songsID) => {
 		...song.val(),
 	}));
 };
+
+
 
 const registerGetOnlineDataFromFirebase = () => {
 	return new Promise(resolve => {
@@ -66,7 +68,7 @@ export const filterPlayingSongType = async (songID) => {
 
 export const updateUserPublicInfo = (updateObject) => {
 	if (firebase.auth().currentUser) {
-		const {currentUser: {providerData: [{uid}]}} = firebase.auth();
+		const { currentUser: { providerData: [{ uid }] } } = firebase.auth();
 		const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${uid}`);
 
 		userPublicInfo.update({
@@ -77,7 +79,7 @@ export const updateUserPublicInfo = (updateObject) => {
 
 export const updateSharingSongs = (isSeeking, currentPlaySong) => {
 	if (!isSeeking && currentPlaySong.resource !== 'device') {
-		const {sharingSongs} = store.getState();
+		const { sharingSongs } = store.getState();
 		const newSharingSongs = Array.from(new Set([currentPlaySong.id, ...sharingSongs].slice(0, 5)));
 
 		store.setState({
@@ -88,3 +90,16 @@ export const updateSharingSongs = (isSeeking, currentPlaySong) => {
 		})
 	}
 };
+
+// export var getSharingMusic = (userId) => {
+// 	var data = [];
+// 	const userInfo = firebase.database().ref(`/usersPublicInfo/${userId}`).child('/sharingSongs')
+// 		.on('value', snapshot => {
+// 			var list = [];
+// 			list = snapshot.val();
+// 			data = snapshot.val()
+// 			console.log(data)
+// 		})
+// 		console.log(data)
+// 		return data;
+// }

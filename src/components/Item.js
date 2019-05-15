@@ -5,6 +5,8 @@ import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
 import { playSong } from '../utils/TrackUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getSongsDetail } from '../actions/FirebaseMusicActions';
+import * as Action from './../actions/StorageActions'
 
 
 const timeLine = require('./../imgs/timeline5.png')
@@ -13,8 +15,8 @@ const timeLine = require('./../imgs/timeline5.png')
 export const ItemTimeLine = ({
     item = {}
 }) => {
-    console.log(item)
-    const { artist, artwork, title } = item.item
+    const { artist, artwork, title } = track;
+    
     return (
         <View style={styles.container}>
             <View style={styles.container2}>
@@ -30,8 +32,8 @@ export const ItemTimeLine = ({
                         subTitle={artist}
                         title={title}
                         showMoreButton={false}
-                        onButtonPress={() => playSong(item)}
-                        onPress={() => playSong(item)}
+                        onButtonPress={() => playSong(track)}
+                        onPress={() => playSong(track)}
                         style= {{paddingBottom: 10}}
                     />
                     <View style={styles.play} >
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.2,
         marginLeft: 200 * SCALE_RATIO,
         marginRight: 200 * SCALE_RATIO,
-        marginTop: -1
+        marginTop: -2 * SCALE_RATIO
     },
     container3 : {
         flex: 1,
