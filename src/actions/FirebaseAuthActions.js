@@ -50,6 +50,7 @@ export const subscribeUserConnection = () => {
 
 	userPublicInfo.onDisconnect().update({
 		online: false,
+		playingSong: 'inactive',
 	});
 	userPublicInfo.once('value', snapshot => {
 		const {sharing, sharingSongs} = snapshot.val();
