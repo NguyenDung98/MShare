@@ -27,6 +27,7 @@ export default class ProfileScreen extends Component {
 			id : '1253082528182609',
 			//fake
 			avt: 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+			// fake dl 
 			sharingSong : ["1556727023465399", "1556726991019476"]
 		};
 	}
@@ -116,9 +117,9 @@ export default class ProfileScreen extends Component {
 
 					</View>
           <FlatList
-            data={sharingSongs}
+            data={sharingSongs} // cai này ở store?? uk
             renderItem={this._renderItem}
-            keyExtractor={this.sharingSong}
+            keyExtractor={this.sharingSong} // có cần k, cái này t lấy ở sharing trên firebase .-.
           />
 
 				</ScrollView>
