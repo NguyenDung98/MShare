@@ -11,7 +11,7 @@ export const subscriptions = [
 	TrackPlayer.addEventListener('playback-queue-ended', async () => {
 		const {currentPlaylist} = store.getState();
 
-		if (currentPlaylist.length) {
+		if (currentPlaylist.length > 1) {
 			await TrackPlayer.skip(currentPlaylist[0].id);
 		}
 	}),

@@ -3,10 +3,7 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
-import { playSong } from '../utils/TrackUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getSongsDetail } from '../actions/FirebaseMusicActions';
-import * as Action from './../actions/StorageActions'
 
 
 const timeLine = require('./../imgs/timeline5.png')
@@ -15,8 +12,8 @@ const timeLine = require('./../imgs/timeline5.png')
 export const ItemTimeLine = ({
     item = {}
 }) => {
-    const { artist, artwork, title } = track;
-    
+    const { artist, artwork, title } = item;
+
     return (
         <View style={styles.container}>
             <View style={styles.container2}>
@@ -25,15 +22,15 @@ export const ItemTimeLine = ({
                 </View>
                 <View style={styles.song}>
                     <Text style={styles.textTime}>{item.time}</Text>
-            
+
                     <TouchableOpacity style={styles.container3}>
                     <Song
                         uri={artwork}
                         subTitle={artist}
                         title={title}
                         showMoreButton={false}
-                        onButtonPress={() => playSong(track)}
-                        onPress={() => playSong(track)}
+                        // onButtonPress={() => playSong(track)}
+                        // onPress={() => playSong(track)}
                         style= {{paddingBottom: 10}}
                     />
                     <View style={styles.play} >
@@ -66,7 +63,7 @@ const styles = StyleSheet.create({
     },
     song: {
         flex: 5/6,
-        justifyContent: 'flex-start', 
+        justifyContent: 'flex-start',
         // alignItems : 'center'
 
     },
@@ -89,7 +86,7 @@ const styles = StyleSheet.create({
     play : {
         flex : 1/6,
         justifyContent : 'center',
-        alignItems : 'center', 
+        alignItems : 'center',
         // backgroundColor : 'green'
     }
 

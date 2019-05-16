@@ -1,6 +1,5 @@
 import firebase from 'react-native-firebase';
 import store from "../store";
-import * as Action from "./StorageActions";
 
 export const searchMusicOnline = async (searchValue) => {
 	const { registerGetOnlineData } = store.getState();
@@ -38,8 +37,6 @@ export const getSongsDetail = async (songsID) => {
 		...song.val(),
 	}));
 };
-
-
 
 const registerGetOnlineDataFromFirebase = () => {
 	return new Promise(resolve => {
@@ -91,15 +88,3 @@ export const updateSharingSongs = (isSeeking, currentPlaySong) => {
 	}
 };
 
-// export var getSharingMusic = (userId) => {
-// 	var data = [];
-// 	const userInfo = firebase.database().ref(`/usersPublicInfo/${userId}`).child('/sharingSongs')
-// 		.on('value', snapshot => {
-// 			var list = [];
-// 			list = snapshot.val();
-// 			data = snapshot.val()
-// 			console.log(data)
-// 		})
-// 		console.log(data)
-// 		return data;
-// }

@@ -1,16 +1,23 @@
 import React, {Component} from 'react';
-import {View, Text, StatusBar, StyleSheet, TouchableNativeFeedback, Image, Animated, FlatList, ScrollView} from 'react-native';
+import {
+	View,
+	Text,
+	StatusBar,
+	StyleSheet,
+	TouchableNativeFeedback,
+	Image,
+	Animated,
+	FlatList,
+	ScrollView
+} from 'react-native';
 import {colors} from '../utils/colors';
 import {SCREEN_HEIGHT, AVATAR_MARGIN_LEFT, AVATAR_SIZE, SCREEN_WIDTH} from '../utils/constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import Avatar from '../components/Avatar';
 import {SCALE_RATIO} from '../constants/constants';
-import {getProfile} from '../actions/ProfileActions';
 import IconButton from "../components/IconButton";
-import { list } from '../data/History';
 import {ItemTimeLine} from '../components/Item';
-import { getSharingMusic } from '../actions';
 import store from '../store';
 
 const default_avt = require('./../imgs/default-avatar.png')
@@ -19,19 +26,6 @@ const BACK_BUTTON_SIZE = 40;
 // const keyExtractor = item => item.item.id;
 
 export default class ProfileScreen extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			//fake
-			name: 'User',
-			id : '1253082528182609',
-			//fake
-			avt: 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
-			// fake dl 
-			sharingSong : ["1556727023465399", "1556726991019476"]
-		};
-	}
-
 	static navigationOptions = {
 		header: null,
 		headerStyle: {
@@ -40,33 +34,53 @@ export default class ProfileScreen extends Component {
 		}
 	};
 
+	state = {
+		avatarUrl: null,
+		name: null,
+		sharingSongs: [],
+	};
+
 	componentWillMount() {
 		const {navigation: {state: {params}}} = this.props;
+		const {type, userID} = params;
 
-		_onLayout = ({nativeEvent: {layout: {width}}}) => {
-			if (width > SCREEN_WIDTH *
-				3 + 0.6 && !this.state.animation) {
+		if (type === 'friend') {
+			const {userFriends} = store.getState();
+			const {name, avatarUrl, sharingSongs} = userFriends[userID];
 
-			}
-		};
+			this.setState({
+				name,
+				avatarUrl,
+				sharingSongs,
+			})
+		} else {
+			const {user: {name, avatarUrl}, sharingSongs} = store.getState();
 
+			this.setState({
+				name,
+				avatarUrl,
+				sharingSongs,
+			})
+		}
 	}
 
-	async componentDidMount() {
-		console.log("==========Get profile===========")
-		// this.setState({listMusic :  }) 
-	}
+	_onLayout = ({nativeEvent: {layout: {width}}}) => {
+		if (width > SCREEN_WIDTH *
+			3 + 0.6 && !this.state.animation) {
 
-  _renderItem =  ({item}) => (
+		}
+	};
+
+	_renderItem = ({item}) => (
 		<ItemTimeLine
-			item = {item}
+			item={item}
 		/>
-	)
-
+	);
 
 	render() {
-    const {navigation: {goBack}} = this.props;
-    const {sharingSongs} = store.getState();
+		const {navigation: {goBack}} = this.props;
+		const {avatarUrl, name, sharingSongs} = this.state;
+
 		return (
 			<View>
 				<StatusBar
@@ -76,7 +90,7 @@ export default class ProfileScreen extends Component {
 				<ScrollView>
 					<View>
 						<Image
-							source={{uri: this.state.avt !== '' ? this.state.avt : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}}
+							source={{uri: avatarUrl !== '' ? avatarUrl : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}}
 							style={{height: SCREEN_HEIGHT * 0.3, width: '100%'}}
 							resizeMode={'cover'}
 						/>
@@ -95,11 +109,11 @@ export default class ProfileScreen extends Component {
 							/>
 							<View style={[styles.textContainerStyle, styles.customTitleContainerStyle]}>
 								<Animated.Text
-									onLayout={_onLayout}
+									onLayout={this._onLayout}
 									numberOfLines={1}
 									style={{marginLeft: 20 * SCALE_RATIO, fontSize: 20, color: 'black'}}
 								>
-									{this.state.name !== '' ? this.state.name : 'User'}
+									{name !== '' ? name : 'User'}
 								</Animated.Text>
 
 							</View>
@@ -109,18 +123,18 @@ export default class ProfileScreen extends Component {
 						<Avatar
 							imageStyle={styles.avatarStyle}
 							width={AVATAR_SIZE}
-							uri={this.state.avt !== '' ? this.state.avt : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}
+							uri={avatarUrl !== '' ? avatarUrl : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}
 							elevation={2}
 						/>
 						<View>
 						</View>
 
 					</View>
-          <FlatList
-            data={sharingSongs} // cai này ở store?? uk
-            renderItem={this._renderItem}
-            keyExtractor={this.sharingSong} // có cần k, cái này t lấy ở sharing trên firebase .-.
-          />
+					<FlatList
+						data={sharingSongs}
+						renderItem={this._renderItem}
+						// keyExtractor={this.sharingSong}
+					/>
 
 				</ScrollView>
 			</View>

@@ -13,7 +13,7 @@ export default class Song extends React.PureComponent {
 		uri: PropTypes.string,
 		title: PropTypes.string,
 		titleColor: ColorPropType,
-		subTitle: PropTypes.string,
+		subTitle: PropTypes.any,
 		subTitleColor: ColorPropType,
 		onPress: PropTypes.func,
 		showAvatar: PropTypes.bool,

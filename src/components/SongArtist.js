@@ -34,7 +34,7 @@ export default function SongArtist({
 }
 
 SongArtist.propTypes = {
-    artist: PropTypes.string,
+    artist: PropTypes.any,
     songTitle: PropTypes.string,
     artistSize: PropTypes.number,
     wrapperStyle: ViewPropTypes.style,

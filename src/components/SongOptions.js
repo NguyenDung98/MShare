@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import * as Action from "../actions";
 
-export default function SongOption({song, closeModal, onAddToPlaylist}) {
+export default function SongOptions({song, closeModal, onAddToPlaylist}) {
 	const {artwork, artist, title} = song;
 
 	return (

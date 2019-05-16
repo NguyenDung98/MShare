@@ -29,12 +29,10 @@ let state = {
 	appState: null,
 	atMainTab: false,
 	// userInfo
+	user: {},
 	userFriends: [],
 	sharing: false,
 	sharingSongs: [],
-	history: [],
-	//
-	me: []
 };
 
 let listeners = [];

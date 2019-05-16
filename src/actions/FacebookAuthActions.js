@@ -1,7 +1,7 @@
 import {AccessToken, GraphRequest, GraphRequestManager, LoginManager} from "react-native-fbsdk";
 import {saveAccessToken} from "../utils/asyncStorage";
 import * as firebaseAction from "./FirebaseAuthActions";
-import { firebase } from 'react-native-firebase';
+import store from "../store";
 
 const permissions = ["public_profile", "user_friends", "email"];
 
@@ -15,7 +15,7 @@ const infoRequest = new GraphRequest(
 		if (!error) {
 			const {friends: {data: userFriendsFbInfo}} = result;
 
-			getProfilePic(userFriendsFbInfo);
+			getFriendsPic(userFriendsFbInfo);
 		}
 	}
 );
@@ -46,7 +46,6 @@ export const loginWithFacebook = async () => {
 			const {accessToken} = await AccessToken.getCurrentAccessToken();
 
 			saveAccessToken(accessToken.toString());
-			console.log("+++++")
 			firebaseAction.loginByFacebookProvider(accessToken);
 		}
 	} catch (e) {
@@ -62,7 +61,7 @@ export const getUserFriends = () => {
 	new GraphRequestManager().addRequest(infoRequest).start();
 };
 
-const getProfilePic = userFriendsFbInfo => {
+const getFriendsPic = userFriendsFbInfo => {
 	const requestManager = new GraphRequestManager();
 	const picObject = {};
 
@@ -72,11 +71,28 @@ const getProfilePic = userFriendsFbInfo => {
 				...data,
 				avatarUrl: picObject[data.id],
 			})));
-			
+
 		}
 	});
 	userFriendsFbInfo.forEach(({id}) => requestManager.addRequest(pictureRequest(id, picObject)));
 	requestManager.start();
 };
 
+export const getPersonalpPic = userID => {
+	const {user} = store.getState();
+	const requestManager = new GraphRequestManager();
+	const picObject = {};
 
+	requestManager.addBatchCallback(error => {
+		if (!error) {
+			store.setState({
+				user: {
+					...user,
+					avatarUrl: picObject[userID]
+				}
+			})
+		}
+	});
+	requestManager.addRequest(pictureRequest(userID, picObject));
+	requestManager.start();
+};

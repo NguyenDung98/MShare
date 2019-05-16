@@ -19,6 +19,7 @@ export default class Login extends Component {
 			if (!firstCall && user) {
 				navigate('MainTabNavigator');
 				facebookAction.getUserFriends();
+				Action.saveUserToStore(user);
 				Action.subscribeUserConnection();
 			}
 			firstCall = false;

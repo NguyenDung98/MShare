@@ -6,7 +6,7 @@ import {colors, ITEM_HEIGHT, playSong, SCREEN_HEIGHT} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
 import OptionModal from "../components/OptionModal";
-import SongOption from "../components/SongOption";
+import SongOptions from "../components/SongOptions";
 import SongToPlaylistOption from "../components/SongToPlaylistOption";
 import TextInputBottomOption from "../components/TextInputBottomOption";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -193,7 +193,6 @@ export default class SongList extends Component {
 
 		return (
 			<View style={styles.container}>
-			
 				<FlatList
 					keyExtractor={keyExtractor}
 					data={store.getState()[data].slice(0, this.endItems)}
@@ -227,7 +226,7 @@ export default class SongList extends Component {
 							iconSize={40}
 						/>
 					) : (
-						<SongOption
+						<SongOptions
 							song={selectedSong}
 							closeModal={this._toggleModal}
 							onAddToPlaylist={this._handleClickAddToPlayListBtn}

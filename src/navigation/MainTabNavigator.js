@@ -13,6 +13,7 @@ import IconButton from "../components/IconButton";
 import {ICON_COLOR} from "../constants/constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import store from "../store";
 
 export const MainTabNavigator = createMaterialTopTabNavigator({
 	Home: {
@@ -96,7 +97,7 @@ export const navigationOptions = ({navigation: {navigate}}) =>  ({
 			buttonProps={{
 				background: TouchableNativeFeedback.Ripple(colors.lightGrey, true)
 			}}
-			onPress={() => navigate('Profile')}
+			onPress={() => moveToProfile(navigate)}
 		/>
 	),
 	headerRight: (
@@ -118,6 +119,15 @@ export const navigationOptions = ({navigation: {navigate}}) =>  ({
 	},
 	headerTintColor: '#fff',
 });
+
+const moveToProfile = (navigate) => {
+	const {user: {id}} = store.getState();
+
+	navigate('Profile', {
+		userID: id,
+		type: 'user',
+	})
+};
 
 const styles = StyleSheet.create({
 	leftHeaderBtnStyle: (buttonSize) => ({

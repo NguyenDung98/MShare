@@ -8,7 +8,7 @@ import OptionModal from "../components/OptionModal";
 import * as Action from "../actions";
 import store from "../store";
 import TextInputBottomOption from "../components/TextInputBottomOption";
-import PlaylistOption from "../components/PlaylistOption";
+import PlaylistOptions from "../components/PlaylistOptions";
 
 const keyExtractor = (_, index) => index.toString();
 const ANIMATION_CONFIG = {
@@ -255,7 +255,7 @@ export default class Playlists extends Component {
 							onSubmit={this._handleSubmitEditTitle}
 						/>
 					) : (
-						<PlaylistOption
+						<PlaylistOptions
 							playlist={selectedPlaylist}
 							closeModal={this._toggleModal}
 							onEditPlaylistTitle={this._handleEditPlaylistTitle}

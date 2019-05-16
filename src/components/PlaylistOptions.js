@@ -5,7 +5,7 @@ import OptionItem from "./OptionItem";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-export default function PlaylistOption({playlist, closeModal, onEditPlaylistTitle, onDeletePlaylist}) {
+export default function PlaylistOptions({playlist, closeModal, onEditPlaylistTitle, onDeletePlaylist}) {
 	const {title} = playlist;
 
 	return (
