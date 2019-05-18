@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {View, Text, FlatList, Animated, Easing} from 'react-native'
+import React, { Component } from 'react'
+import { View, Text, FlatList, Animated, Easing } from 'react-native'
 
 import Friend from "../components/Song";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -9,9 +9,10 @@ import SongToPlaylistOption from "../components/SongToPlaylistOption";
 import TextInputBottomOption from "../components/TextInputBottomOption";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import {SCREEN_HEIGHT} from "../utils";
+import { SCREEN_HEIGHT } from "../utils";
 import * as Action from "../actions";
 import store from "../store";
+import { SCALE_RATIO } from '../constants/constants';
 
 const keyExtractor = item => item.id;
 const ANIMATION_CONFIG = {
@@ -46,7 +47,7 @@ export default class ListFriends extends Component {
 	}
 
 	_toggleModal = (friendID, song) => {
-		const {showModal, boxHeight} = this.state;
+		const { showModal, boxHeight } = this.state;
 
 		if (!showModal) {
 			const hasSong = song && typeof song === 'object';
@@ -79,7 +80,7 @@ export default class ListFriends extends Component {
 					toValue: 0,
 					...ANIMATION_CONFIG
 				})
-			]).start(({finished}) => {
+			]).start(({ finished }) => {
 				if (finished) {
 					this.setState({
 						...DEFAULT_STATE,
@@ -90,12 +91,12 @@ export default class ListFriends extends Component {
 	};
 
 	_handleClickAddToPlayListBtn = () => {
-		const {boxHeight} = this.state;
+		const { boxHeight } = this.state;
 
 		Animated.timing(this.inputBoxPosition, {
 			toValue: SCREEN_HEIGHT * boxHeight,
 			...ANIMATION_CONFIG
-		}).start(({finished}) => {
+		}).start(({ finished }) => {
 			if (finished) {
 				this.setState({
 					showFirstOptionBox: true,
@@ -111,12 +112,12 @@ export default class ListFriends extends Component {
 	};
 
 	_handleClickCreatePlaylistBtn = () => {
-		const {boxHeight} = this.state;
+		const { boxHeight } = this.state;
 
 		Animated.timing(this.inputBoxPosition, {
 			toValue: SCREEN_HEIGHT * boxHeight,
 			...ANIMATION_CONFIG
-		}).start(({finished}) => {
+		}).start(({ finished }) => {
 			if (finished) {
 				this.setState({
 					showFirstOptionBox: false,
@@ -134,7 +135,7 @@ export default class ListFriends extends Component {
 
 	_onAddSongToPlaylist = async (playlistIndex) => {
 		try {
-			const {selectedSong} = this.state;
+			const { selectedSong } = this.state;
 
 			await Action.addToPlaylist(selectedSong, playlistIndex);
 			this._toggleModal();
@@ -144,12 +145,12 @@ export default class ListFriends extends Component {
 	};
 
 	_onTitleChange = newPlaylistTitle => {
-		this.setState({newPlaylistTitle});
+		this.setState({ newPlaylistTitle });
 	};
 
 	_onCreateNewPlaylist = async () => {
 		try {
-			const {newPlaylistTitle} = this.state;
+			const { newPlaylistTitle } = this.state;
 
 			await Action.createNewPlaylist(newPlaylistTitle);
 			this._onAddSongToPlaylist(1);
@@ -159,8 +160,8 @@ export default class ListFriends extends Component {
 	};
 
 	_moveToProfile = (userID) => {
-		const {selectedFriend} = this.state;
-		const {navigation: {navigate}} = this.props;
+		const { selectedFriend } = this.state;
+		const { navigation: { navigate } } = this.props;
 
 		navigate('Profile', {
 			userID: userID ? userID : selectedFriend,
@@ -168,8 +169,8 @@ export default class ListFriends extends Component {
 		});
 	};
 
-	_renderItem = ({item}) => {
-		const {id, name, avatarUrl, online, stateTrack, playingSong} = item;
+	_renderItem = ({ item }) => {
+		const { id, name, avatarUrl, online, stateTrack, playingSong } = item;
 		const playingSongTitle = playingSong && typeof playingSong === "object" ? (
 			<Text>
 				<MaterialCommunityIcons
@@ -188,7 +189,7 @@ export default class ListFriends extends Component {
 					title={name}
 					subTitle={playingSongTitle}
 					avatarIconWidth={50}
-					imageStyle={{borderRadius: 25}}
+					imageStyle={{ borderRadius: 25 }}
 					onPress={() => this._moveToProfile(id)}
 					onButtonPress={() => this._toggleModal(id, playingSong)}
 				/>
@@ -208,11 +209,17 @@ export default class ListFriends extends Component {
 
 		return (
 			<View>
-				<FlatList
-					data={data}
-					renderItem={this._renderItem}
-					keyExtractor={keyExtractor}
-				/>
+				{data ?
+					<FlatList
+						data={data}
+						renderItem={this._renderItem}
+						keyExtractor={keyExtractor}
+					/>
+					:
+					<View style={{ margin: 80 * SCALE_RATIO }}>
+						<Text >Không có bạn bè online</Text>
+					</View>
+				}
 				<OptionModal
 					visible={showModal}
 					inputBoxPosition={this.inputBoxPosition}
@@ -237,13 +244,13 @@ export default class ListFriends extends Component {
 							iconSize={40}
 						/>
 					) : (
-						<FriendOptions
-							song={selectedSong}
-							closeModal={this._toggleModal}
-							onAddToPlaylist={this._handleClickAddToPlayListBtn}
-							onMoveToProfile={this._moveToProfile}
-						/>
-					)}
+								<FriendOptions
+									song={selectedSong}
+									closeModal={this._toggleModal}
+									onAddToPlaylist={this._handleClickAddToPlayListBtn}
+									onMoveToProfile={this._moveToProfile}
+								/>
+							)}
 				</OptionModal>
 			</View>
 		)

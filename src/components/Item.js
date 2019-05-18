@@ -58,7 +58,7 @@ export class ItemTimeLine extends React.Component {
                                 style={{ paddingBottom: 10 }}
                             />
                             <View style={styles.play}  >
-                                <Icon name='ios-play' size={35} />
+                                <Icon name='ios-play' size={35} onPress={() => playSong(this.state.track) } />
                             </View>
                         </TouchableOpacity>
                     </View>
