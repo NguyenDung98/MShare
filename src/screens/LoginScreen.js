@@ -1,18 +1,21 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button} from 'native-base';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native';
+import { Button } from 'native-base';
 
-import {LoginManager, AccessToken} from "react-native-fbsdk";
+import { LoginManager, AccessToken } from "react-native-fbsdk";
 import firebase from 'react-native-firebase';
 
-import {SCALE_RATIO} from '../constants/constants';
-import {saveAccessToken, getAccessToken, saveAvt} from '../utils/asyncStorage';
+import { SCALE_RATIO } from '../constants/constants';
+import { saveAccessToken, getAccessToken, saveAvt } from '../utils/asyncStorage';
 import * as Action from "../actions";
 import * as facebookAction from "../actions/FacebookAuthActions";
 
+const logo = require('./../imgs/logoMshare.png')
+const background = require('./../imgs/background.jpg')
+
 export default class Login extends Component {
 	componentWillMount() {
-		const {navigation: {navigate}} = this.props;
+		const { navigation: { navigate } } = this.props;
 		let firstCall = true;
 
 		firebase.auth().onAuthStateChanged(user => {
@@ -34,7 +37,7 @@ export default class Login extends Component {
 	}
 
 	_login = async () => {
-		const {navigation: {navigate}} = this.props;
+		const { navigation: { navigate } } = this.props;
 		await Action.loginWithFacebook();
 		navigate('MainTabNavigator');
 	};
@@ -103,16 +106,16 @@ export default class Login extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.form}>
-					<Button block primary style={styles.button} onPress={this._login}>
-						<Text style={{color: 'white', alignItems: 'center'}}>Facebook login</Text></Button>
-					{/* <Button style={styles.button} /> */}
-					{/* <Text>Hoặc</Text>
-					<Button block info style={styles.button} onPress={() => {
-						this.props.navigation.navigate('MainTabNavigator')
-					}}>
-						<Text style={{color: 'white', alignItems: 'center'}}>Tiếp tục</Text></Button> */}
-				</View>
+				<ImageBackground source={background} style={{ flex: 1, justifyContent  : 'center' }} resizeMode='cover'>
+					<View style={styles.form}>
+						<View>
+							<Image source={logo} resizeMode='contain' style={{ width: 400 * SCALE_RATIO, height : 400 * SCALE_RATIO,  marginTop : -50 * SCALE_RATIO}} />
+						</View>
+						<Button block primary style={styles.button} onPress={this._login}>
+							<Text style={{ color: 'white', alignItems: 'center' }}>Facebook login</Text></Button>
+
+					</View>
+				</ImageBackground>
 			</View>
 
 		);
@@ -125,15 +128,16 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		height: 200 * SCALE_RATIO,
-		justifyContent: 'center',
 		alignItems: 'center',
-		flex: 1,
-		backgroundColor: 'pink',
+		justifyContent: 'center',
+		// flex: 1,
+		// backgroundColor: 'green',
 	},
 	button: {
 		borderRadius: 5,
 		justifyContent: 'center',
 		marginLeft: 100 * SCALE_RATIO,
-		marginRight: 100 * SCALE_RATIO
+		marginRight: 100 * SCALE_RATIO,
+		marginTop : 200 * SCALE_RATIO
 	}
 });

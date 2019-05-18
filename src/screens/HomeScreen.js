@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, SectionList, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, SectionList, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SectionItem from "../components/Song";
 
 import {deviceSection, SONG_PADDING} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
+// const backgroundMain = require('./../imgs/mainBackground.jpg')
 
 const keyExtractor = (_, index) => index.toString();
 
@@ -58,6 +59,7 @@ export default class HomeScreen extends Component {
 
 	render() {
 		return (
+			// <ImageBackground source={backgroundMain} style={{ flex: 1, justifyContent  : 'center' }} resizeMode='cover'>
 			<SectionList
 				renderItem={this._renderItem}
 				renderSectionHeader={this._renderSectionHeader}
@@ -66,6 +68,7 @@ export default class HomeScreen extends Component {
 				]}
 				keyExtractor={keyExtractor}
 			/>
+			// </ImageBackground>
 		);
 	}
 }
