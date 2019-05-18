@@ -12,9 +12,7 @@ export default class OtherScreen extends Component {
 		Action.logOutFirebase();
 		this.props.navigation.navigate('Login')
 	};
-	_test = ()=> {
-		console.log(store.getState().userFriends)
-	}
+	
 
 	render() {
 		return (
@@ -25,11 +23,7 @@ export default class OtherScreen extends Component {
 							<Text style={{color : 'white'}} >Log out</Text>
 						</View>
 					</Button>
-					<Button style={styles.button} onPress={this._test} >
-						<View style={styles.text}>
-							<Text style={{color : 'white'}} >Test</Text>
-						</View>
-					</Button>
+				
 				</View>
 			</View>
 		)

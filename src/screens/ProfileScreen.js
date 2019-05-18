@@ -55,7 +55,7 @@ export default class ProfileScreen extends Component {
 			})
 		} else {
 			const {user: {name, avatarUrl}, sharingSongs} = store.getState();
-
+			console.log(['sharingSong', sharingSongs])
 			this.setState({
 				name,
 				avatarUrl,
@@ -71,6 +71,8 @@ export default class ProfileScreen extends Component {
 		}
 	};
 
+	
+
 	_renderItem = ({item}) => (
 		<ItemTimeLine
 			item={item}
@@ -80,7 +82,7 @@ export default class ProfileScreen extends Component {
 	render() {
 		const {navigation: {goBack}} = this.props;
 		const {avatarUrl, name, sharingSongs} = this.state;
-
+		console.log(sharingSongs)
 		return (
 			<View>
 				<StatusBar
@@ -111,7 +113,7 @@ export default class ProfileScreen extends Component {
 								<Animated.Text
 									onLayout={this._onLayout}
 									numberOfLines={1}
-									style={{marginLeft: 20 * SCALE_RATIO, fontSize: 20, color: 'black'}}
+									style={{marginLeft: 20 * SCALE_RATIO, fontSize: 20, color: 'white', fontWeight : 'bold', textShadowOffset : {width: 1,height: 2},  textShadowColor : 'gray', textShadowRadius : 5}}
 								>
 									{name !== '' ? name : 'User'}
 								</Animated.Text>
@@ -130,12 +132,17 @@ export default class ProfileScreen extends Component {
 						</View>
 
 					</View>
+					{sharingSongs.length !== 0 ? 
 					<FlatList
 						data={sharingSongs}
 						renderItem={this._renderItem}
-						// keyExtractor={this.sharingSong}
+						keyExtractor={(item, index) => index.toString()}
 					/>
-
+					: 
+					<View style={{ alignItems : 'center', justifyContent: 'center'}}>
+					<Text style = {{opacity : 40}}>Không có dữ liệu hiển thị</Text>
+					</View>
+					}
 				</ScrollView>
 			</View>
 		);
