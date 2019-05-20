@@ -58,7 +58,7 @@ export default class LibraryTabHeader extends Component {
 			const results = await MediaLibrary.getAssetsAsync({
 				first: 100,
 				mediaType: "audio",
-				sortBy: "id",
+				sortBy: "default",
 				after,
 			});
 
@@ -69,7 +69,7 @@ export default class LibraryTabHeader extends Component {
 			this.end = !hasNextPage;
 			if (Action.addToSongList(songs)) await this._getSongs(endCursor);
 
-			await Action.saveDataToLocal();
+			await Action.saveSongsToLocal();
 			this.cursor = null;
 			this.loading = false;
 			this.end = false;

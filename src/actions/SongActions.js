@@ -1,6 +1,8 @@
 import store from "../store";
-import TrackPlayer from "react-native-track-player";
 import * as firebaseMusicAction from "./FirebaseMusicActions";
+import {saveDownloadsToLocal} from "./StorageActions";
+import {setUpArtistList} from "./AritstActions";
+import {setUpAlbumList} from "./AlbumActions";
 
 export const addToSongList = songList => {
 	const {songsInStorage} = store.getState();
@@ -17,10 +19,30 @@ export const addToSongList = songList => {
 	return true;
 };
 
-export const updateCurrentPlaySong = (item, index) => {
-	if (item.resource !== 'device') {
+export const addToDownloads = song => {
+	const {downloads} = store.getState();
+
+	store.setState({
+		downloads: [song, ...downloads]
+	});
+	saveDownloadsToLocal();
+	updateToLibrary(song);
+};
+
+export const updateToLibrary = song => {
+	const {songsInStorage} = store.getState();
+
+	store.setState({
+		songsInStorage: [song, ...songsInStorage]
+	});
+	setUpArtistList();
+	setUpAlbumList();
+};
+
+export const updateCurrentPlaySong = (song, index) => {
+	if (song.resource !== 'device') {
 		firebaseMusicAction.updateUserPublicInfo( {
-			playingSong: item.id
+			playingSong: song.id
 		});
 	} else {
 		firebaseMusicAction.updateUserPublicInfo({
@@ -29,24 +51,13 @@ export const updateCurrentPlaySong = (item, index) => {
 	}
 
 	store.setState({
-		currentPlaySong: item,
+		currentPlaySong: song,
 		currentPlaySongIndex: index,
 	});
 };
 
-export const addToCurrentPlayList = async (song, showWidget, filtered) => {
-	const {currentPlaylist, showStaticWidget, currentPlaySong} = store.getState();
-	let track = {
-		...song,
-		url: song.uri,
-	};
-
-	if (filtered || !currentPlaylist.find(item => item.id === track.id)) {
-		await TrackPlayer.add(track);
-		store.setState({
-			currentPlaylist: [...currentPlaylist, track],
-			showStaticWidget: showWidget ? showWidget : showStaticWidget,
-			currentPlaySong: currentPlaySong ? currentPlaySong : track,
-		});
-	}
+export const selectSong = (song) => {
+	store.setState({
+		selectedSong: song,
+	})
 };

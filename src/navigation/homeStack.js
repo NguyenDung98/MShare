@@ -1,11 +1,12 @@
 import React from 'react';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
+
 import LibraryTabHeader from "../components/LibraryTabHeader";
 import SearchHeader from "../components/SearchHeader";
 import CollectionDetail from "../screens/CollectionDetail";
-
 import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import DownloadedSongs from "../screens/DownloadedSongs";
 
 import {libraryTab} from "./libraryTab";
 import {MainTabNavigator, navigationOptions} from "./MainTabNavigator";
@@ -54,6 +55,7 @@ const HomeStack = createStackNavigator({
 	},
 	CollectionDetail,
 	Profile: ProfileScreen,
+	DownloadedSongs,
 }, {
 	headerMode: 'float',
 });

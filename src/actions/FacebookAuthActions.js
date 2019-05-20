@@ -71,14 +71,13 @@ const getFriendsPic = userFriendsFbInfo => {
 				...data,
 				avatarUrl: picObject[data.id],
 			})));
-
 		}
 	});
 	userFriendsFbInfo.forEach(({id}) => requestManager.addRequest(pictureRequest(id, picObject)));
 	requestManager.start();
 };
 
-export const getPersonalpPic = userID => {
+export const getPersonalPic = userID => {
 	const {user} = store.getState();
 	const requestManager = new GraphRequestManager();
 	const picObject = {};

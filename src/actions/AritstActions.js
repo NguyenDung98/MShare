@@ -1,5 +1,4 @@
 import store from "../store";
-import _ from 'lodash';
 
 export const setUpArtistList = () => {
 	const {songsInStorage} = store.getState();

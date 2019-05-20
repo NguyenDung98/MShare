@@ -39,7 +39,7 @@ export default class SearchHeader extends Component {
 	};
 
 	_handleSearchMusicOnline = async () => {
-		const searchValueLowerCase = this.state.searchValue.toLowerCase().trim();
+		const searchValueLowerCase = this.state.searchValue.trim();
 
 		await Action.searchMusicOnline(searchValueLowerCase);
 	};

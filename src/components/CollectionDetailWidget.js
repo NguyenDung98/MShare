@@ -2,17 +2,33 @@ import React from 'react';
 import {StyleSheet, View} from "react-native";
 import Avatar from "./Avatar";
 import IconButton from "./IconButton";
-import {AVATAR_MARGIN_LEFT, AVATAR_SIZE, colors, WIDGET_BUTTON_SIZE} from "../utils";
+import {AVATAR_MARGIN_LEFT, AVATAR_SIZE, colors, REPEAT_STATE, WIDGET_BUTTON_SIZE} from "../utils";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function CollectionDetailWidget({image}) {
+const repeatIcons = {
+	repeat: 'repeat',
+	repeatOnce: 'repeat-once'
+};
+
+export default function CollectionDetailWidget({image, isShuffled, repeatState, onPlaySongList, onShuffle, onChangeRepeatState}) {
 	const {
 		avatarContainerStyle,
 		avatarStyle,
 		widgetBtnContainerStyle,
 		widgetBtnStyle,
 	} = styles;
+	let repeatIcon;
+
+	switch (repeatState) {
+		case REPEAT_STATE.all:
+		case REPEAT_STATE.off:
+			repeatIcon = repeatIcons.repeat;
+			break;
+		case REPEAT_STATE.one:
+			repeatIcon = repeatIcons.repeatOnce;
+			break;
+	}
 
 	return (
 		<View style={avatarContainerStyle}>
@@ -25,10 +41,11 @@ export default function CollectionDetailWidget({image}) {
 			<View style={widgetBtnContainerStyle}>
 				<IconButton
 					name={'ios-shuffle'}
-					color={colors.grey}
+					color={isShuffled ? colors.brightRed : colors.grey}
 					iconSize={WIDGET_BUTTON_SIZE}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE)}
+					onPress={onShuffle}
 				/>
 				<IconButton
 					name={'ios-play'}
@@ -36,13 +53,15 @@ export default function CollectionDetailWidget({image}) {
 					iconSize={WIDGET_BUTTON_SIZE * 1.5}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE * 1.5)}
+					onPress={onPlaySongList}
 				/>
 				<IconButton
-					name={'repeat'}
-					color={colors.grey}
+					name={repeatIcon}
+					color={repeatState === REPEAT_STATE.off ? colors.grey : colors.brightRed}
 					iconSize={WIDGET_BUTTON_SIZE}
 					IconType={MaterialCommunityIcons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE)}
+					onPress={onChangeRepeatState}
 				/>
 			</View>
 		</View>

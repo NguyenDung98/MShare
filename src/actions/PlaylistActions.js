@@ -59,16 +59,12 @@ export const addToPlaylist = async (song, playlistIndex) => {
 	try {
 		const {playlists} = store.getState();
 		const chosenPlaylist = playlists[playlistIndex - 1];
-		let track = {
-			...song,
-			url: song.uri,
-		};
 
-		if (!chosenPlaylist.songs.find(item => item.id === track.id)) {
+		if (!chosenPlaylist.songs.find(item => item.id === song.id)) {
 			const updatingPlaylist = {
 				...chosenPlaylist,
 				songs: [
-					track,
+					song,
 					...chosenPlaylist.songs,
 				]
 			};

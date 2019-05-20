@@ -1,10 +1,21 @@
 import React, {Component} from 'react';
 import {Animated, Easing, FlatList, View, StatusBar} from 'react-native';
+
 import Song from "../components/Song";
 import CollectionDetailHeader from "../components/CollectionDetailHeader";
 import CollectionDetailWidget from "../components/CollectionDetailWidget";
+import SongOptionsModal from "../components/SongOptionsModal";
 
-import {AVATAR_SIZE, colors, ITEM_HEIGHT, playSong, SCREEN_HEIGHT, SCREEN_WIDTH, SONG_ITEM_WIDTH} from "../utils";
+import {
+	AVATAR_SIZE,
+	colors,
+	ITEM_HEIGHT,
+	playSong, REPEAT_STATE,
+	SCREEN_HEIGHT,
+	SCREEN_WIDTH,
+	shuffle,
+	SONG_ITEM_WIDTH
+} from "../utils";
 import store from "../store";
 import * as Action from '../actions/'
 
@@ -21,11 +32,17 @@ export default class CollectionDetail extends Component {
 	};
 
 	state = {
+		// data
 		songs: [],
+		originalSongs: [],
+		isShuffled: false,
+		repeatState: REPEAT_STATE.off,
 		image: null,
 		title: null,
 		type: null,
+		// animation
 		animation: false,
+		showModal: false,
 	};
 
 	titlePosition = new Animated.Value(0);
@@ -122,9 +139,68 @@ export default class CollectionDetail extends Component {
 		}
 	};
 
-	_loadMoreSongs = () => {
-		this.endItems = this.endItems + numOfFirstSongItems;
-		this.forceUpdate();
+	_loadMoreSongs = (data) => {
+		if (this.endItems < data.length) {
+			this.endItems =  this.endItems + numOfFirstSongItems;
+			this.forceUpdate();
+		}
+	};
+
+	_selectSong = song => {
+		Action.selectSong(song);
+		this._toggleModal();
+	};
+
+	_toggleModal = () => {
+		const {showModal} = this.state;
+
+		this.setState({
+			showModal: !showModal
+		})
+	};
+
+	_shuffleSongs = () => {
+		const {songs, isShuffled, originalSongs} = this.state;
+
+		if (!isShuffled) {
+			this.setState({
+				isShuffled: true,
+				songs: shuffle(songs),
+				originalSongs: songs,
+			})
+		} else {
+			this.setState({
+				isShuffled: false,
+				songs: originalSongs,
+			})
+		}
+	};
+
+	_changeRepeatState = () => {
+		const {repeatState} = this.state;
+
+		switch (repeatState) {
+			case REPEAT_STATE.off:
+				this.setState({repeatState: REPEAT_STATE.all});
+				break;
+			case REPEAT_STATE.all:
+				this.setState({repeatState: REPEAT_STATE.one});
+				break;
+			case REPEAT_STATE.one:
+				this.setState({repeatState: REPEAT_STATE.off});
+				break;
+		}
+	};
+
+	_playThisSongList = () => {
+		const {repeatState, isShuffled, songs, originalSongs} = this.state;
+
+		Action.setUpCurrentPlaylist({repeatState, isShuffled, songs, originalSongs});
+		this.setState({
+			repeatState: REPEAT_STATE.off,
+			isShuffled: false,
+			songs: originalSongs.length === 0 ? songs : originalSongs,
+		})
 	};
 
 	_renderItem = ({item}) => {
@@ -136,13 +212,21 @@ export default class CollectionDetail extends Component {
 				subTitle={artist}
 				title={title}
 				onPress={() => playSong(item)}
+				onButtonPress={() => this._selectSong(item)}
 			/>
 		)
 	};
 
 	render() {
 		const {navigation: {goBack}} = this.props;
-		const {songs, image, type} = this.state;
+		const {
+			isShuffled,
+			repeatState,
+			songs,
+			image,
+			type,
+			showModal,
+		} = this.state;
 		const {showStaticWidget} = store.getState();
 		const songListStyle = {
 			top: -AVATAR_SIZE * 0.4,
@@ -171,16 +255,25 @@ export default class CollectionDetail extends Component {
 				/>
 				<CollectionDetailWidget
 					image={image}
+					isShuffled={isShuffled}
+					repeatState={repeatState}
+					onPlaySongList={this._playThisSongList}
+					onChangeRepeatState={this._changeRepeatState}
+					onShuffle={this._shuffleSongs}
 				/>
 				<FlatList
 					keyExtractor={keyExtractor}
 					data={songs.slice(0, this.endItems)}
-					onEndReached={this._loadMoreSongs}
+					onEndReached={() => this._loadMoreSongs(songs)}
 					getItemLayout={this._getItemLayout}
 					renderItem={this._renderItem}
 					style={songListStyle}
 					initialNumToRender={numOfFirstSongItems}
 					showsVerticalScrollIndicator={false}
+				/>
+				<SongOptionsModal
+					showModal={showModal}
+					toggleModal={this._toggleModal}
 				/>
 			</View>
 		);

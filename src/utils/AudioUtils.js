@@ -9,11 +9,12 @@ export const getAudioMetaData = async (assets) => {
 
 		return {
 			...metadata,
+			id: asset.id,
 			albumId: asset.albumId,
+			url: asset.uri,
 			artwork: getArtwork(metadata.artwork),
 			title: metadata.title ? metadata.title : removeEndFile(asset.filename),
 			artist: metadata.artist ? metadata.artist.trim() : 'Unknown artist',
-			id: asset.id,
 			filename: asset.filename,
 			resource: 'device'
 		}
