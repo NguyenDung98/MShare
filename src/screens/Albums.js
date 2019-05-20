@@ -22,9 +22,11 @@ export default class Albums extends Component {
 		this.unsubcribe();
 	}
 
-	_loadMoreAlbums = () => {
-		this.endItems =  this.endItems + numOfFirstItems;
-		this.forceUpdate();
+	_loadMoreAlbums = (data) => {
+		if (this.endItems < data.length) {
+			this.endItems =  this.endItems + numOfFirstItems;
+			this.forceUpdate();
+		}
 	};
 
 	_getItemLayout = (data, index) => {
@@ -58,14 +60,15 @@ export default class Albums extends Component {
 
 	render() {
 		const {navigation: {getParam}} = this.props;
-		const data = getParam('dataName');
+		const dataName = getParam('dataName');
+		const data = store.getState()[dataName];
 
 		return (
 			<FlatList
 				keyExtractor={keyExtractor}
-				data={store.getState()[data].slice(0, this.endItems)}
+				data={data.slice(0, this.endItems)}
 				renderItem={this._renderItem}
-				onEndReached={this._loadMoreAlbums}
+				onEndReached={() => this._loadMoreAlbums(data)}
 				numColumns={2}
 				getItemLayout={this._getItemLayout}
 				showsVerticalScrollIndicator={false}

@@ -2,20 +2,27 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, ImageBackground } from 'react-native';
 import { ItemNewsfeed } from '../components/NewsfeedItem';
 import { list } from '../data/newsfeed';
-import store from '../store';
+import store from "../store";
+const keyExtractor = item => item.id;
 
 // const backgroundMain = require('./../imgs/mainBackground.jpg')
 const keyExtractor = item  => item.id;
 
 export default class NewsFeed extends Component {
+    componentDidMount() {
+        this.unsubcribe = store.onChange(() => {
+            this.forceUpdate()
+        })
+    }
 
+    componentWillUnmount() {
+        this.unsubcribe();
+    }
 
-
-    _renderItem = ({ item }) => (
+	_renderItem = ({ item }) => (
         <ItemNewsfeed
             item={item}
         />
-
     )
 
     render() {

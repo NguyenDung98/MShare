@@ -1,7 +1,7 @@
 import firebase from 'react-native-firebase';
 import store from "../store";
 import {filterPlayingSongType, updateUserPublicInfo} from "./FirebaseMusicActions";
-import {getPersonalpPic} from "./FacebookAuthActions";
+import {getPersonalPic} from "./FacebookAuthActions";
 
 const saveUserToFirebase = async (isNewUser, id, user) => {
 	const userPublicInfo = firebase.database().ref(`/usersPublicInfo/${id}`);
@@ -34,7 +34,7 @@ export const saveUserToStore = (user) => {
 			id: uid,
 		}
 	});
-	getPersonalpPic(uid);
+	getPersonalPic(uid);
 };
 
 export const loginByFacebookProvider = async (accessToken) => {
@@ -115,7 +115,7 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 						playingSong,
 					}
 				}
-			})
+			});
 		})
 	})
 };

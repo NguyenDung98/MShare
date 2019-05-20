@@ -1,9 +1,12 @@
 let state = {
+	// data
 	songsInStorage: [],
 	albums: [],
 	artists: [],
+	downloads: [],
 	currentPlaySong: null,
 	currentPlaySongIndex: -1, // before shuffle
+	selectedSong: null,
 	// playList
 	currentPlaylist: [],
 	originalPlaylist: [],
@@ -14,8 +17,6 @@ let state = {
 	deviceSearchedArtists: [],
 	deviceSearchedPlaylists: [],
 	// online search
-	registerGetOnlineData: false,
-	onlineSearchData: null,
 	onlineSearchedSongs: [],
 	onlineSearchedAlbums: [],
 	onlineSearchedArtists: [],

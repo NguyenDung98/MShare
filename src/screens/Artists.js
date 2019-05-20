@@ -34,9 +34,11 @@ export default class Artists extends Component {
 		}
 	};
 
-	_loadMoreArtists = () => {
-		this.endItems = this.endItems + numOfFirstItems;
-		this.forceUpdate();
+	_loadMoreArtists = (data) => {
+		if (this.endItems < data.length) {
+			this.endItems =  this.endItems + numOfFirstItems;
+			this.forceUpdate();
+		}
 	};
 
 	_renderItem = ({item, index}) => {
@@ -72,12 +74,13 @@ export default class Artists extends Component {
 	render() {
 		const {navigation: {getParam}} = this.props;
 		const dataName = getParam('dataName');
+		const data = store.getState()[dataName];
 
 		return (
 			<FlatList
 				keyExtractor={keyExtractor}
-				data={store.getState()[dataName].slice(0, this.endItems)}
-				onEndReached={this._loadMoreArtists}
+				data={data.slice(0, this.endItems)}
+				onEndReached={() => this._loadMoreArtists(data)}
 				getItemLayout={this._getItemLayout}
 				renderItem={this._renderItem}
 				showsVerticalScrollIndicator={false}

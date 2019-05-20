@@ -11,9 +11,9 @@ import store from "../store";
 const keyExtractor = item => item.id;
 const numOfFirstSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
-export default class SongList extends Component {
+export default class DownloadedSongs extends Component {
 	static navigationOptions = {
-		tabBarLabel: "Danh sách nhạc"
+		title: "Tải xuống"
 	};
 
 	state = {
@@ -76,9 +76,7 @@ export default class SongList extends Component {
 
 	render() {
 		const {showModal, boxHeight} = this.state;
-		const {navigation: {getParam}} = this.props;
-		const dataName = getParam('dataName');
-		const data = store.getState()[dataName];
+		const {downloads: data} = store.getState();
 
 		return (
 			<View style={styles.container}>
