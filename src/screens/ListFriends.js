@@ -13,6 +13,10 @@ import {SCREEN_HEIGHT} from "../utils";
 import * as Action from "../actions";
 import store from "../store";
 import {SCALE_RATIO} from '../constants/constants';
+import { colors } from '../utils/colors';
+
+// const backgroundMain = require('./../imgs/background_friends.jpg')
+
 
 const keyExtractor = item => item.id;
 const ANIMATION_CONFIG = {
@@ -208,7 +212,7 @@ export default class ListFriends extends Component {
 		const data = Object.values(store.getState().userFriends);
 
 		return (
-			<View>
+			<View style={{flex: 1, backgroundColor : colors.background_color}}>
 				{data ?
 					<FlatList
 						data={data}

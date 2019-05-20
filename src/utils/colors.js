@@ -1,5 +1,5 @@
 export const colors = {
-    brightRed: '#ff8551',
+    brightRed: '#311B92',
     brighterRed: '#ffa680',
     lightGrey: '#ededed',
     grey: '#aaaaaa',
@@ -7,5 +7,6 @@ export const colors = {
 	white: '#fcfcfc',
 	green: '#00da10',
     transparent: 'transparent',
-    P_COLOR : '#EE6002'
+    P_COLOR : '#EE6002',
+    background_color : '#E1F5FE'
 };

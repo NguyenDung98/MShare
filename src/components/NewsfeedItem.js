@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 2,
-        elevation: 2
+        elevation: 2,
+        backgroundColor : 'white'
     },
     avt: {
         width: 80 * SCALE_RATIO,
@@ -112,7 +113,8 @@ const styles = StyleSheet.create({
     },
     container2: {
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems:'center',
+        
     },
 
 

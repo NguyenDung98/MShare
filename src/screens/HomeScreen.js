@@ -6,7 +6,7 @@ import SectionItem from "../components/Song";
 import {deviceSection, SONG_PADDING} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
-// const backgroundMain = require('./../imgs/mainBackground.jpg')
+const backgroundMain = require('./../imgs/background_home.jpg')
 
 const keyExtractor = (_, index) => index.toString();
 
@@ -39,6 +39,8 @@ export default class HomeScreen extends Component {
 				buttonType={TouchableWithoutFeedback}
 				buttonIconName={'chevron-small-right'}
 				buttonIconType={Entypo}
+				subTitleColor={'white'}
+				titleColor={'white'}
 				imageStyle={{
 					width: 50,
 					borderRadius: 25,
@@ -52,14 +54,14 @@ export default class HomeScreen extends Component {
 	_renderSectionHeader = ({section: {title}}) => {
 		return (
 			<View style={{margin: SONG_PADDING}}>
-				<Text style={{fontSize: 25, color: 'black'}}>{title.toUpperCase()}</Text>
+				<Text style={{fontSize: 25, color: 'white', fontWeight: 'bold'}}>{title.toUpperCase()}</Text>
 			</View>
 		)
 	};
 
 	render() {
 		return (
-			// <ImageBackground source={backgroundMain} style={{ flex: 1, justifyContent  : 'center' }} resizeMode='cover'>
+			<ImageBackground source={backgroundMain} style={{ flex: 1, justifyContent  : 'center' }} resizeMode='cover'>
 			<SectionList
 				renderItem={this._renderItem}
 				renderSectionHeader={this._renderSectionHeader}
@@ -68,7 +70,7 @@ export default class HomeScreen extends Component {
 				]}
 				keyExtractor={keyExtractor}
 			/>
-			// </ImageBackground>
+			</ImageBackground>
 		);
 	}
 }
