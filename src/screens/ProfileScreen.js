@@ -43,11 +43,11 @@ export default class ProfileScreen extends Component {
 	componentWillMount() {
 		const {navigation: {state: {params}}} = this.props;
 		const {type, userID} = params;
-
+// console.log("CƯM....")
 		if (type === 'friend') {
 			const {userFriends} = store.getState();
 			const {name, avatarUrl, sharingSongs} = userFriends[userID];
-
+			console.log(userFriends);
 			this.setState({
 				name,
 				avatarUrl,

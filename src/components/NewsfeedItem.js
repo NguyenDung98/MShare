@@ -3,42 +3,84 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
-import Icon from 'react-native-vector-icons/Feather';
+import { getSongsDetail } from '../actions';
+import { playSong } from '../utils/TrackUtils';
+
+export class ItemNewsfeed extends React.Component {
+    // console.log(item)
+    // const { name, uri, time } = item.user;
+    // const { artwork, artist, title } = item.item;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            track: '',
+            sharingSongs: '',
+            name: '',
+            avatarUrl: ''
+        }
+    }
+
+    _getTrack = async (item) => {
+        return (await getSongsDetail([item]))[0];
+    }
 
 
+    componentWillMount() {
+        const item = this.props.item
+        // console.log(['item', item])
+        const { id, name, avatarUrl, sharingSongs } = item;
+        this.setState({
+            name,
+            avatarUrl,
+            sharingSongs
+        })
+        if (sharingSongs) {
+            console.log(sharingSongs);
+            const _id = sharingSongs[0];
+            console.log(['id', _id])
+            this._getTrack(_id).then((result) => {
+                this.setState({ track: result })
+            })
+        }
+    }
 
-export const ItemNewsfeed = ({
-    item = {}
-}) => {
-    console.log(item)
-    const { name, uri, time } = item.user;
-    const { artwork, artist, title } = item.item;
+    render() {
+        const { artist, artwork, title } = this.state.track;
+        console.log(this.state.track)
+        return (
+            <View>
+            {this.state.track ?
+            <View style={styles.container}>
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.container2}>
-                <Image source={{ uri: uri }} style={styles.avt} />
-                <View />
-            </View>
-            <View style={styles.container3}>
-                <Text style={styles.name}>{name}</Text>
-                <View style={styles.container4}>
-                    <Text style={styles.music} numberOfLines={1}>{time}</Text>
+                <View style={styles.container2}>
+                    <Image source={{ uri: this.state.avatarUrl }} style={styles.avt} />
+                    <Text style={styles.name}>{this.state.name}</Text>
+                    {/* <View /> */}
                 </View>
-                <TouchableOpacity style={styles.tabmusic}>
-                    <Song
-                        uri={artwork}
-                        subTitle={artist}
-                        showMoreButton={false}
-                        title={title}
-                        onPress={() => playSong(item)}
-                        style={{ paddingBottom: 10 }}
-                    />
-                </TouchableOpacity>
-            </View>
+                <View style={styles.container3}>
+                    
+                    <View style={styles.container4}>
+                        {/* <Text style={styles.music} numberOfLines={1}>{time}</Text> */}
+                    </View>
 
-        </View>
-    )
+                    </View>
+                    <TouchableOpacity style={styles.tabmusic}>
+                        <Song
+                            uri={artwork}
+                            subTitle={artist}
+                            showMoreButton={false}
+                            title={title}
+                            onPress={() => playSong(this.state.track)}
+                            style={{ paddingBottom: 10 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+            : <View></View>}
+            </View>
+        )
+    }
 }
 
 
@@ -50,10 +92,10 @@ const styles = StyleSheet.create({
         marginLeft: 25 * SCALE_RATIO,
         marginBottom: 20 * SCALE_RATIO,
         marginRight: 25 * SCALE_RATIO,
-        paddingBottom: 8 * SCALE_RATIO,
+        padding: 8 * SCALE_RATIO,
         borderColor: '#f2f2f2',
         borderRadius: 10,
-        flexDirection: 'row',
+        flexDirection: 'column',
         padding: 20 * SCALE_RATIO,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -65,15 +107,19 @@ const styles = StyleSheet.create({
         width: 80 * SCALE_RATIO,
         height: 80 * SCALE_RATIO,
         borderRadius: 50,
+        borderColor: "gray",
+        borderWidth:1
     },
     container2: {
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignItems:'center'
     },
 
 
     name: {
         fontSize: 17,
         color: 'black',
+        marginLeft: 20 * SCALE_RATIO
     },
     music: {
         fontSize: 11,
@@ -84,7 +130,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 20 * SCALE_RATIO,
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     container4: {
         flex: 1,
@@ -100,8 +146,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     tabmusic: {
-        marginTop: 30 * SCALE_RATIO,
-        marginLeft: -85 * SCALE_RATIO,
+        marginTop: 10 * SCALE_RATIO,
+        // marginLeft: -85 * SCALE_RATIO,
         margin: 20 * SCALE_RATIO,
         borderWidth: 1,
         borderColor: '#f2f2f2',

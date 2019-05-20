@@ -29,8 +29,6 @@ export class ItemTimeLine extends React.Component {
         const item = this.props.item
         this._getTrack(item).then((result) => {
             this.setState({ track: result })
-            console.log(this.state.track);
-
         })
 
     }
@@ -58,7 +56,7 @@ export class ItemTimeLine extends React.Component {
                                 style={{ paddingBottom: 10 }}
                             />
                             <View style={styles.play}  >
-                                <Icon name='ios-play' size={35} onPress={() => playSong(this.state.track) } />
+                                <Icon name='ios-play' size={35} onPress={() => playSong(this.state.track)} />
                             </View>
                         </TouchableOpacity>
                     </View>
