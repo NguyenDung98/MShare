@@ -8,5 +8,5 @@ export const colors = {
 	green: '#00da10',
     transparent: 'transparent',
     P_COLOR : '#EE6002',
-    background_color : '#E1F5FE'
+    background_color : '#EDE7F6'
 };

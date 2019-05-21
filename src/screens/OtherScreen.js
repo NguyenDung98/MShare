@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Image } from 'react-native'
 import { Button } from 'native-base';
 import { SCALE_RATIO } from '../constants/constants';
 import * as Action from "../actions";
-import store from '../store';
-import { getSharingMusic } from '../actions';
+import { colors } from '../utils';
+const logo = require('./../imgs/logoMshare.png')
 
 export default class OtherScreen extends Component {
 	_handlePressLogOutBtn = () => {
@@ -12,18 +12,19 @@ export default class OtherScreen extends Component {
 		Action.logOutFirebase();
 		this.props.navigation.navigate('Login')
 	};
-	
+
 
 	render() {
 		return (
 			<View style={styles.container}>
+				<Image source={logo} resizeMode='contain' style={{ width: 400 * SCALE_RATIO, height: 400 * SCALE_RATIO, marginBottom: 100 * SCALE_RATIO, marginTop : 200 *SCALE_RATIO }} />
 				<View style={styles.logout}>
 					<Button style={styles.button} onPress={this._handlePressLogOutBtn} >
 						<View style={styles.text}>
-							<Text style={{color : 'white'}} >Log out</Text>
+							<Text style={{ color: 'white' }} >Log out</Text>
 						</View>
 					</Button>
-				
+
 				</View>
 			</View>
 		)
@@ -33,8 +34,9 @@ export default class OtherScreen extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
+		// justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: colors.background_color
 	},
 	logout: {
 		// marginLeft: 100*SCALE_RATIO,
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
 	text: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		flex : 1,
+		flex: 1,
 
 		// color: 'white'
 	}
