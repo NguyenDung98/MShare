@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import * as Action from "../actions";
 
-export default function SongOptions({song, closeModal, onAddToPlaylist, onDownload}) {
+export default function SongOptions({song, closeModal, onAddToPlaylist, onDownload, onUpload}) {
 	const {artwork, artist, title, resource} = song;
 	const downloadOption = resource !== 'device';
 
@@ -19,15 +19,13 @@ export default function SongOptions({song, closeModal, onAddToPlaylist, onDownlo
 				title={title}
 				showMoreButton={false}
 			/>
-			{downloadOption && (
-				<OptionItem
-					title={'Tải xuống'}
-					iconName={'md-download'}
-					IconType={Ionicons}
-					iconSize={35}
-					onPress={onDownload}
-				/>
-			)}
+			<OptionItem
+				title={downloadOption ? 'Tải xuống' : 'Tải lên'}
+				iconName={downloadOption ? 'md-download' : 'md-cloud-upload'}
+				IconType={Ionicons}
+				iconSize={35}
+				onPress={downloadOption ? onDownload : onUpload}
+			/>
 			<OptionItem
 				title={'Thêm vào Playlist'}
 				iconName={'playlist-add'}

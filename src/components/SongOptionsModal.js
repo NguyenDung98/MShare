@@ -45,7 +45,7 @@ export default class SongOptionsModal extends Component {
 		const {selectedSong} = store.getState();
 
 		if (!showModal) {
-			const defaultBoxHeight = selectedSong.resource === 'device' ? 0.3 : 0.35;
+			const defaultBoxHeight = selectedSong.resource === 'device' ? 0.35 : 0.35;
 			this.setState({
 				selectedSong,
 				boxHeight: defaultBoxHeight,
@@ -195,6 +195,7 @@ export default class SongOptionsModal extends Component {
 						closeModal={() => this._toggleModal(true)}
 						onAddToPlaylist={this._handleClickAddToPlayListBtn}
 						onDownload={this._handleDownloadOption}
+						onUpload={() => {}}
 					/>
 				)}
 			</OptionModal>

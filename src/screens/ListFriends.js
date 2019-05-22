@@ -15,9 +15,6 @@ import store from "../store";
 import {SCALE_RATIO} from '../constants/constants';
 import { colors } from '../utils/colors';
 
-// const backgroundMain = require('./../imgs/background_friends.jpg')
-
-
 const keyExtractor = item => item.id;
 const ANIMATION_CONFIG = {
 	duration: 200,

@@ -71,7 +71,7 @@ export default class ProfileScreen extends Component {
 		}
 	};
 
-	
+
 
 	_renderItem = ({item}) => (
 		<ItemTimeLine
@@ -132,13 +132,13 @@ export default class ProfileScreen extends Component {
 						</View>
 
 					</View>
-					{sharingSongs.length !== 0 ? 
+					{sharingSongs.length !== 0 ?
 					<FlatList
 						data={sharingSongs}
 						renderItem={this._renderItem}
 						keyExtractor={(item, index) => index.toString()}
 					/>
-					: 
+					:
 					<View style={{ alignItems : 'center', justifyContent: 'center'}}>
 					<Text style = {{opacity : 40}}>Không có dữ liệu hiển thị</Text>
 					</View>

@@ -11,8 +11,14 @@ const keyExtractor = item => item.id;
 
 export default class CurrentPlaylist extends Component {
 	componentDidMount() {
+		const {showStaticWidget} = store.getState();
+
 		this.unsubcribe = store.onChange(() => {
-			this.forceUpdate();
+			if (showStaticWidget) {
+				this.forceUpdate();
+			} else {
+				this.unsubcribe();
+			}
 		})
 	}
 

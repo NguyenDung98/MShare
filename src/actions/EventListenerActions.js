@@ -1,6 +1,7 @@
 import TrackPlayer from "react-native-track-player";
 import store from "../store";
 import {REPEAT_STATE, repeatOrNext} from "../utils";
+import {updateUserPublicInfo} from "./FirebaseMusicActions";
 
 export const subscriptions = [
 	TrackPlayer.addEventListener('playback-state', async ({state}) => {
@@ -21,6 +22,9 @@ export const subscriptions = [
 			if (REPEAT_STATE.off === repeatState) {
 				await TrackPlayer.seekTo(0);
 				await TrackPlayer.stop();
+				updateUserPublicInfo({
+					playingSong: 'inactive'
+				})
 			} else {
 				await TrackPlayer.skip(currentPlaylist[0].id);
 			}
