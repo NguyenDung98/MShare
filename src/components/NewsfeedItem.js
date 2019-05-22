@@ -17,13 +17,25 @@ export class ItemNewsfeed extends React.Component {
             track: '',
             sharingSongs: '',
             name: '',
-            avatarUrl: ''
+            avatarUrl: '',
+            id :'',
+            selectedFriend : ''
         }
     }
 
     _getTrack = async (item) => {
         return (await getSongsDetail([item]))[0];
     }
+
+    _moveToProfile = (userID) => {
+		const {selectedFriend} = this.state;
+		const {navigation: {navigate}} = this.props;
+
+		navigate('Profile', {
+			userID: userID ? userID : selectedFriend,
+			type: 'friend',
+		});
+	};
 
 
     componentWillMount() {
@@ -33,7 +45,9 @@ export class ItemNewsfeed extends React.Component {
         this.setState({
             name,
             avatarUrl,
-            sharingSongs
+            sharingSongs,
+            id,
+            selectedFriend : id
         })
         if (sharingSongs) {
             console.log(sharingSongs);
@@ -52,12 +66,13 @@ export class ItemNewsfeed extends React.Component {
             <View>
             {this.state.track ?
             <View style={styles.container}>
-
-                <View style={styles.container2}>
-                    <Image source={{ uri: this.state.avatarUrl }} style={styles.avt} />
+                <TouchableOpacity onPress={() => this._moveToProfile(this.state.id)}>
+                <View style={styles.container2} >
+                    <Image source={{ uri: this.state.avatarUrl }} style={styles.avt}  />
                     <Text style={styles.name}>{this.state.name}</Text>
                     {/* <View /> */}
                 </View>
+                </TouchableOpacity>
                 <View style={styles.container3}>
                     
                     <View style={styles.container4}>
