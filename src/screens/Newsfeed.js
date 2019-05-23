@@ -16,17 +16,19 @@ export default class NewsFeed extends Component {
 
     componentWillUnmount() {
         this.unsubcribe();
+        console.log(['userFriends', userFriends]);
     }
 
     _renderItem = ({ item }) => (
         <ItemNewsfeed
             item={item}
+            navigation = {this.props.navigation}
         />
     )
 
     render() {
         const { userFriends } = store.getState()
-        console.log(['userFriends', userFriends]);
+        // console.log(['userFriends', userFriends]);
         const data = Object.values(userFriends);
         return (
             // <ImageBackground source={backgroundMain} style={{ flex: 1, justifyContent: 'center' }} resizeMode='cover'>

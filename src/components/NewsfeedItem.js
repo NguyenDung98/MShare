@@ -5,6 +5,7 @@ import Song from './Song';
 import { SCALE_RATIO } from '../constants/constants';
 import { getSongsDetail } from '../actions';
 import { playSong } from '../utils/TrackUtils';
+// import navigate from '../service/navigationService'
 
 export class ItemNewsfeed extends React.Component {
     // console.log(item)
@@ -30,7 +31,7 @@ export class ItemNewsfeed extends React.Component {
     _moveToProfile = (userID) => {
 		const {selectedFriend} = this.state;
 		const {navigation: {navigate}} = this.props;
-
+        
 		navigate('Profile', {
 			userID: userID ? userID : selectedFriend,
 			type: 'friend',
