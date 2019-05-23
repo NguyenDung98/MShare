@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {createStackNavigator, createSwitchNavigator} from 'react-navigation';
 
 import LibraryTabHeader from "../components/LibraryTabHeader";
 import SearchHeader from "../components/SearchHeader";
@@ -10,6 +10,7 @@ import DownloadedSongs from "../screens/DownloadedSongs";
 import {libraryTab} from "./libraryTab";
 import {MainTabNavigator, navigationOptions} from "./MainTabNavigator";
 import UploadedSongs from "../screens/UploadedSongs";
+import LoginScreen from "../screens/LoginScreen";
 
 const HomeStack = createStackNavigator({
 	MainTabNavigator: {
@@ -54,4 +55,12 @@ const HomeStack = createStackNavigator({
 	headerMode: 'float',
 });
 
-export default createAppContainer(HomeStack);
+export default createSwitchNavigator({
+	Login: {
+		screen: LoginScreen,
+		navigationOptions: {
+			header: null
+		}
+	},
+	HomeStack,
+});

@@ -64,7 +64,6 @@ export const MainTabNavigator = createMaterialTopTabNavigator({
 	},
 },
 	{
-		initialRouteName: 'Home',
 		tabBarPosition: 'bottom',
 		swipeEnabled: true,
 		animationEnabled: true,

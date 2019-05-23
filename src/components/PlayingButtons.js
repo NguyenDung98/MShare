@@ -42,7 +42,7 @@ export default function PlayingButtons({
 			<IconButton
 				name={repeatIcon}
 				iconSize={BUTTON_SIZE / 2}
-				color={repeatState === REPEAT_STATE.off ? colors.grey : colors.mainColor}
+				color={repeatState === REPEAT_STATE.off ? colors.lightGrey : colors.mainColor}
 				IconType={MaterialCommunityIcons}
 				onPress={onRepeatTogglePress}
 			/>
@@ -75,7 +75,7 @@ export default function PlayingButtons({
 			<IconButton
 				name={'ios-shuffle'}
 				iconSize={35}
-				color={shuffleState ? colors.mainColor : colors.grey}
+				color={shuffleState ? colors.mainColor : colors.lightGrey}
 				IconType={Ionicons}
 				onPress={onShuffleTogglePress}
 			/>

@@ -18,7 +18,7 @@ export default class Login extends Component {
 
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				navigate('MainTabNavigator');
+				navigate('HomeStack');
 				if (!firstCall) {
 					facebookAction.getUserFriends();
 					Action.saveUserToStore(user);
@@ -29,20 +29,10 @@ export default class Login extends Component {
 		});
 	};
 
-	componentDidMount() {
-		const {navigation} = this.props;
-
-		this.navigationEventSubcriptions = Action.loginScreenNavigationEventSubscriptions(navigation);
-	}
-
-	componentWillUnmount() {
-		this.navigationEventSubcriptions.forEach(event => event.remove())
-	}
-
 	_login = async () => {
 		const { navigation: { navigate } } = this.props;
 		await Action.loginWithFacebook();
-		navigate('MainTabNavigator');
+		navigate('HomeStack');
 	};
 
 	render() {

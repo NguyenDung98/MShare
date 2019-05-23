@@ -123,5 +123,5 @@ export const setUpUserFriendsInfo = async (userFriendsFbInfo) => {
 
 export const logOutFirebase = async () => {
 	await toggleUserState(false);
-	firebase.auth().signOut();
+	await firebase.auth().signOut();
 };

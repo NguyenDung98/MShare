@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 	nowPlaying: {
 		flexGrow: 1,
 		textAlignVertical: 'bottom',
-		color: colors.grey,
+		color: colors.lightGrey,
 		marginBottom: 20,
 		letterSpacing: 3,
 	},

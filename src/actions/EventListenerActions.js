@@ -41,25 +41,6 @@ export const subscriptions = [
 	}),
 ];
 
-export const loginScreenNavigationEventSubscriptions = (navigation) => {
-	return [
-		navigation.addListener('willFocus', onBlurLoginScreen),
-		navigation.addListener('willBlur', onFocusLoginScreen),
-	]
-};
-
-const onBlurLoginScreen = () => {
-	store.setState({
-		isLogin: true,
-	})
-};
-
-const onFocusLoginScreen = () => {
-	store.setState({
-		isLogin: false,
-	})
-};
-
 export const mainTabNavigationEventSubscriptions = (navigation) => {
 	const parent = navigation.dangerouslyGetParent();
 

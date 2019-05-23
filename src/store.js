@@ -35,7 +35,6 @@ let state = {
 	repeatState: 0,
 	shuffleState: false,
 	//
-	isLogin: false,
 	appState: null,
 	atMainTab: false,
 	// userInfo
@@ -61,5 +60,4 @@ export default {
 			listeners = listeners.filter(listener => listener !== newListener)
 		}
 	},
-
 };
