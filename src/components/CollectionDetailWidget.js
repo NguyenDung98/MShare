@@ -41,7 +41,7 @@ export default function CollectionDetailWidget({image, isShuffled, repeatState, 
 			<View style={widgetBtnContainerStyle}>
 				<IconButton
 					name={'ios-shuffle'}
-					color={isShuffled ? colors.brightRed : colors.grey}
+					color={isShuffled ? colors.mainColor : colors.grey}
 					iconSize={WIDGET_BUTTON_SIZE}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE)}
@@ -49,7 +49,7 @@ export default function CollectionDetailWidget({image, isShuffled, repeatState, 
 				/>
 				<IconButton
 					name={'ios-play'}
-					color={colors.brightRed}
+					color={colors.mainColor}
 					iconSize={WIDGET_BUTTON_SIZE * 1.5}
 					IconType={Ionicons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE * 1.5)}
@@ -57,7 +57,7 @@ export default function CollectionDetailWidget({image, isShuffled, repeatState, 
 				/>
 				<IconButton
 					name={repeatIcon}
-					color={repeatState === REPEAT_STATE.off ? colors.grey : colors.brightRed}
+					color={repeatState === REPEAT_STATE.off ? colors.grey : colors.mainColor}
 					iconSize={WIDGET_BUTTON_SIZE}
 					IconType={MaterialCommunityIcons}
 					style={widgetBtnStyle(WIDGET_BUTTON_SIZE)}

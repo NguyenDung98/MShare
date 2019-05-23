@@ -153,7 +153,7 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
 	overlayStyle: {
 		...StyleSheet.absoluteFillObject,
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		opacity: 0.8,
 		height: SCREEN_HEIGHT * 0.3,
 	},

@@ -61,6 +61,8 @@ export default class SongList extends Component {
 	};
 
 	_renderItem = ({item}) => {
+		if (!item) return null;
+
 		const {artwork, artist, title} = item;
 
 		return (

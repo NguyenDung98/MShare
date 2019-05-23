@@ -91,7 +91,7 @@ export default class LibraryTabHeader extends Component {
 		return (
 			<View style={container}>
 				<StatusBar
-					backgroundColor={colors.brightRed}
+					backgroundColor={colors.mainColor}
 				/>
 				<IconButton
 					name={'ios-arrow-round-back'}
@@ -140,7 +140,7 @@ export default class LibraryTabHeader extends Component {
 const styles = StyleSheet.create({
 	container: {
 		height: 49,
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

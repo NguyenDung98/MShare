@@ -42,6 +42,8 @@ export default class Artists extends Component {
 	};
 
 	_renderItem = ({item, index}) => {
+		if (!item) return null;
+
 		const {avatar, name, songs} = item;
 		const {navigation: {navigate, getParam}} = this.props;
 

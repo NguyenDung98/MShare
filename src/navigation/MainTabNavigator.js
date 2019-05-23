@@ -72,7 +72,7 @@ export const MainTabNavigator = createMaterialTopTabNavigator({
 		tabBarOptions: {
 			showIcon: true,
 			style: {
-				backgroundColor: colors.brightRed,
+				backgroundColor: colors.mainColor,
 				height: SCREEN_HEIGHT / 14 + 5,
 			},
 			labelStyle: {
@@ -115,7 +115,7 @@ export const navigationOptions = ({navigation: {navigate}}) =>  ({
 		/>
 	),
 	headerStyle: {
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 	},
 	headerTintColor: '#fff',
 });

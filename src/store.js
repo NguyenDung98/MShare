@@ -7,6 +7,12 @@ let state = {
 	currentPlaySong: null,
 	currentPlaySongIndex: -1, // before shuffle
 	selectedSong: null,
+	// downloading
+	downloadingSong: null,
+	downloadProgress: 0,
+	// uploading
+	uploadingSong: null,
+	uploadProgress: 0,
 	// playList
 	currentPlaylist: [],
 	originalPlaylist: [],

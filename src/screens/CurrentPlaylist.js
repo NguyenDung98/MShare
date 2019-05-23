@@ -40,8 +40,8 @@ export default class CurrentPlaylist extends Component {
 					showAvatar={false}
 					title={title}
 					subTitle={artist}
-					subTitleColor={colors.brighterRed}
-					titleColor={colors.brightRed}
+					subTitleColor={colors.secondaryColor}
+					titleColor={colors.mainColor}
 					onPress={async () => await playSong(item)}
 					buttonIconName={'ios-trash'}
 					buttonIconType={Ionicons}

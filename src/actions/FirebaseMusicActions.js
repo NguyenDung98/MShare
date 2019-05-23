@@ -1,9 +1,6 @@
 import firebase from 'react-native-firebase';
 import store from "../store";
 import _ from 'lodash';
-import * as MediaLibrary from "expo-media-library";
-import {getAudioMetaData} from "../utils";
-import {addToDownloads} from "./SongActions";
 
 export const searchMusicOnline = async (searchValue) => {
 	const musicDatabaseRef = firebase.database().ref('/musics');
@@ -85,31 +82,3 @@ export const updateSharingSongs = (isSeeking, currentPlaySong) => {
 		})
 	}
 };
-
-export const downloadSong = () => {
-	const storageRef = firebase.storage().ref('/music');
-	const {selectedSong, downloads} = store.getState();
-	const uri = `${firebase.storage.Native.EXTERNAL_STORAGE_DIRECTORY_PATH}/MShare/${selectedSong.filename}`;
-	const isDownloaded = downloads.some(song => selectedSong.filename === song.filename);
-
-	if (!isDownloaded) {
-		storageRef.child(selectedSong.filename)
-			.downloadFile(uri)
-			.on(firebase.storage.TaskEvent.STATE_CHANGED, async snapshot => {
-				if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
-					const asset = await MediaLibrary.createAssetAsync(uri);
-					const song = await getAudioMetaData([asset]);
-
-					addToDownloads(song[0])
-				}
-			})
-	} else {
-		alert('Đã tải r!!')
-	}
-};
-
-// songsID.forEach(async (songID, index) => {
-// 	const url = await musicStorageRef.child(songsData[index].val().filename).getDownloadURL();
-// 	console.log(url);
-// 	musicDatabaseRef.child(songID).update({url})
-// });

@@ -52,7 +52,7 @@ export default class SearchHeader extends Component {
 
 		return (
 			<View style={container}>
-				<StatusBar backgroundColor={colors.brightRed}/>
+				<StatusBar backgroundColor={colors.mainColor}/>
 				<IconButton
 					name={'ios-arrow-round-back'}
 					iconSize={BACK_BUTTON_SIZE}
@@ -89,7 +89,7 @@ export default class SearchHeader extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

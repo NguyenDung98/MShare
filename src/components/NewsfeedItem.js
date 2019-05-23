@@ -74,7 +74,7 @@ export class ItemNewsfeed extends React.Component {
                 </View>
                 </TouchableOpacity>
                 <View style={styles.container3}>
-                    
+
                     <View style={styles.container4}>
                         {/* <Text style={styles.music} numberOfLines={1}>{time}</Text> */}
                     </View>
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
         borderColor: '#f2f2f2',
         borderRadius: 10,
         flexDirection: 'column',
-        padding: 20 * SCALE_RATIO,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     container2: {
         flexDirection: 'row',
         alignItems:'center',
-        
+
     },
 
 

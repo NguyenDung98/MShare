@@ -42,7 +42,7 @@ export default function PlayingButtons({
 			<IconButton
 				name={repeatIcon}
 				iconSize={BUTTON_SIZE / 2}
-				color={repeatState === REPEAT_STATE.off ? colors.grey : colors.brightRed}
+				color={repeatState === REPEAT_STATE.off ? colors.grey : colors.mainColor}
 				IconType={MaterialCommunityIcons}
 				onPress={onRepeatTogglePress}
 			/>
@@ -51,7 +51,7 @@ export default function PlayingButtons({
 					style={skipBtn}
 					name={'ios-skip-backward'}
 					iconSize={BUTTON_SIZE / 3.5}
-					color={colors.brightRed}
+					color={colors.mainColor}
 					IconType={Ionicons}
 					onPress={skipToPrevious}
 				/>
@@ -67,7 +67,7 @@ export default function PlayingButtons({
 					style={skipBtn}
 					name={'ios-skip-forward'}
 					iconSize={BUTTON_SIZE / 3.5}
-					color={colors.brightRed}
+					color={colors.mainColor}
 					IconType={Ionicons}
 					onPress={skipToNext}
 				/>
@@ -75,7 +75,7 @@ export default function PlayingButtons({
 			<IconButton
 				name={'ios-shuffle'}
 				iconSize={35}
-				color={shuffleState ? colors.brightRed : colors.grey}
+				color={shuffleState ? colors.mainColor : colors.grey}
 				IconType={Ionicons}
 				onPress={onShuffleTogglePress}
 			/>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 		height: BUTTON_SIZE / 2,
 		borderRadius: BUTTON_SIZE / 4,
 		borderWidth: StyleSheet.hairlineWidth,
-		borderColor: colors.brightRed,
+		borderColor: colors.mainColor,
 	},
 	playBtn: {
 		elevation: 5,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 		borderRadius: BUTTON_SIZE / 2,
 		borderWidth: 9,
 		borderColor: colors.lightGrey,
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		marginLeft: 20,
 		marginRight: 20,
 	},

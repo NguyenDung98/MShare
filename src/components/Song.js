@@ -29,6 +29,8 @@ export default class Song extends React.PureComponent {
 		buttonIconName: PropTypes.string,
 		buttonIconType: PropTypes.any,
 		imageStyle: ViewPropTypes.style,
+		showProgress: PropTypes.bool,
+		progress: PropTypes.number,
 	};
 
 	static defaultProps = {
@@ -40,6 +42,7 @@ export default class Song extends React.PureComponent {
 		buttonIconName: 'md-more',
 		buttonIconType: Ionicons,
 		showMoreButton: true,
+		showProgress: false,
 	};
 
 	render() {
@@ -62,6 +65,8 @@ export default class Song extends React.PureComponent {
 			buttonIconName,
 			buttonIconType,
 			showMoreButton,
+			showProgress,
+			progress,
 			imageStyle
 		} = this.props;
 		let WrapperComponent = onPress ?  TouchableNativeFeedback : TouchableWithoutFeedback;
@@ -86,6 +91,8 @@ export default class Song extends React.PureComponent {
 						wrapperStyle={styles.songArtist}
 						songColor={titleColor}
 						artistColor={subTitleColor}
+						showProgress={showProgress}
+						progress={progress}
 					/>
 					{showMoreButton && (
 						<IconButton

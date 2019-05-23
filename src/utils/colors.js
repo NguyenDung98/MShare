@@ -1,6 +1,6 @@
 export const colors = {
-    brightRed: '#311B92',
-    brighterRed: '#5a3ddb',
+    mainColor: '#311B92',
+    secondaryColor: '#5a3ddb',
     lightGrey: '#ededed',
     grey: '#aaaaaa',
 	lighterGrey: '#f6f6f6',

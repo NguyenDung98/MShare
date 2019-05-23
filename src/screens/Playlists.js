@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: '20%',
 		borderRadius: 20,
 		padding: 10,
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderColor: colors.lighterGrey,

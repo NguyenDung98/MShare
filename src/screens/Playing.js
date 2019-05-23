@@ -10,7 +10,6 @@ import store from "../store";
 const ARTWORK_SIZE = Dimensions.get('screen').height * 0.35;
 const backgroundMain = require('./../imgs/background_song3.jpg')
 
-
 export default class Playing extends Component {
 	render() {
 		const {currentPlaySong: {title, artist, artwork}} = store.getState();

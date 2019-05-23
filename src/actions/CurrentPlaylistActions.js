@@ -24,7 +24,7 @@ export const setUpCurrentPlaylist = async ({repeatState, isShuffled, songs, orig
 export const addToCurrentPlayList = async (song, showWidget, filtered) => {
 	const {currentPlaylist, showStaticWidget, currentPlaySong, currentPlaySongIndex} = store.getState();
 
-	if (filtered || !currentPlaylist.find(item => item.id === song.id)) {
+	if (filtered || !currentPlaylist.find(item => item.id === song.id || item.onlineID === song.id)) {
 		if (!currentPlaySong) await TrackPlayer.reset();
 		await TrackPlayer.add(song);
 		store.setState({

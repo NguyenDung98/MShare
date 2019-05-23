@@ -8,6 +8,7 @@ import SongOptions from "./SongOptions";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import * as Action from "../actions";
+import navigationService from '../service/navigationService';
 import {SCREEN_HEIGHT} from "../utils";
 import store from "../store";
 
@@ -126,7 +127,14 @@ export default class SongOptionsModal extends Component {
 	};
 
 	_handleDownloadOption = () => {
+		navigationService.navigate('DownloadedSongs');
 		Action.downloadSong();
+		this._toggleModal(true);
+	};
+
+	handleUploadOption = () => {
+		Action.uploadSong();
+		this._toggleModal(true);
 	};
 
 	_onAddSongToPlaylist = async (playlistIndex) => {
@@ -195,7 +203,7 @@ export default class SongOptionsModal extends Component {
 						closeModal={() => this._toggleModal(true)}
 						onAddToPlaylist={this._handleClickAddToPlayListBtn}
 						onDownload={this._handleDownloadOption}
-						onUpload={() => {}}
+						onUpload={this.handleUploadOption}
 					/>
 				)}
 			</OptionModal>

@@ -42,7 +42,7 @@ export default function Avatar({
 	                <Ionicons
 		                name={"ios-add-circle"}
 		                size={width / 2}
-                        color={colors.brightRed}
+                        color={colors.mainColor}
 	                />
                 </View>
             )}

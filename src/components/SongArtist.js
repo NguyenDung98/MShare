@@ -1,6 +1,8 @@
 import React from "react";
 import {ColorPropType, ViewPropTypes, StyleSheet, Text, View} from "react-native";
+import Slider from 'react-native-slider';
 import PropTypes from "prop-types";
+import {colors} from "../utils";
 
 export default function SongArtist({
     artist,
@@ -10,7 +12,11 @@ export default function SongArtist({
     songColor,
     artistColor,
     wrapperStyle,
+    showProgress,
+    progress,
 }) {
+    const {invisibleThumb, progressStyle} = styles;
+
     return (
         <View style={wrapperStyle}>
             <Text
@@ -20,7 +26,7 @@ export default function SongArtist({
             >
                 {songTitle}
             </Text>
-            {artist && (
+            {!showProgress && artist && (
 	            <Text
 		            style={styles.artist(artistSize, artistColor)}
 		            numberOfLines={1}
@@ -28,6 +34,19 @@ export default function SongArtist({
 	            >
 		            {artist}
 	            </Text>
+            )}
+            {showProgress && (
+                <View style={progressStyle}>
+	                <Slider
+		                style={{width: '90%'}}
+                        disabled
+                        value={progress}
+                        maximumValue={100}
+                        thumbStyle={invisibleThumb}
+		                minimumTrackTintColor={colors.mainColor}
+	                />
+                    <Text> {progress}%</Text>
+                </View>
             )}
         </View>
     );
@@ -40,6 +59,8 @@ SongArtist.propTypes = {
     wrapperStyle: ViewPropTypes.style,
 	songColor: ColorPropType,
 	artistColor: ColorPropType,
+	showProgress: PropTypes.bool,
+	progress: PropTypes.number,
 };
 
 SongArtist.defaultProps = {
@@ -47,6 +68,8 @@ SongArtist.defaultProps = {
     songSize: 17,
     wrapperStyle: {},
     songColor: 'black',
+	showProgress: false,
+	progress: 0,
 };
 
 const styles = StyleSheet.create({
@@ -58,4 +81,13 @@ const styles = StyleSheet.create({
         fontSize: artistSize,
 	    color: artistColor,
     }),
+	progressStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+	invisibleThumb: {
+		width: 0,
+		height: 0,
+	},
 });

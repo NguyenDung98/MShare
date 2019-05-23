@@ -43,6 +43,8 @@ export default class Albums extends Component {
 	};
 
 	_renderItem = ({item, index}) => {
+		if (!item) return null;
+
 		const {navigation: {navigate, getParam}} = this.props;
 
 		return (

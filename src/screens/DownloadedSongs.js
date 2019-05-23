@@ -13,7 +13,11 @@ const numOfFirstSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
 export default class DownloadedSongs extends Component {
 	static navigationOptions = {
-		title: "Tải xuống"
+		title: "Tải xuống",
+		headerStyle: {
+			backgroundColor: colors.mainColor
+		},
+		headerTintColor: colors.white
 	};
 
 	state = {
@@ -76,11 +80,21 @@ export default class DownloadedSongs extends Component {
 
 	render() {
 		const {showModal, boxHeight} = this.state;
-		const {downloads: data} = store.getState();
+		const {downloads: data, downloadingSong, downloadProgress} = store.getState();
 
 		return (
 			<View style={styles.container}>
 				<FlatList
+					ListHeaderComponent={downloadingSong && (
+						<Song
+							uri={downloadingSong.artwork}
+							subTitle={downloadingSong.artist}
+							title={downloadingSong.title}
+							showProgress
+							progress={downloadProgress}
+							showMoreButton={false}
+						/>
+					)}
 					keyExtractor={keyExtractor}
 					data={data.slice(0, this.endItems)}
 					renderItem={this._renderItem}

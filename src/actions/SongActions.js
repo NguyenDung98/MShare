@@ -21,12 +21,16 @@ export const addToSongList = songList => {
 
 export const addToDownloads = song => {
 	const {downloads} = store.getState();
+	const isInList = downloads.some(item => item.id === song.id);
 
-	store.setState({
-		downloads: [song, ...downloads]
-	});
-	saveDownloadsToLocal();
-	updateToLibrary(song);
+	if (!isInList) {
+		store.setState({
+			downloads: [song, ...downloads],
+			downloadingSong: null,
+			downloadProgress: 0,
+		});
+		saveDownloadsToLocal();
+	}
 };
 
 export const updateToLibrary = song => {

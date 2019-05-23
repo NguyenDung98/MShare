@@ -40,7 +40,7 @@ export const libraryTab = (songListData, albumsData, artistData, playlistsData) 
 				style: {
 					borderBottomLeftRadius: 26,
 					borderBottomRightRadius: 26,
-					backgroundColor: colors.brightRed,
+					backgroundColor: colors.mainColor,
 					paddingHorizontal: TAB_BAR_PADDING,
 					elevation: 5,
 				},

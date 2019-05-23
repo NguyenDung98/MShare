@@ -33,7 +33,7 @@ export default class Progress extends TrackPlayer.ProgressComponent {
 	};
 
 	render() {
-		const {lightGrey, grey, brightRed, transparent} = colors;
+		const {lightGrey, grey, mainColor, transparent} = colors;
 		const {position, duration, bufferedPosition} = this.state;
 		const {
 			timingContainer,
@@ -69,7 +69,7 @@ export default class Progress extends TrackPlayer.ProgressComponent {
 				<Slider
 					style={currentProgress}
 					thumbStyle={thumb}
-					minimumTrackTintColor={brightRed}
+					minimumTrackTintColor={mainColor}
 					maximumTrackTintColor={transparent}
 					value={position}
 					maximumValue={duration}
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 	thumb: {
 		width: 10,
 		height: 10,
-		backgroundColor: colors.brightRed,
+		backgroundColor: colors.mainColor,
 		borderRadius: 10 / 2,
 	},
 	invisibleThumb: {
