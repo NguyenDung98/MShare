@@ -90,9 +90,6 @@ export default class LibraryTabHeader extends Component {
 
 		return (
 			<View style={container}>
-				<StatusBar
-					backgroundColor={colors.mainColor}
-				/>
 				<IconButton
 					name={'ios-arrow-round-back'}
 					iconSize={BUTTON_SIZE}
@@ -139,11 +136,11 @@ export default class LibraryTabHeader extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		height: 49,
 		backgroundColor: colors.mainColor,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		paddingTop: StatusBar.currentHeight + 5,
 	},
 	backBtnStyle: {
 		marginLeft: 10,

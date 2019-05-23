@@ -15,12 +15,13 @@ export const clearDataFromLocal = async () => {
 
 export const setUpLocalData = async () => {
 	try {
-		const dataOnStorage = await AsyncStorage.multiGet(['songs', 'playlists', 'downloads']);
+		const dataOnStorage = await AsyncStorage.multiGet(['songs', 'playlists', 'downloads', 'uploads']);
 
 		store.setState({
 			songsInStorage: dataOnStorage[0][1] ? JSON.parse(dataOnStorage[0][1]) : [],
 			playlists: dataOnStorage[1][1] ? JSON.parse(dataOnStorage[1][1]) : [],
-			downloads: dataOnStorage[2][1] ? JSON.parse(dataOnStorage[2][1]) : []
+			downloads: dataOnStorage[2][1] ? JSON.parse(dataOnStorage[2][1]) : [],
+			uploads: dataOnStorage[3][1] ? JSON.parse(dataOnStorage[3][1]) : [],
 		});
 		if (dataOnStorage[0][1]) {
 			Action.setUpAlbumList();
@@ -51,6 +52,16 @@ export const saveDownloadsToLocal = async () => {
 		const {downloads} = store.getState();
 
 		await AsyncStorage.setItem('downloads', JSON.stringify(downloads));
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+export const saveUploadsToLocal = async () => {
+	try {
+		const {uploads} = store.getState();
+
+		await AsyncStorage.setItem('uploads', JSON.stringify(uploads));
 	} catch (e) {
 		console.log(e);
 	}

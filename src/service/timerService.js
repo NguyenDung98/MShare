@@ -1,6 +1,11 @@
 import {updateUserOnlineState} from "../actions";
+import firebase from "react-native-firebase";
 
 
 module.exports = async () => {
-	updateUserOnlineState()
+	const {currentUser} = firebase.auth();
+
+	if (currentUser) {
+		updateUserOnlineState()
+	}
 };

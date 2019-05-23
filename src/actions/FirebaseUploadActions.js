@@ -1,56 +1,75 @@
 import firebase from "react-native-firebase";
 import store from "../store";
 import {ToastAndroid} from "react-native";
+import {addToUploads} from "./SongActions";
 
 export const uploadSong = () => {
 	const musicDatabaseRef = firebase.database().ref('/musics');
-	const {selectedSong} = store.getState();
+	const {selectedSong, uploadingSong} = store.getState();
 
-	musicDatabaseRef.orderByChild('title').startAt(selectedSong.title).endAt(`${selectedSong.title}\uf8ff`)
-		.once('value', snapshot => {
-			const songs = snapshot.val();
-			if (songs) {
-				const foundSong = Object.values(songs).some(song => song.artist === selectedSong.artist &&
-					song.albumName === selectedSong.albumName);
-				if (!foundSong) {
+	if (!uploadingSong) {
+		musicDatabaseRef.orderByChild('title').startAt(selectedSong.title).endAt(`${selectedSong.title}\uf8ff`)
+			.once('value', snapshot => {
+				const songs = snapshot.val();
+				if (songs) {
+					const foundSong = Object.values(songs).some(song => song.artist === selectedSong.artist &&
+						song.albumName === selectedSong.albumName);
+					if (!foundSong) {
+						uploadSongToFirebase(selectedSong);
+					} else {
+						ToastAndroid.showWithGravityAndOffset(
+							`Bài hát "${selectedSong.title}" đã có trên hệ thống`,
+							ToastAndroid.LONG,
+							ToastAndroid.BOTTOM,
+							15,
+							50,
+						);
+					}
+				} else {
 					uploadSongToFirebase(selectedSong);
 				}
-			} else {
-				uploadSongToFirebase(selectedSong);
-			}
-		})
+			})
+	}
 };
 
 const uploadSongToFirebase = async (song) => {
 	const {filename, uri, title, artwork, artist, albumName, duration} = song;
 	const storageRef = firebase.storage().ref(`/music/${filename}`);
 	const musicDatabaseRef = firebase.database().ref('/musics');
+	const {uploadingSong} = store.getState();
 
 	storageRef.putFile(uri)
-		.then(async (snapshot) => {
-			const url = await storageRef.getDownloadURL();
-			musicDatabaseRef.child(snapshot.metadata.generation)
-				.set({
-					title,
-					artwork,
-					artist,
-					albumName,
-					filename,
-					duration,
-					url,
-				}, async () => {
-					await updateSearchData(song, snapshot.metadata.generation);
-					ToastAndroid.showWithGravityAndOffset(
-						`Upload bài hát "${song.title}" thành công`,
-						ToastAndroid.LONG,
-						ToastAndroid.BOTTOM,
-						15,
-						50,
-					);
+		.on(firebase.storage.TaskEvent.STATE_CHANGED, async snapshot => {
+			console.log(snapshot.state);
+			if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
+				const url = await storageRef.getDownloadURL();
+
+				musicDatabaseRef.child(snapshot.metadata.generation)
+					.set({
+						title,
+						artwork,
+						artist,
+						albumName,
+						filename,
+						duration,
+						url,
+					}, async () => {
+						await updateSearchData(song, snapshot.metadata.generation);
+						ToastAndroid.showWithGravityAndOffset(
+							`Upload bài hát "${song.title}" thành công`,
+							ToastAndroid.LONG,
+							ToastAndroid.BOTTOM,
+							15,
+							50,
+						);
+					});
+				addToUploads(song);
+			} else {
+				store.setState({
+					uploadingSong: uploadingSong ? uploadingSong : song,
+					uploadProgress: Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100),
 				})
-		})
-		.catch(e => {
-			console.log(e);
+			}
 		})
 };
 

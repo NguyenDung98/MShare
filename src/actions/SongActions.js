@@ -1,6 +1,6 @@
 import store from "../store";
 import * as firebaseMusicAction from "./FirebaseMusicActions";
-import {saveDownloadsToLocal} from "./StorageActions";
+import {saveDownloadsToLocal, saveUploadsToLocal} from "./StorageActions";
 import {setUpArtistList} from "./AritstActions";
 import {setUpAlbumList} from "./AlbumActions";
 
@@ -30,6 +30,20 @@ export const addToDownloads = song => {
 			downloadProgress: 0,
 		});
 		saveDownloadsToLocal();
+	}
+};
+
+export const addToUploads = song => {
+	const {uploads} = store.getState();
+	const isInList = uploads.some(item => item.id === song.id);
+
+	if (!isInList) {
+		store.setState({
+			uploads: [song, ...uploads],
+			uploadingSong: null,
+			uploadProgress: 0,
+		});
+		saveUploadsToLocal();
 	}
 };
 

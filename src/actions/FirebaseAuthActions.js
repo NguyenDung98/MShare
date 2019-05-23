@@ -21,6 +21,7 @@ const saveUserToFirebase = async (isNewUser, id, user) => {
 			online: true,
 			stateTrack: new Date().getTime(),
 			playingSong: 'inactive',
+			sharing: true,
 		});
 	}
 };

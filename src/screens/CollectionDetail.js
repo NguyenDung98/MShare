@@ -211,7 +211,7 @@ export default class CollectionDetail extends Component {
 				uri={artwork}
 				subTitle={artist}
 				title={title}
-				onPress={() => playSong(item)}
+				onPress={async () => await playSong(item)}
 				onButtonPress={() => this._selectSong(item)}
 			/>
 		)

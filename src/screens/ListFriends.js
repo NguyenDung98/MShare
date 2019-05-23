@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, FlatList, Animated, Easing} from 'react-native'
+import {View, Text, FlatList, Animated, Easing, Switch, StyleSheet} from 'react-native'
 
 import Friend from "../components/Song";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -32,10 +32,21 @@ const DEFAULT_STATE = {
 };
 
 export default class ListFriends extends Component {
-	state = DEFAULT_STATE;
+	state = {
+		...DEFAULT_STATE,
+		sharing: true,
+	};
 
 	inputBoxPosition = new Animated.Value(0);
 	overlayOpacity = new Animated.Value(0);
+
+	componentWillMount() {
+		const {sharing} = store.getState();
+
+		this.setState({
+			sharing,
+		})
+	};
 
 	componentDidMount() {
 		this.unsubcribe = store.onChange(() => {
@@ -170,31 +181,44 @@ export default class ListFriends extends Component {
 		});
 	};
 
-	_renderItem = ({item}) => {
-		const {id, name, avatarUrl, online, stateTrack, playingSong} = item;
-		const playingSongTitle = playingSong && typeof playingSong === "object" ? (
-			<Text>
-				<MaterialCommunityIcons
-					name={'headphones'}
-					size={15}
-				/> {playingSong.title + ` - ${playingSong.artist}`}
-			</Text>
-		) : playingSong;
+	_changeSharingState = () => {
+		const {sharing} = this.state;
 
-		return (online && stateTrack > new Date().getTime() - 15000) ?
-			(
-				<Friend
-					showBadge
-					showAlternativeIcon={false}
-					uri={avatarUrl}
-					title={name}
-					subTitle={playingSongTitle}
-					avatarIconWidth={50}
-					imageStyle={{borderRadius: 25}}
-					onPress={() => this._moveToProfile(id)}
-					onButtonPress={() => this._toggleModal(id, playingSong)}
-				/>
-			) : null;
+		this.setState({
+			sharing: !sharing,
+		}, () => {
+			Action.updateUserPublicInfo({
+				sharing: !sharing,
+			})
+		})
+	};
+
+	_renderItem = ({item}) => {
+		const {id, name, avatarUrl, playingSong, sharing} = item;
+		const playingSongTitle = sharing ? (
+			playingSong && typeof playingSong === "object" ? (
+				<Text>
+					<MaterialCommunityIcons
+						name={'headphones'}
+						size={15}
+					/> {playingSong.title + ` - ${playingSong.artist}`}
+				</Text>
+			) : playingSong
+		) : null;
+
+		return (
+			<Friend
+				showBadge
+				showAlternativeIcon={false}
+				uri={avatarUrl}
+				title={name}
+				subTitle={playingSongTitle}
+				avatarIconWidth={50}
+				imageStyle={{borderRadius: 25}}
+				onPress={() => this._moveToProfile(id)}
+				onButtonPress={() => this._toggleModal(id, playingSong)}
+			/>
+		)
 	};
 
 	render() {
@@ -205,22 +229,33 @@ export default class ListFriends extends Component {
 			showFirstOptionBox,
 			showCreatePlaylistBox,
 			newPlaylistTitle,
+			sharing,
 		} = this.state;
-		const data = Object.values(store.getState().userFriends);
+		const data = Object.values(store.getState().userFriends)
+			.filter(({online, stateTrack}) =>
+				online && stateTrack > new Date().getTime() - 15000);
 
 		return (
 			<View style={{flex: 1, backgroundColor : colors.background_color}}>
-				{data ?
-					<FlatList
-						data={data}
-						renderItem={this._renderItem}
-						keyExtractor={keyExtractor}
+				<View style={styles.sharingContainer}>
+					<Text style={{fontSize: 14}}>
+						Chia sẻ với bạn bè:
+					</Text>
+					<Switch
+						value={sharing}
+						onValueChange={this._changeSharingState}
 					/>
-					:
-					<View style={{margin: 80 * SCALE_RATIO}}>
-						<Text>Không có bạn bè online</Text>
-					</View>
-				}
+				</View>
+				<FlatList
+					ListEmptyComponent={(
+						<View style={styles.noFriendOnline}>
+							<Text style={styles.noFriendOnlineText}>Không có bạn bè online</Text>
+						</View>
+					)}
+					data={data}
+					renderItem={this._renderItem}
+					keyExtractor={keyExtractor}
+				/>
 				<OptionModal
 					visible={showModal}
 					inputBoxPosition={this.inputBoxPosition}
@@ -257,3 +292,19 @@ export default class ListFriends extends Component {
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	sharingContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingHorizontal: 10,
+	},
+	noFriendOnline: {
+		flex: 1,
+		marginTop: 10
+	},
+	noFriendOnlineText: {
+		textAlign: 'center',
+	}
+});

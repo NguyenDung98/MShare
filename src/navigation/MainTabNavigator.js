@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, Dimensions, TouchableNativeFeedback, StyleSheet} from 'react-native';
+import {Platform, Dimensions, TouchableNativeFeedback, StyleSheet, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 
@@ -116,6 +116,8 @@ export const navigationOptions = ({navigation: {navigate}}) =>  ({
 	),
 	headerStyle: {
 		backgroundColor: colors.mainColor,
+		height: 50 + StatusBar.currentHeight,
+		paddingTop: StatusBar.currentHeight,
 	},
 	headerTintColor: '#fff',
 });

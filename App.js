@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppState, View, StyleSheet} from "react-native";
+import {AppState, View, StyleSheet, StatusBar} from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator"
 import StaticPlayingWidget from "./src/components/StaticPlayingWidget";
 
@@ -10,6 +10,7 @@ import TrackPlayer from "react-native-track-player";
 import NavigationService from "./src/service/navigationService";
 import * as Action from './src/actions/'
 import {
+	colors,
 	getAudioMetaData,
 	SCREEN_HEIGHT,
 	SONG_ITEM_WIDTH,
@@ -24,6 +25,10 @@ export default class App extends Component {
 
 	async componentWillMount() {
 		try {
+			// setup track player
+			await TrackPlayer.setupPlayer();
+			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
+
 			this.unsubcribe = store.onChange(() => {
 				this.forceUpdate();
 				this.loading = false;
@@ -37,9 +42,6 @@ export default class App extends Component {
 				Action.setUpAlbumList();
 				Action.setUpArtistList();
 			}
-			// setup track player
-			await TrackPlayer.setupPlayer();
-			TrackPlayer.updateOptions(trackPlayerUpdateOptions);
 		} catch (e) {
 			console.log('error: ' + e)
 		}
@@ -92,6 +94,10 @@ export default class App extends Component {
 
 		return (
 			<View style={{flex: 1}}>
+				<StatusBar
+					backgroundColor={colors.transparent}
+					translucent
+				/>
 				<AppNavigator
 					ref={navigatorRef => {
 						NavigationService.setTopLevelNavigator(navigatorRef)

@@ -35,7 +35,7 @@ export const trackPlayerUpdateOptions = {
 };
 // section list item
 export const deviceSection = () => {
-	const {songsInStorage, artists, albums, playlists, downloads} = store.getState();
+	const {songsInStorage, artists, albums, playlists, downloads, uploads} = store.getState();
 
 	return [
 		{
@@ -72,6 +72,13 @@ export const deviceSection = () => {
 			title: 'Tải xuống',
 			subTitle: downloads.length.toString(),
 			targetScreen: 'DownloadedSongs',
+		},
+		{
+			avatarIconName: 'cloud-upload',
+			iconType: MaterialIcons,
+			title: 'Tải lên',
+			subTitle: uploads.length.toString(),
+			targetScreen: 'UploadedSongs',
 		},
 	];
 };

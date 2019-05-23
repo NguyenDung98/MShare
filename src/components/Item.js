@@ -52,11 +52,11 @@ export class ItemTimeLine extends React.Component {
                                 subTitle={artist}
                                 title={title}
                                 showMoreButton={false}
-                                onPress={() => playSong(this.state.track)}
+                                onPress={async () => await playSong(this.state.track)}
                                 style={{ paddingBottom: 10 }}
                             />
                             <View style={styles.play}  >
-                                <Icon name='ios-play' size={35} onPress={() => playSong(this.state.track)} />
+                                <Icon name='ios-play' size={35} onPress={async () => await playSong(this.state.track)} />
                             </View>
                         </TouchableOpacity>
                     </View>

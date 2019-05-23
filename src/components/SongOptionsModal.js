@@ -132,7 +132,8 @@ export default class SongOptionsModal extends Component {
 		this._toggleModal(true);
 	};
 
-	handleUploadOption = () => {
+	_handleUploadOption = () => {
+		navigationService.navigate('UploadedSongs');
 		Action.uploadSong();
 		this._toggleModal(true);
 	};
@@ -203,7 +204,7 @@ export default class SongOptionsModal extends Component {
 						closeModal={() => this._toggleModal(true)}
 						onAddToPlaylist={this._handleClickAddToPlayListBtn}
 						onDownload={this._handleDownloadOption}
-						onUpload={this.handleUploadOption}
+						onUpload={this._handleUploadOption}
 					/>
 				)}
 			</OptionModal>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, FlatList} from "react-native";
+import {StyleSheet, View, FlatList, StatusBar} from "react-native";
 
 import Song from "../components/Song";
 import SongOptionsModal from "../components/SongOptionsModal";
@@ -11,9 +11,15 @@ import store from "../store";
 const keyExtractor = item => item.id;
 const numOfFirstSongItems = Math.round(SCREEN_HEIGHT / ITEM_HEIGHT);
 
-export default class SongList extends Component {
+export default class UploadedSongs extends Component {
 	static navigationOptions = {
-		tabBarLabel: "Danh sách nhạc"
+		title: "Tải lên",
+		headerStyle: {
+			backgroundColor: colors.mainColor,
+			height: 50 + StatusBar.currentHeight,
+			paddingTop: StatusBar.currentHeight,
+		},
+		headerTintColor: colors.white
 	};
 
 	state = {
@@ -61,8 +67,6 @@ export default class SongList extends Component {
 	};
 
 	_renderItem = ({item}) => {
-		if (!item) return null;
-
 		const {artwork, artist, title} = item;
 
 		return (
@@ -78,13 +82,21 @@ export default class SongList extends Component {
 
 	render() {
 		const {showModal, boxHeight} = this.state;
-		const {navigation: {getParam}} = this.props;
-		const dataName = getParam('dataName');
-		const data = store.getState()[dataName];
+		const {uploads: data, uploadingSong, uploadProgress} = store.getState();
 
 		return (
 			<View style={styles.container}>
 				<FlatList
+					ListHeaderComponent={uploadingSong && (
+						<Song
+							uri={uploadingSong.artwork}
+							subTitle={uploadingSong.artist}
+							title={uploadingSong.title}
+							showProgress
+							progress={uploadProgress}
+							showMoreButton={false}
+						/>
+					)}
 					keyExtractor={keyExtractor}
 					data={data.slice(0, this.endItems)}
 					renderItem={this._renderItem}

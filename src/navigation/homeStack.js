@@ -10,6 +10,7 @@ import DownloadedSongs from "../screens/DownloadedSongs";
 
 import {libraryTab} from "./libraryTab";
 import {MainTabNavigator, navigationOptions} from "./MainTabNavigator";
+import UploadedSongs from "../screens/UploadedSongs";
 
 const HomeStack = createStackNavigator({
 	Login: {
@@ -56,6 +57,7 @@ const HomeStack = createStackNavigator({
 	CollectionDetail,
 	Profile: ProfileScreen,
 	DownloadedSongs,
+	UploadedSongs,
 }, {
 	headerMode: 'float',
 });

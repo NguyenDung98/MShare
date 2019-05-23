@@ -15,7 +15,7 @@ export const setUpCurrentPlaylist = async ({repeatState, isShuffled, songs, orig
 		currentPlaylist: songs,
 		originalPlaylist: originalSongs,
 	});
-	playSong(songs[0]);
+	await playSong(songs[0]);
 	store.setState({
 		showStaticWidget: true,
 	})

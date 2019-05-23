@@ -31,7 +31,7 @@ export class ItemNewsfeed extends React.Component {
     _moveToProfile = (userID) => {
 		const {selectedFriend} = this.state;
 		const {navigation: {navigate}} = this.props;
-        
+
 		navigate('Profile', {
 			userID: userID ? userID : selectedFriend,
 			type: 'friend',
@@ -87,7 +87,7 @@ export class ItemNewsfeed extends React.Component {
                             subTitle={artist}
                             showMoreButton={false}
                             title={title}
-                            onPress={() => playSong(this.state.track)}
+                            onPress={async () => await playSong(this.state.track)}
                             style={{ paddingBottom: 10 }}
                         />
                     </TouchableOpacity>

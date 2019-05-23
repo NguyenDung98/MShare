@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native';
+import {View, Text, StyleSheet, ImageBackground, Image, StatusBar} from 'react-native';
 import { Button } from 'native-base';
 
 import { LoginManager, AccessToken } from "react-native-fbsdk";
@@ -9,6 +9,7 @@ import { SCALE_RATIO } from '../constants/constants';
 import { saveAccessToken, getAccessToken, saveAvt } from '../utils/asyncStorage';
 import * as Action from "../actions";
 import * as facebookAction from "../actions/FacebookAuthActions";
+import {colors} from "../utils";
 
 const logo = require('./../imgs/logoMshare.png')
 const background = require('./../imgs/background.jpg')
@@ -124,7 +125,7 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
 	},
 	form: {
 		height: 200 * SCALE_RATIO,

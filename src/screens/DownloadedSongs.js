@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, FlatList} from "react-native";
+import {StyleSheet, View, FlatList, StatusBar} from "react-native";
 
 import Song from "../components/Song";
 import SongOptionsModal from "../components/SongOptionsModal";
@@ -15,7 +15,9 @@ export default class DownloadedSongs extends Component {
 	static navigationOptions = {
 		title: "Tải xuống",
 		headerStyle: {
-			backgroundColor: colors.mainColor
+			backgroundColor: colors.mainColor,
+			height: 50 + StatusBar.currentHeight,
+			paddingTop: StatusBar.currentHeight,
 		},
 		headerTintColor: colors.white
 	};
@@ -72,7 +74,7 @@ export default class DownloadedSongs extends Component {
 				uri={artwork}
 				subTitle={artist}
 				title={title}
-				onPress={() => playSong(item)}
+				onPress={async () => await playSong(item)}
 				onButtonPress={() => this._selectSong(item)}
 			/>
 		)

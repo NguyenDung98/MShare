@@ -4,6 +4,7 @@ let state = {
 	albums: [],
 	artists: [],
 	downloads: [],
+	uploads: [],
 	currentPlaySong: null,
 	currentPlaySongIndex: -1, // before shuffle
 	selectedSong: null,
