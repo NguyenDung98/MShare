@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {FlatList} from 'react-native';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 import store from "../store";
 import AlbumItem from "../components/AlbumItem";
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from "../utils";
+import {colors, SCREEN_HEIGHT, SCREEN_WIDTH} from "../utils";
 
 const keyExtractor = (_, index) => index.toString();
 const MARGIN = 18;
@@ -64,9 +64,18 @@ export default class Albums extends Component {
 		const {navigation: {getParam}} = this.props;
 		const dataName = getParam('dataName');
 		const data = store.getState()[dataName];
+		const {searching} = store.getState();
 
 		return (
 			<FlatList
+				ListEmptyComponent={searching && (
+					<View style={{marginTop: 10}}>
+						<ActivityIndicator
+							size={'large'}
+							color={colors.mainColor}
+						/>
+					</View>
+				)}
 				keyExtractor={keyExtractor}
 				data={data.slice(0, this.endItems)}
 				renderItem={this._renderItem}

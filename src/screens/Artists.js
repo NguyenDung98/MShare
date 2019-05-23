@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {FlatList, TouchableWithoutFeedback} from 'react-native';
+import {ActivityIndicator, FlatList, TouchableWithoutFeedback, View} from 'react-native';
 import ArtistItem from "../components/Song";
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import {ITEM_HEIGHT, SCREEN_HEIGHT, SONG_ITEM_WIDTH} from '../utils/';
+import {colors, ITEM_HEIGHT, SCREEN_HEIGHT, SONG_ITEM_WIDTH} from '../utils/';
 import store from "../store";
 
 const keyExtractor = (_, index) => index.toString();
@@ -77,9 +77,18 @@ export default class Artists extends Component {
 		const {navigation: {getParam}} = this.props;
 		const dataName = getParam('dataName');
 		const data = store.getState()[dataName];
+		const {searching} = store.getState();
 
 		return (
 			<FlatList
+				ListEmptyComponent={searching && (
+					<View style={{marginTop: 10}}>
+						<ActivityIndicator
+							size={'large'}
+							color={colors.mainColor}
+						/>
+					</View>
+				)}
 				keyExtractor={keyExtractor}
 				data={data.slice(0, this.endItems)}
 				onEndReached={() => this._loadMoreArtists(data)}

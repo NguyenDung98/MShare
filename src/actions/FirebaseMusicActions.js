@@ -7,6 +7,13 @@ export const searchMusicOnline = async (searchValue) => {
 	const musicSearchRef = firebase.database().ref('/musicSearchData');
 
 	if (searchValue) {
+		store.setState({
+			searching: true,
+			onlineSearchedSongs: [],
+			onlineSearchedAlbums: [],
+			onlineSearchedArtists: [],
+		});
+
 		const result = await Promise.all([
 			musicDatabaseRef.orderByChild('title').startAt(searchValue).endAt(`${searchValue}\uf8ff`)
 				.once('value'),
@@ -29,7 +36,10 @@ export const searchMusicOnline = async (searchValue) => {
 			// onlineSearchedPlaylists: playlists.filter(playlist => playlist.title.toLocaleLowerCase().includes(searchValue)),
 		};
 
-		store.setState({...searchedItems});
+		store.setState({
+			...searchedItems,
+			searching: false,
+		});
 	}
 };
 

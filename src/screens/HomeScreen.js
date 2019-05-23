@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { View, Text, SectionList, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import {View, Text, SectionList, TouchableWithoutFeedback, ImageBackground} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SectionItem from "../components/Song";
 
-import {deviceSection, SONG_PADDING} from "../utils";
+import {colors, deviceSection, SONG_PADDING} from "../utils";
 import store from "../store";
 import * as Action from "../actions";
+
 const backgroundMain = require('./../imgs/background_home.jpg')
 
 const keyExtractor = (_, index) => index.toString();
@@ -17,7 +18,7 @@ export default class HomeScreen extends Component {
 		this.unsubcribe = store.onChange(() => {
 			this.forceUpdate()
 		});
-		this.navigationEventSubcriptions = Action.navigationEventSubscriptions(navigation);
+		this.navigationEventSubcriptions = Action.mainTabNavigationEventSubscriptions(navigation);
 	}
 
 	componentWillUnmount() {
@@ -39,6 +40,7 @@ export default class HomeScreen extends Component {
 				buttonType={TouchableWithoutFeedback}
 				buttonIconName={'chevron-small-right'}
 				buttonIconType={Entypo}
+				buttonColor={colors.lightGrey}
 				subTitleColor={'white'}
 				titleColor={'white'}
 				imageStyle={{
@@ -61,15 +63,15 @@ export default class HomeScreen extends Component {
 
 	render() {
 		return (
-			<ImageBackground source={backgroundMain} style={{ flex: 1, justifyContent  : 'center' }} resizeMode='cover'>
-			<SectionList
-				renderItem={this._renderItem}
-				renderSectionHeader={this._renderSectionHeader}
-				sections={[
-					{title: 'Thư viện', data: deviceSection()}
-				]}
-				keyExtractor={keyExtractor}
-			/>
+			<ImageBackground source={backgroundMain} style={{flex: 1, justifyContent: 'center'}} resizeMode='cover'>
+				<SectionList
+					renderItem={this._renderItem}
+					renderSectionHeader={this._renderSectionHeader}
+					sections={[
+						{title: 'Thư viện', data: deviceSection()}
+					]}
+					keyExtractor={keyExtractor}
+				/>
 			</ImageBackground>
 		);
 	}

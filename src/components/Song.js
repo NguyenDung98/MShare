@@ -28,6 +28,7 @@ export default class Song extends React.PureComponent {
 		buttonType: PropTypes.any,
 		buttonIconName: PropTypes.string,
 		buttonIconType: PropTypes.any,
+		buttonColor: ColorPropType,
 		imageStyle: ViewPropTypes.style,
 		showProgress: PropTypes.bool,
 		progress: PropTypes.number,
@@ -41,6 +42,7 @@ export default class Song extends React.PureComponent {
 		avatarIconWidth: SONG_ITEM_WIDTH,
 		buttonIconName: 'md-more',
 		buttonIconType: Ionicons,
+		buttonColor: colors.grey,
 		showMoreButton: true,
 		showProgress: false,
 	};
@@ -64,6 +66,7 @@ export default class Song extends React.PureComponent {
 			buttonType,
 			buttonIconName,
 			buttonIconType,
+			buttonColor,
 			showMoreButton,
 			showProgress,
 			progress,
@@ -102,7 +105,7 @@ export default class Song extends React.PureComponent {
 							IconType={buttonIconType}
 							name={buttonIconName}
 							iconSize={30}
-							color={colors.grey}
+							color={buttonColor}
 						/>
 					)}
 				</View>

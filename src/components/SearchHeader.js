@@ -67,6 +67,7 @@ export default class SearchHeader extends Component {
 				<View style={searchInputContainer}>
 					<TextInput
 						// autoFocus
+						selectionColor={colors.white}
 						placeholder={placeholder}
 						placeholderTextColor={colors.lightGrey}
 						underlineColorAndroid={colors.lighterGrey}

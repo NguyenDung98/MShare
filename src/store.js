@@ -24,6 +24,7 @@ let state = {
 	deviceSearchedArtists: [],
 	deviceSearchedPlaylists: [],
 	// online search
+	searching: false,
 	onlineSearchedSongs: [],
 	onlineSearchedAlbums: [],
 	onlineSearchedArtists: [],
@@ -34,6 +35,7 @@ let state = {
 	repeatState: 0,
 	shuffleState: false,
 	//
+	isLogin: false,
 	appState: null,
 	atMainTab: false,
 	// userInfo

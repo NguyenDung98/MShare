@@ -4,7 +4,6 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import LibraryTabHeader from "../components/LibraryTabHeader";
 import SearchHeader from "../components/SearchHeader";
 import CollectionDetail from "../screens/CollectionDetail";
-import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import DownloadedSongs from "../screens/DownloadedSongs";
 
@@ -13,13 +12,6 @@ import {MainTabNavigator, navigationOptions} from "./MainTabNavigator";
 import UploadedSongs from "../screens/UploadedSongs";
 
 const HomeStack = createStackNavigator({
-	Login: {
-		screen: LoginScreen,
-		navigationOptions: {
-			title: 'Welcome',
-			header: null
-		}
-	},
 	MainTabNavigator: {
 		screen: MainTabNavigator,
 		navigationOptions,

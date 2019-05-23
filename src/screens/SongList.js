@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, FlatList} from "react-native";
+import {StyleSheet, View, FlatList, ActivityIndicator} from "react-native";
 
 import Song from "../components/Song";
 import SongOptionsModal from "../components/SongOptionsModal";
@@ -81,10 +81,19 @@ export default class SongList extends Component {
 		const {navigation: {getParam}} = this.props;
 		const dataName = getParam('dataName');
 		const data = store.getState()[dataName];
+		const {searching} = store.getState();
 
 		return (
 			<View style={styles.container}>
 				<FlatList
+					ListEmptyComponent={searching && (
+						<View style={{marginTop: 10}}>
+							<ActivityIndicator
+								size={'large'}
+								color={colors.mainColor}
+							/>
+						</View>
+					)}
 					keyExtractor={keyExtractor}
 					data={data.slice(0, this.endItems)}
 					renderItem={this._renderItem}
